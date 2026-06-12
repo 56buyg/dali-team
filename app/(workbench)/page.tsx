@@ -4,6 +4,7 @@ import Link from "next/link";
 const TOOL_ICONS: Record<string, string> = {
   "text-to-image": "✨",
   "image-to-image": "🎨",
+  "dual-image-edit": "🖼️",
   "image-upscaler": "🔍",
   "ai-video": "🎬",
 };
@@ -11,6 +12,7 @@ const TOOL_ICONS: Record<string, string> = {
 const TOOL_COLORS: Record<string, { color: string; bg: string }> = {
   "text-to-image": { color: "#018DFF", bg: "#EEF5FF" },
   "image-to-image": { color: "#5F5DE7", bg: "#F3F2FF" },
+  "dual-image-edit": { color: "#F5B442", bg: "#FFF8ED" },
   "image-upscaler": { color: "#44C67F", bg: "#EEFAF3" },
   "ai-video": { color: "#FF5310", bg: "#FFF5F0" },
 };

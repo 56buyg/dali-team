@@ -13,7 +13,7 @@ import { submitTask } from "@/lib/runninghub/client";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { prompt, width = 1024, height = 1024, style = "realistic" } = body;
+    const { prompt, negative_prompt, width = 1024, height = 1024, style = "realistic" } = body;
 
     if (!prompt || typeof prompt !== "string") {
       return NextResponse.json(
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     // 提交 Runninghub 文生图任务，立即返回 taskId
     const { taskId } = await submitTask({
       modelId: "2048642665947860994", // Runninghub 文生图模型 ID
-      inputs: { prompt, width, height, style },
+      inputs: { prompt, negative_prompt: negative_prompt ?? "", width, height, style },
     });
 
     return NextResponse.json({ taskId });

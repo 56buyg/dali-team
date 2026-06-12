@@ -1,31 +1,31 @@
 import Link from "next/link";
+import { toolRegistry } from "@/lib/tools/registry";
 
-const TOOLS = [
-  {
-    id: "text-to-image",
-    name: "文生图",
-    desc: "描述你想的画面，AI 即刻生成——支持风格、构图、光影的精准控制",
-    icon: "✨",
-    color: "#018DFF",
-    bg: "#EEF5FF",
-  },
-  {
-    id: "image-to-image",
-    name: "风格转绘",
-    desc: "上传参考图或草图，AI 按你的意图重新渲染，保持结构，焕新风格",
-    icon: "🎨",
-    color: "#5F5DE7",
-    bg: "#F3F2FF",
-  },
-  {
-    id: "image-upscaler",
-    name: "高清放大",
-    desc: "低分辨率素材一键提升至印刷级精度，细节清晰可交付",
-    icon: "🔍",
-    color: "#44C67F",
-    bg: "#EEFAF3",
-  },
-];
+const TOOL_ICONS: Record<string, string> = {
+  "text-to-image": "✨",
+  "image-to-image": "🎨",
+  "dual-image-edit": "🖼️",
+  "image-upscaler": "🔍",
+  "ai-video": "🎬",
+};
+
+const TOOL_COLORS: Record<string, { color: string; bg: string }> = {
+  "text-to-image": { color: "#018DFF", bg: "#EEF5FF" },
+  "image-to-image": { color: "#5F5DE7", bg: "#F3F2FF" },
+  "dual-image-edit": { color: "#F5B442", bg: "#FFF8ED" },
+  "image-upscaler": { color: "#44C67F", bg: "#EEFAF3" },
+  "ai-video": { color: "#FF5310", bg: "#FFF5F0" },
+};
+
+// 动态从注册表读取启用工具（排除已禁用的）
+const ENABLED_TOOLS = toolRegistry
+  .filter((t) => t.enabled)
+  .map((t) => ({
+    ...t,
+    icon: TOOL_ICONS[t.id] ?? "🔧",
+    color: TOOL_COLORS[t.id]?.color ?? "#343433",
+    bg: TOOL_COLORS[t.id]?.bg ?? "#f2f0ed",
+  }));
 
 const ACCENT_DOTS = ["#018DFF", "#44C67F", "#5F5DE7", "#FF5310", "#F5B442"];
 
@@ -113,7 +113,7 @@ export default function HomePage() {
               className="text-3xl font-bold tracking-tight sm:text-4xl"
               style={{ color: "#343433" }}
             >
-              三个工具，让创意更快落地
+              {ENABLED_TOOLS.length} 个工具，让创意更快落地
             </h2>
             <p style={{ color: "#848281" }}>
               从概念到成品，AI 为你加速每一个环节
@@ -122,7 +122,7 @@ export default function HomePage() {
 
           {/* Tool cards grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {TOOLS.map((tool) => (
+            {ENABLED_TOOLS.map((tool) => (
               <Link
                 key={tool.id}
                 href={`/tools/${tool.id}`}
@@ -151,7 +151,7 @@ export default function HomePage() {
                   </span>
                 </h3>
                 <p className="text-sm leading-relaxed" style={{ color: "#848281" }}>
-                  {tool.desc}
+                  {tool.description}
                 </p>
               </Link>
             ))}

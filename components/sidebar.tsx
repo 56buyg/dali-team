@@ -11,6 +11,7 @@ import {
 const TOOL_ICONS: Record<string, string> = {
   "text-to-image": "✨",
   "image-to-image": "🎨",
+  "dual-image-edit": "🖼️",
   "image-upscaler": "🔍",
   "ai-video": "🎬",
 };
