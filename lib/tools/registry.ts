@@ -23,18 +23,20 @@ export interface ToolManifest {
 
 import textToImage from "@/tools/text-to-image/manifest";
 import imageToImage from "@/tools/image-to-image/manifest";
+import dualImageEdit from "@/tools/dual-image-edit/manifest";
 import imageUpscaler from "@/tools/image-upscaler/manifest";
 import aiVideo from "@/tools/ai-video/manifest";
 
 /**
  * 工具注册表
  *
- * Runninghub AI 出图工具已注册。
+ * 三个 Runninghub AI 工具：文生图、图生图、双图编辑。
  * 新增工具：创建 tools/[id]/manifest.ts → 在此追加导入和条目即可。
  */
 export const toolRegistry: ToolManifest[] = [
   textToImage,
   imageToImage,
+  dualImageEdit,
   imageUpscaler,
   aiVideo,
 ];

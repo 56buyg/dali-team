@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     // 提交 Runninghub 文生图任务
     const { taskId } = await submitTask({
-      modelId: "text-to-image-flux", // Runninghub 模型 ID
+      modelId: "2048642665947860994", // Runninghub 文生图模型 ID
       inputs: { prompt, width, height, style },
     });
 

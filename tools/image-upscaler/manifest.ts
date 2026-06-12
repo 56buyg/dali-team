@@ -6,7 +6,7 @@ const manifest: ToolManifest = {
   icon: "zoom-in",
   description: "无损放大图片至 2×/4× 分辨率，保持画质清晰",
   category: "design",
-  enabled: true,
+  enabled: false,
 };
 
 export default manifest;
