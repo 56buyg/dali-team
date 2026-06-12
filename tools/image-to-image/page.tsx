@@ -29,7 +29,6 @@ export default function ImageToImagePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "生成失败，请稍后重试");
 
-      // 异步模式：轮询任务状态
       pollTaskStatus(
         data.taskId,
         (resultFiles) => setFiles(resultFiles),
@@ -44,13 +43,22 @@ export default function ImageToImagePage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
-          风格转绘 · 以图生图
-        </h1>
-        <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
-          上传一张图片作为起点，AI 按你的描述重新演绎——保留结构，改变风格
-        </p>
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
+            风格转绘 · 以图生图
+          </h1>
+          <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
+            上传一张图片作为起点，AI 按你的描述重新演绎——保留结构，改变风格
+          </p>
+        </div>
+        <img
+          src="/illustrations/tool-image-to-image.svg"
+          alt=""
+          className="w-full max-w-[240px] animate-fade-in self-end sm:max-w-[300px] lg:max-w-[400px]"
+          aria-hidden="true"
+        />
       </div>
 
       <ToolShell>

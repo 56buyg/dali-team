@@ -7,7 +7,13 @@ export default function NotFoundPage() {
       style={{ backgroundColor: "#FBFAF9" }}
     >
       <div className="text-center">
-        <h1 className="text-8xl font-bold" style={{ color: "#EAEAEA" }}>
+        {/* 404 Illustration */}
+        <img
+          src="/illustrations/404.svg"
+          alt="页面不存在"
+          className="mx-auto mb-6 w-full max-w-[260px] animate-fade-in sm:max-w-[320px] lg:max-w-[400px]"
+        />
+        <h1 className="text-6xl font-bold" style={{ color: "#EAEAEA" }}>
           404
         </h1>
         <p className="mt-4 text-lg font-medium" style={{ color: "#343433" }}>

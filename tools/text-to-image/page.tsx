@@ -44,7 +44,6 @@ export default function TextToImagePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "生成失败，请稍后重试");
 
-      // 异步模式：轮询任务状态
       pollTaskStatus(
         data.taskId,
         (resultFiles) => setFiles(resultFiles),
@@ -60,13 +59,21 @@ export default function TextToImagePage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
-          文生图 · AI 图像生成
-        </h1>
-        <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
-          用文字描述你想要的画面，AI 为你生成多张候选
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
+            文生图 · AI 图像生成
+          </h1>
+          <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
+            用文字描述你想要的画面，AI 为你生成多张候选
+          </p>
+        </div>
+        <img
+          src="/illustrations/tool-text-to-image.svg"
+          alt=""
+          className="w-full max-w-[240px] animate-fade-in self-end sm:max-w-[300px] lg:max-w-[400px]"
+          aria-hidden="true"
+        />
       </div>
 
       <ToolShell>

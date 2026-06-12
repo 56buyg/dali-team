@@ -30,6 +30,11 @@
   /* Selection */
   --color-selection-bg: #D8ECFC;
   --color-selection-text: #008cff;
+
+  /* Illustration animations */
+  --animate-fade-in: fadeIn 0.6s ease-out both;
+  --animate-spring-in: springIn 0.5s ease-out both;
+  --animate-float: float 6s ease-in-out infinite;
 }
 
 :root {
@@ -90,6 +95,21 @@ a {
 }
 *::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.25);
+}
+
+/* ── Illustration Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes springIn {
+  0% { opacity: 0; transform: scale(0.6); }
+  60% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 /* ── Semi Design Brand Color Override ── */
