@@ -33,63 +33,93 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#FBFAF9" }}>
       {/* ════ Hero Section ════ */}
-      <main className="flex flex-1 flex-col items-center justify-center px-4 text-center">
-        <div className="max-w-2xl space-y-10 py-24">
-          {/* Accent dots row */}
-          <div className="flex items-center justify-center gap-2">
-            {ACCENT_DOTS.map((color, i) => (
-              <span
-                key={i}
-                className="inline-block h-2 w-2 rounded-full"
-                style={{ backgroundColor: color }}
-              />
-            ))}
+      <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4">
+        {/* Decor: corner dots (absolute positioned, top-right) */}
+        <img
+          src="/illustrations/decor-dots.svg"
+          alt=""
+          className="pointer-events-none absolute right-0 top-0 w-28 animate-fade-in opacity-50 sm:w-36 lg:w-44"
+          aria-hidden="true"
+        />
+
+        <div className="flex w-full max-w-6xl flex-col items-center gap-8 py-24 sm:flex-row sm:gap-12">
+          {/* Left: Content */}
+          <div className="flex-1 space-y-8 text-center sm:text-left">
+            {/* Accent dots row */}
+            <div className="flex items-center justify-center gap-2 sm:justify-start">
+              {ACCENT_DOTS.map((color, i) => (
+                <span
+                  key={i}
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
+
+            {/* Brand label */}
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#848281]">
+              DALI · 韶音设计AI
+            </p>
+
+            {/* Tagline */}
+            <h1
+              className="text-5xl font-bold leading-tight tracking-tight sm:text-7xl"
+              style={{ color: "#343433" }}
+            >
+              AI 加持，
+              <br />
+              灵感即刻呈现
+            </h1>
+
+            {/* Subtitle */}
+            <p
+              className="mx-auto max-w-lg text-lg leading-relaxed sm:mx-0"
+              style={{ color: "#848281" }}
+            >
+              DALI 为韶音设计师量身打造——输入文字、上传草图，即可快速生成高质量视觉素材。
+              从概念探索到成品输出，让 AI 替你跑完重复劳动。
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex items-center justify-center gap-4 pt-2 sm:justify-start">
+              <Link
+                href="/auth/login"
+                className="inline-flex items-center gap-2 rounded-xl px-7 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                style={{ backgroundColor: "#343433" }}
+              >
+                开始使用
+                <span className="text-base">→</span>
+              </Link>
+              <a
+                href="#tools"
+                className="inline-flex items-center gap-2 rounded-xl border px-7 py-3 text-sm font-medium transition-all hover:-translate-y-0.5"
+                style={{ borderColor: "#EAEAEA", color: "#494440" }}
+              >
+                了解更多
+              </a>
+            </div>
           </div>
 
-          {/* Brand label */}
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#848281]">
-            DALI · 韶音设计AI
-          </p>
-
-          {/* Tagline */}
-          <h1
-            className="text-5xl font-bold leading-tight tracking-tight sm:text-7xl"
-            style={{ color: "#343433" }}
-          >
-            AI 加持，
-            <br />
-            灵感即刻呈现
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            className="mx-auto max-w-lg text-lg leading-relaxed"
-            style={{ color: "#848281" }}
-          >
-            DALI 为韶音设计师量身打造——输入文字、上传草图，即可快速生成高质量视觉素材。
-            从概念探索到成品输出，让 AI 替你跑完重复劳动。
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex items-center justify-center gap-4 pt-2">
-            <Link
-              href="/auth/login"
-              className="inline-flex items-center gap-2 rounded-xl px-7 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              style={{ backgroundColor: "#343433" }}
-            >
-              开始使用
-              <span className="text-base">→</span>
-            </Link>
-            <a
-              href="#tools"
-              className="inline-flex items-center gap-2 rounded-xl border px-7 py-3 text-sm font-medium transition-all hover:-translate-y-0.5"
-              style={{ borderColor: "#EAEAEA", color: "#494440" }}
-            >
-              了解更多
-            </a>
+          {/* Right: Hero illustration */}
+          <div className="flex-shrink-0">
+            <img
+              src="/illustrations/hero.svg"
+              alt=""
+              className="w-full max-w-[280px] animate-float sm:max-w-[400px] lg:max-w-[500px]"
+              aria-hidden="true"
+            />
           </div>
         </div>
       </main>
+
+      {/* Decor: curve divider between Hero and Tools */}
+      <div className="flex justify-center overflow-hidden" aria-hidden="true">
+        <img
+          src="/illustrations/decor-curve.svg"
+          alt=""
+          className="w-full max-w-4xl animate-fade-in opacity-40"
+        />
+      </div>
 
       {/* ════ Tools Section ════ */}
       <section
@@ -126,9 +156,16 @@ export default function HomePage() {
               <Link
                 key={tool.id}
                 href={`/tools/${tool.id}`}
-                className="group rounded-2xl border p-6 transition-all hover:-translate-y-1 hover:shadow-md"
+                className="group relative overflow-hidden rounded-2xl border p-6 transition-all hover:-translate-y-1 hover:shadow-md"
                 style={{ backgroundColor: "#FFFFFF", borderColor: "#EAEAEA" }}
               >
+                {/* Decor: subtle hover illustration (appears on hover) */}
+                <img
+                  src="/illustrations/decor-card-hover.svg"
+                  alt=""
+                  className="pointer-events-none absolute right-2 top-2 w-12 opacity-0 transition-opacity duration-300 group-hover:opacity-25"
+                  aria-hidden="true"
+                />
                 {/* Icon */}
                 <div
                   className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-xl"

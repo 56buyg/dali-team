@@ -44,13 +44,21 @@ export default function DualImageEditPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
-          双图编辑 · AI 智能合成
-        </h1>
-        <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
-          上传两张图片，AI 智能融合——替换背景、合成元素、风格迁移，一次完成
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
+            双图编辑 · AI 智能合成
+          </h1>
+          <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
+            上传两张图片，AI 智能融合——替换背景、合成元素、风格迁移，一次完成
+          </p>
+        </div>
+        <img
+          src="/illustrations/tool-dual-image-edit.svg"
+          alt=""
+          className="w-full max-w-[240px] animate-fade-in self-end sm:max-w-[300px] lg:max-w-[400px]"
+          aria-hidden="true"
+        />
       </div>
 
       <ToolShell>
