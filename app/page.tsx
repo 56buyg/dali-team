@@ -60,18 +60,6 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Bottom: clean single entry point — no separate tool cards */}
-      <section className="px-4 py-20 text-center" style={{ borderTop: "1px solid #EAEAEA", background: "#FFFFFF" }}>
-        <div className="mx-auto max-w-lg space-y-6">
-          <h2 className="text-3xl font-bold tracking-tight" style={{ color: "#343433" }}>准备好提升设计效率了吗？</h2>
-          <p className="text-sm" style={{ color: "#848281" }}>文生图 · 风格转绘 · 双图编辑 · 高清放大 · AI 视频</p>
-          <Link href="/auth/login" className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ backgroundColor: "#343433" }}>
-            免费开始<span className="text-lg">→</span>
-          </Link>
-          <p className="text-xs" style={{ color: "#848281" }}>韶音设计部内部工具，使用公司账号登录即可</p>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="px-4 py-8 text-center" style={{ borderTop: "1px solid #EAEAEA" }}>
         <p className="text-xs" style={{ color: "#848281" }}>
