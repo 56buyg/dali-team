@@ -1,93 +1,95 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+const VALID_CAPTCHA_HINT = "Shokz Design-@123";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [step, setStep] = useState<"email" | "otp" | "loading">("email");
-  const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [mode, setMode] = useState<"login" | "register" | "loading">("login");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [captcha, setCaptcha] = useState("");
   const [error, setError] = useState("");
-  const [countdown, setCountdown] = useState(0);
-  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  useEffect(() => {
-    if (countdown <= 0) return;
-    const t = setInterval(() => setCountdown((c) => c - 1), 1000);
-    return () => clearInterval(t);
-  }, [countdown]);
+  const resetForm = () => {
+    setUsername("");
+    setPassword("");
+    setCaptcha("");
+    setError("");
+  };
 
-  const sendOtp = async () => {
-    if (!email.includes("@")) {
-      setError("请输入有效的邮箱地址");
+  const handleLogin = async () => {
+    if (!username.trim()) {
+      setError("请输入用户名");
+      return;
+    }
+    if (!password) {
+      setError("请输入密码");
       return;
     }
     setError("");
-    setStep("loading");
+    setMode("loading");
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ username: username.trim(), password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setStep("otp");
-      setCountdown(60);
-      otpRefs.current[0]?.focus();
+      router.push("/");
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "发送失败，请稍后重试");
-      setStep("email");
+      setError(e instanceof Error ? e.message : "登录失败，请稍后重试");
+      setMode("login");
     }
   };
 
-  const verifyOtp = async () => {
-    const code = otp.join("");
-    if (code.length !== 6) {
-      setError("请输入完整的 6 位验证码");
+  const handleRegister = async () => {
+    if (!username.trim() || username.trim().length < 2) {
+      setError("用户名至少需要 2 个字符");
+      return;
+    }
+    if (!password || password.length < 6) {
+      setError("密码至少需要 6 位");
+      return;
+    }
+    if (!captcha) {
+      setError("请输入验证码");
       return;
     }
     setError("");
-    setStep("loading");
+    setMode("loading");
     try {
-      const res = await fetch("/api/auth/verify", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token: code }),
+        body: JSON.stringify({
+          username: username.trim(),
+          password,
+          captcha,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      router.push("/");
+      // 注册成功，切换到登录模式
+      setMode("login");
+      setCaptcha("");
+      setError("注册成功，请登录");
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "验证失败，请重新输入");
-      setStep("otp");
+      setError(e instanceof Error ? e.message : "注册失败，请稍后重试");
+      setMode("register");
     }
   };
 
-  const handleOtpChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return;
-    const next = [...otp];
-    next[index] = value.slice(-1);
-    setOtp(next);
-    if (value && index < 5) otpRefs.current[index + 1]?.focus();
-    if (next.every((d) => d)) verifyOtpWithCode(next.join(""));
-  };
-
-  const verifyOtpWithCode = async (code: string) => {
-    setStep("loading");
-    try {
-      const res = await fetch("/api/auth/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token: code }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      router.push("/");
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "验证失败，请重新输入");
-      setStep("otp");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mode === "login") {
+      handleLogin();
+    } else {
+      handleRegister();
     }
   };
 
@@ -125,103 +127,153 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Error */}
+        {/* Error / Success */}
         {error && (
           <div
             className="mb-4 rounded-xl p-3 text-sm"
-            style={{ backgroundColor: "#FFF5F5", color: "#EF4444" }}
+            style={{
+              backgroundColor: error.includes("成功") ? "#F0FFF4" : "#FFF5F5",
+              color: error.includes("成功") ? "#16A34A" : "#EF4444",
+            }}
           >
             {error}
           </div>
         )}
 
-        {/* Email step */}
-        {step === "email" && (
-          <div className="space-y-4">
-            <div>
-              <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
-                邮箱地址
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@shokz.com"
-                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
-                style={{ borderColor: "#EAEAEA", backgroundColor: "#FBFAF9", color: "#343433" }}
-                onKeyDown={(e) => e.key === "Enter" && sendOtp()}
-              />
-            </div>
-            <button
-              onClick={sendOtp}
-              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md"
-              style={{ backgroundColor: "#343433" }}
-            >
-              发送验证码
-            </button>
-            <p className="text-center text-xs" style={{ color: "#848281" }}>
-              仅限韶音设计部内部使用
-            </p>
-          </div>
-        )}
-
-        {/* OTP step */}
-        {step === "otp" && (
-          <div className="space-y-4">
-            <p className="text-center text-sm" style={{ color: "#848281" }}>
-              验证码已发送至{" "}
-              <span className="font-medium" style={{ color: "#343433" }}>{email}</span>
-            </p>
-            <div className="flex justify-center gap-2">
-              {otp.map((d, i) => (
-                <input
-                  key={i}
-                  ref={(el) => { otpRefs.current[i] = el; }}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={d}
-                  onChange={(e) => handleOtpChange(i, e.target.value)}
-                  className="h-12 w-10 rounded-xl border text-center text-lg font-bold transition-colors focus:outline-none focus:ring-2"
-                  style={{ borderColor: "#EAEAEA", color: "#343433", backgroundColor: "#FFFFFF" }}
-                />
-              ))}
-            </div>
-            <button
-              onClick={verifyOtp}
-              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
-              style={{ backgroundColor: "#343433" }}
-              disabled={otp.some((d) => !d)}
-            >
-              验证登录
-            </button>
-            <div className="flex justify-center gap-4 text-xs" style={{ color: "#848281" }}>
-              {countdown > 0 ? (
-                <span>{countdown}s 后可重发</span>
-              ) : (
-                <button onClick={sendOtp} style={{ color: "#018DFF" }} className="hover:underline">
-                  重新发送
-                </button>
-              )}
-              <button
-                onClick={() => { setStep("email"); setOtp(["", "", "", "", "", ""]); }}
-                className="hover:underline"
-              >
-                修改邮箱
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Loading */}
-        {step === "loading" && (
+        {mode === "loading" ? (
           <div className="flex flex-col items-center py-8">
             <div
               className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"
               style={{ borderColor: "#EAEAEA", borderTopColor: "#343433" }}
             />
-            <p className="mt-3 text-sm" style={{ color: "#848281" }}>验证中……</p>
+            <p className="mt-3 text-sm" style={{ color: "#848281" }}>
+              验证中……
+            </p>
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Username */}
+            <div>
+              <label
+                className="mb-1.5 block text-sm font-medium"
+                style={{ color: "#343433" }}
+              >
+                用户名
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="输入用户名"
+                autoComplete="username"
+                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                style={{
+                  borderColor: "#EAEAEA",
+                  backgroundColor: "#FBFAF9",
+                  color: "#343433",
+                }}
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label
+                className="mb-1.5 block text-sm font-medium"
+                style={{ color: "#343433" }}
+              >
+                密码
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={mode === "register" ? "至少 6 位" : "输入密码"}
+                autoComplete={mode === "register" ? "new-password" : "current-password"}
+                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                style={{
+                  borderColor: "#EAEAEA",
+                  backgroundColor: "#FBFAF9",
+                  color: "#343433",
+                }}
+              />
+            </div>
+
+            {/* Captcha (register only) */}
+            {mode === "register" && (
+              <div>
+                <label
+                  className="mb-1.5 block text-sm font-medium"
+                  style={{ color: "#343433" }}
+                >
+                  验证码
+                </label>
+                <input
+                  type="text"
+                  value={captcha}
+                  onChange={(e) => setCaptcha(e.target.value)}
+                  placeholder={`输入验证码：${VALID_CAPTCHA_HINT}`}
+                  className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                  style={{
+                    borderColor: "#EAEAEA",
+                    backgroundColor: "#FBFAF9",
+                    color: "#343433",
+                  }}
+                />
+                <p className="mt-1 text-xs" style={{ color: "#848281" }}>
+                  验证码：{VALID_CAPTCHA_HINT}
+                </p>
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md"
+              style={{ backgroundColor: "#343433" }}
+            >
+              {mode === "login" ? "登录" : "注册"}
+            </button>
+
+            {/* Toggle mode */}
+            <p className="text-center text-xs" style={{ color: "#848281" }}>
+              {mode === "login" ? (
+                <>
+                  还没有账号？{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      resetForm();
+                      setMode("register");
+                    }}
+                    className="font-medium hover:underline"
+                    style={{ color: "#018DFF" }}
+                  >
+                    注册
+                  </button>
+                </>
+              ) : (
+                <>
+                  已有账号？{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      resetForm();
+                      setMode("login");
+                    }}
+                    className="font-medium hover:underline"
+                    style={{ color: "#018DFF" }}
+                  >
+                    登录
+                  </button>
+                </>
+              )}
+            </p>
+
+            <p className="text-center text-xs" style={{ color: "#848281" }}>
+              仅限韶音设计部内部使用
+            </p>
+          </form>
         )}
       </div>
     </div>

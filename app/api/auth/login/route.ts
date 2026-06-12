@@ -4,46 +4,53 @@ import { createClient } from "@/lib/supabase/server";
 /**
  * POST /api/auth/login
  *
- * 发送邮箱验证码（OTP）
- * 请求体: { email: string }
- * 响应:   { ok: true } 或 { error: string }
+ * 用户名 + 密码登录 (signInWithPassword)
+ * 请求体: { username: string; password: string }
+ * 响应:   { ok: true; user: { id, email, username } }
  */
 export async function POST(request: NextRequest) {
   try {
-    const { email } = await request.json();
+    const { username, password } = await request.json();
 
-    if (!email || typeof email !== "string" || !email.includes("@")) {
+    if (!username || typeof username !== "string") {
       return NextResponse.json(
-        { error: "请提供有效的邮箱地址" },
+        { error: "请输入用户名" },
         { status: 400 },
       );
     }
 
+    if (!password || typeof password !== "string") {
+      return NextResponse.json(
+        { error: "请输入密码" },
+        { status: 400 },
+      );
+    }
+
+    const email = `${username.trim()}@shokz.design`;
     const supabase = await createClient();
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim().toLowerCase(),
-      options: {
-        // 使用 6 位数字验证码而非 Magic Link
-        emailRedirectTo: undefined,
-        shouldCreateUser: true,
-      },
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
-        { status: 400 },
+        { error: "用户名或密码错误" },
+        { status: 401 },
       );
     }
 
     return NextResponse.json({
       ok: true,
-      message: "验证码已发送到您的邮箱，请查收",
+      user: {
+        id: data.user.id,
+        email: data.user.email,
+      },
     });
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : "发送验证码失败";
+      error instanceof Error ? error.message : "登录失败";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -47,7 +47,21 @@ export default function TextToImagePage() {
       // 异步模式：轮询任务状态
       pollTaskStatus(
         data.taskId,
-        (resultFiles) => setFiles(resultFiles),
+        (resultFiles) => {
+          setFiles(resultFiles);
+          // 保存生成的图片到用户数据库
+          resultFiles.forEach((url) => {
+            fetch("/api/user/images", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                imageUrl: url,
+                prompt,
+                toolId: "text-to-image",
+              }),
+            }).catch(() => {});
+          });
+        },
         (errMsg) => setError(errMsg),
         () => setLoading(false),
       );

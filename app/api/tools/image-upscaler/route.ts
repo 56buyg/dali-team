@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { submitTask, waitForTask } from "@/lib/runninghub/client";
+import { createClient } from "@/lib/supabase/server";
 
 /**
  * POST /api/tools/image-upscaler
@@ -9,6 +10,12 @@ import { submitTask, waitForTask } from "@/lib/runninghub/client";
  */
 export async function POST(request: NextRequest) {
   try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: "请先登录" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { imageUrl, scale = 2 } = body;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -15,10 +15,31 @@ const TOOL_ICONS: Record<string, string> = {
   "ai-video": "🎬",
 };
 
+interface UserInfo {
+  id: string;
+  email: string;
+  username: string | null;
+}
+
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [user, setUser] = useState<UserInfo | null>(null);
   const pathname = usePathname();
   const grouped = getToolsByCategory();
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated && data.user) {
+          setUser(data.user);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const displayName = user?.username || user?.email?.split("@")[0] || "用户";
+  const displayInitial = displayName.charAt(0).toUpperCase();
 
   return (
     <aside
@@ -95,7 +116,7 @@ export default function Sidebar() {
             className="mx-auto flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold"
             style={{ backgroundColor: "#f2f0ed", color: "#848281" }}
           >
-            U
+            {displayInitial}
           </div>
         ) : (
           <div className="flex items-center gap-2.5">
@@ -103,10 +124,10 @@ export default function Sidebar() {
               className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold"
               style={{ backgroundColor: "#f2f0ed", color: "#848281" }}
             >
-              U
+              {displayInitial}
             </div>
             <div className="flex-1 text-sm leading-tight">
-              <p className="font-medium" style={{ color: "#343433" }}>用户</p>
+              <p className="font-medium" style={{ color: "#343433" }}>{displayName}</p>
               <p className="text-xs" style={{ color: "#848281" }}>设计部</p>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { submitTask } from "@/lib/runninghub/client";
+import { createClient } from "@/lib/supabase/server";
 
 /**
  * POST /api/tools/dual-image-edit
@@ -12,6 +13,12 @@ import { submitTask } from "@/lib/runninghub/client";
  */
 export async function POST(request: NextRequest) {
   try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: "请先登录" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { imageUrl1, imageUrl2, prompt = "" } = body;
 

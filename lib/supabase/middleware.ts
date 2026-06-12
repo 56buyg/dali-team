@@ -34,5 +34,39 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const { pathname } = request.nextUrl;
+
+  // 允许公开访问的路径
+  const publicPaths = [
+    "/auth/login",
+    "/auth/callback",
+    "/api/auth/login",
+    "/api/auth/register",
+    "/api/auth/logout",
+  ];
+
+  const isPublic = publicPaths.some((p) => pathname.startsWith(p));
+  // 静态资源由 proxy.ts 的 matcher 排除，这里不需要处理
+
+  // 未登录用户访问受保护路径 → 重定向到登录页
+  if (!user && !isPublic) {
+    // 对于 API 请求，返回 401
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.json(
+        { error: "请先登录" },
+        { status: 401 },
+      );
+    }
+    // 对于页面请求，重定向到登录页
+    const loginUrl = new URL("/auth/login", request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // 已登录用户访问登录页 → 重定向到首页
+  if (user && pathname.startsWith("/auth/login")) {
+    const homeUrl = new URL("/", request.url);
+    return NextResponse.redirect(homeUrl);
+  }
+
   return supabaseResponse;
 }

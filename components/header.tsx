@@ -1,10 +1,41 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+
+interface UserInfo {
+  id: string;
+  email: string;
+  username: string | null;
+  created_at: string;
+}
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<UserInfo | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated && data.user) {
+          setUser(data.user);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // ignore
+    }
+    router.push("/auth/login");
+  };
 
   const segments = pathname.split("/").filter(Boolean);
   const breadcrumbs = [
@@ -14,6 +45,8 @@ export default function Header() {
       href: "/" + segments.slice(0, i + 1).join("/"),
     })),
   ];
+
+  const displayName = user?.username || user?.email?.split("@")[0] || "U";
 
   return (
     <header
@@ -58,13 +91,49 @@ export default function Header() {
           </svg>
         </button>
 
-        <Link
-          href="/auth/login"
-          className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-opacity hover:opacity-80"
-          style={{ backgroundColor: "#343433" }}
-        >
-          U
-        </Link>
+        {/* User avatar with dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-opacity hover:opacity-80"
+            style={{ backgroundColor: "#343433" }}
+            title={displayName}
+          >
+            {displayName.charAt(0).toUpperCase()}
+          </button>
+
+          {menuOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-10"
+                onClick={() => setMenuOpen(false)}
+              />
+              <div
+                className="absolute right-0 top-full mt-2 z-20 min-w-[160px] rounded-xl border bg-white py-1 shadow-lg"
+                style={{ borderColor: "#EAEAEA" }}
+              >
+                <div className="px-4 py-2 border-b" style={{ borderColor: "#f2f0ed" }}>
+                  <p className="text-sm font-medium" style={{ color: "#343433" }}>
+                    {displayName}
+                  </p>
+                  <p className="text-xs" style={{ color: "#848281" }}>
+                    设计部
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50"
+                  style={{ color: "#EF4444" }}
+                >
+                  退出登录
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );
