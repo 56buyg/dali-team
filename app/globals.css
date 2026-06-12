@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* 品牌色 Tailwind 扩展 */
+  --color-brand-orange: #FF6A00;
+  --color-brand-orange-light: #FF8F33;
+  --color-brand-orange-dark: #CC5500;
+  --color-brand-black: #1A1A1A;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1A1A1A;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Semi Design 品牌色注入 — CSS 变量层级 */
+:root {
+  --semi-color-primary: #FF6A00;
+  --semi-color-primary-hover: #FF8F33;
+  --semi-color-primary-active: #CC5500;
+  --semi-color-primary-light-default: rgba(255, 106, 0, 0.08);
+  --semi-color-primary-light-hover: rgba(255, 106, 0, 0.12);
+  --semi-color-primary-light-active: rgba(255, 106, 0, 0.16);
+  --semi-color-focus-border: #FF6A00;
+  --semi-color-bg-0: #FFFFFF;
+  --semi-color-bg-1: #F5F5F5;
+  --semi-color-bg-2: #EBEBEB;
+  --semi-color-text-0: #1A1A1A;
+  --semi-color-text-1: #404040;
+  --semi-color-text-2: #737373;
+  --semi-color-border: #D4D4D4;
+}
