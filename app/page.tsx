@@ -40,11 +40,22 @@ export default function HomePage() {
           />
         </div>
 
-        {/* 导航占位 */}
-        <nav className="flex gap-4 pt-6 text-sm text-gray-500">
-          <span>API</span>
-          <span>登录</span>
-        </nav>
+        {/* CTA 按钮 */}
+        <div className="flex gap-4 justify-center pt-6">
+          <a
+            href="/auth/login"
+            className="inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: shokzBrand.orange }}
+          >
+            邮箱登录
+          </a>
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          >
+            进入工作台
+          </a>
+        </div>
       </div>
     </main>
   );

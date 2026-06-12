@@ -23,7 +23,7 @@ export interface ToolManifest {
 
 import textToImage from "@/tools/text-to-image/manifest";
 import imageToImage from "@/tools/image-to-image/manifest";
-import aiVideo from "@/tools/ai-video/manifest";
+import imageUpscaler from "@/tools/image-upscaler/manifest";
 
 /**
  * 工具注册表
@@ -34,7 +34,7 @@ import aiVideo from "@/tools/ai-video/manifest";
 export const toolRegistry: ToolManifest[] = [
   textToImage,
   imageToImage,
-  aiVideo,
+  imageUpscaler,
 ];
 
 /** 按分类分组的工具列表（Sidebar 渲染用） */

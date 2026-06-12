@@ -1,23 +1,85 @@
 "use client";
 
-export default function TextToImagePage() {
-  return (
-    <div className="space-y-6">
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600">
-        <p>🖼️ AI 文生图工具 — 前端 UI 由 大师级审美前端开发 实现</p>
-        <p className="mt-1 text-xs text-gray-400">
-          接入 Runninghub 文生图 API，支持 Flux / SDXL 等模型
-        </p>
-      </div>
+import { useState } from "react";
+import ToolShell, { ToolInput, ToolResult } from "@/components/tool-shell";
 
-      {/* 占位：前端 agent 将在此处实现输入表单 + 结果展示 */}
-      <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 py-20 text-center">
-        <p className="text-4xl mb-3">🎨</p>
-        <p className="text-lg font-medium text-gray-500">等待前端实现</p>
-        <p className="text-sm text-gray-400 mt-1">
-          输入提示词 → 选择风格/尺寸 → 生成图片
-        </p>
-      </div>
-    </div>
+export default function TextToImagePage() {
+  const [prompt, setPrompt] = useState("");
+  const [negativePrompt, setNegativePrompt] = useState("");
+  const [size, setSize] = useState("1024x1024");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [files, setFiles] = useState<string[]>([]);
+
+  const handleSubmit = async () => {
+    if (!prompt.trim()) {
+      setError("请输入图片描述（prompt）");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    setFiles([]);
+    try {
+      const [w, h] = size.split("x").map(Number);
+      const res = await fetch("/api/tools/text-to-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, negative_prompt: negativePrompt, width: w, height: h }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setFiles(data.result?.files ?? []);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "请求失败");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <ToolShell>
+      <ToolInput>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">图片描述（Prompt）</label>
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="描述你想要的图片..."
+            rows={4}
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">负面提示词（可选）</label>
+          <input
+            type="text"
+            value={negativePrompt}
+            onChange={(e) => setNegativePrompt(e.target.value)}
+            placeholder="不希望出现的元素..."
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">尺寸</label>
+          <select
+            value={size}
+            onChange={(e) => setSize(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none"
+          >
+            <option value="1024x1024">1024×1024 (方形)</option>
+            <option value="1024x768">1024×768 (横版)</option>
+            <option value="768x1024">768×1024 (竖版)</option>
+          </select>
+        </div>
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full rounded-lg bg-[#FF6A00] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#CC5500] disabled:opacity-50"
+        >
+          {loading ? "生成中..." : "开始生成"}
+        </button>
+      </ToolInput>
+      <ToolResult loading={loading} error={error} files={files} />
+    </ToolShell>
   );
 }
