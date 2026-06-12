@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const VALID_CAPTCHA_HINT = "Shokz Design-@123";
 
@@ -12,25 +11,35 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [captcha, setCaptcha] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"error" | "success">("error");
+
+  const showError = (msg: string) => {
+    setMessage(msg);
+    setMessageType("error");
+  };
+  const showSuccess = (msg: string) => {
+    setMessage(msg);
+    setMessageType("success");
+  };
 
   const resetForm = () => {
     setUsername("");
     setPassword("");
     setCaptcha("");
-    setError("");
+    setMessage("");
   };
 
   const handleLogin = async () => {
     if (!username.trim()) {
-      setError("请输入用户名");
+      showError("请输入用户名");
       return;
     }
     if (!password) {
-      setError("请输入密码");
+      showError("请输入密码");
       return;
     }
-    setError("");
+    setMessage("");
     setMode("loading");
     try {
       const res = await fetch("/api/auth/login", {
@@ -42,25 +51,25 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.error);
       router.push("/");
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "登录失败，请稍后重试");
+      showError(e instanceof Error ? e.message : "登录失败，请稍后重试");
       setMode("login");
     }
   };
 
   const handleRegister = async () => {
     if (!username.trim() || username.trim().length < 2) {
-      setError("用户名至少需要 2 个字符");
+      showError("用户名至少需要 2 个字符");
       return;
     }
     if (!password || password.length < 6) {
-      setError("密码至少需要 6 位");
+      showError("密码至少需要 6 位");
       return;
     }
     if (!captcha) {
-      setError("请输入验证码");
+      showError("请输入验证码");
       return;
     }
-    setError("");
+    setMessage("");
     setMode("loading");
     try {
       const res = await fetch("/api/auth/register", {
@@ -77,9 +86,9 @@ export default function LoginPage() {
       // 注册成功，切换到登录模式
       setMode("login");
       setCaptcha("");
-      setError("注册成功，请登录");
+      showSuccess("注册成功，请登录");
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "注册失败，请稍后重试");
+      showError(e instanceof Error ? e.message : "注册失败，请稍后重试");
       setMode("register");
     }
   };
@@ -128,15 +137,15 @@ export default function LoginPage() {
         </div>
 
         {/* Error / Success */}
-        {error && (
+        {message && (
           <div
             className="mb-4 rounded-xl p-3 text-sm"
             style={{
-              backgroundColor: error.includes("成功") ? "#F0FFF4" : "#FFF5F5",
-              color: error.includes("成功") ? "#16A34A" : "#EF4444",
+              backgroundColor: messageType === "success" ? "#F0FFF4" : "#FFF5F5",
+              color: messageType === "success" ? "#16A34A" : "#EF4444",
             }}
           >
-            {error}
+            {message}
           </div>
         )}
 
