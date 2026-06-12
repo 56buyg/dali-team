@@ -1,41 +1,84 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
   <defs>
-    <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#018DFF" stop-opacity="0.06"/>
-      <stop offset="100%" stop-color="#5F5DE7" stop-opacity="0.12"/>
-    </linearGradient>
-    <linearGradient id="hg2" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FF6A00" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#FF5310" stop-opacity="0.04"/>
-    </linearGradient>
-    <linearGradient id="hg3" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#44C67F"/>
-      <stop offset="100%" stop-color="#018DFF"/>
-    </linearGradient>
-    <linearGradient id="hg4" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#5F5DE7"/>
-      <stop offset="100%" stop-color="#FF6A00"/>
-    </linearGradient>
+    <pattern id="hatch1" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#343433" stroke-width="0.5" opacity="0.08"/>
+    </pattern>
+    <pattern id="hatch2" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#343433" stroke-width="0.5" opacity="0.06"/>
+    </pattern>
   </defs>
-  <circle cx="320" cy="230" r="200" fill="url(#hg1)" opacity="0.5"/>
-  <path d="M140 380 Q200 280 320 300 Q440 320 480 220 Q510 150 460 100 Q400 50 320 70 Q220 90 160 160 Q100 240 140 380Z" fill="url(#hg2)" opacity="0.7"/>
-  <path d="M80 420 Q200 350 300 370 Q400 390 520 340" stroke="url(#hg3)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4"/>
-  <path d="M100 440 Q220 380 320 400 Q420 420 540 370" stroke="#5F5DE7" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.2"/>
-  <circle cx="180" cy="160" r="14" fill="#FF6A00" opacity="0.15"/>
-  <circle cx="180" cy="160" r="6" fill="#FF6A00" opacity="0.4"/>
-  <circle cx="450" cy="120" r="10" fill="#018DFF" opacity="0.15"/>
-  <circle cx="450" cy="120" r="4" fill="#018DFF" opacity="0.4"/>
-  <circle cx="380" cy="420" r="12" fill="#44C67F" opacity="0.15"/>
-  <circle cx="380" cy="420" r="5" fill="#44C67F" opacity="0.4"/>
-  <circle cx="130" cy="300" r="8" fill="#5F5DE7" opacity="0.15"/>
-  <circle cx="130" cy="300" r="3" fill="#5F5DE7" opacity="0.4"/>
-  <circle cx="500" cy="280" r="9" fill="#FF5310" opacity="0.12"/>
-  <circle cx="500" cy="280" r="3.5" fill="#FF5310" opacity="0.35"/>
-  <rect x="240" y="100" width="40" height="40" rx="10" stroke="#5F5DE7" stroke-width="1.5" fill="none" opacity="0.3" transform="rotate(15 260 120)"/>
-  <rect x="400" y="200" width="30" height="30" rx="8" stroke="#44C67F" stroke-width="1.5" fill="none" opacity="0.25" transform="rotate(-10 415 215)"/>
-  <path d="M220 180 Q260 140 300 180 Q340 220 380 180 Q420 140 460 180" stroke="#018DFF" stroke-width="1.5" fill="none" opacity="0.25"/>
-  <circle cx="290" cy="350" r="3" fill="#FF6A00" opacity="0.3"/>
-  <circle cx="310" cy="340" r="2" fill="#018DFF" opacity="0.25"/>
-  <circle cx="330" cy="355" r="2.5" fill="#5F5DE7" opacity="0.3"/>
-  <circle cx="350" cy="345" r="2" fill="#44C67F" opacity="0.25"/>
+
+  <!-- Background surreal landscape shapes -->
+  <!-- Giant floating organic blob top-left -->
+  <path d="M-20 80 C20 20 100 -10 180 30 C260 70 300 180 250 260 C200 340 100 380 30 330 C-40 280 -60 140 -20 80Z" fill="url(#hatch1)" stroke="#343433" stroke-width="1.5" opacity="0.6"/>
+  <path d="M-20 80 C20 20 100 -10 180 30 C260 70 300 180 250 260 C200 340 100 380 30 330 C-40 280 -60 140 -20 80Z" fill="none" stroke="#343433" stroke-width="2.5" opacity="0.5"/>
+
+  <!-- Floating geometric form center-right -->
+  <path d="M520 80 C500 20 580 -10 640 30 C700 70 750 160 720 240 C690 320 620 360 560 330 C500 300 470 200 490 130 C510 100 540 140 520 80Z" fill="url(#hatch2)" stroke="#343433" stroke-width="1.5" opacity="0.5"/>
+  <path d="M520 80 C500 20 580 -10 640 30 C700 70 750 160 720 240 C690 320 620 360 560 330 C500 300 470 200 490 130 C510 100 540 140 520 80Z" fill="none" stroke="#343433" stroke-width="2" opacity="0.4"/>
+
+  <!-- Hand-drawn swirl / galaxy shape bottom -->
+  <path d="M100 500 C120 460 180 420 250 440 C320 460 380 500 420 540 C460 580 440 620 380 610 C320 600 280 560 250 520C220 480 200 460 180 480 C160 500 170 540 200 560" fill="none" stroke="#343433" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+  <path d="M100 500 C120 460 180 420 250 440 C320 460 380 500 420 540 C460 580 440 620 380 610 C320 600 280 560 250 520C220 480 200 460 180 480" fill="none" stroke="#5F5DE7" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/>
+
+  <!-- Surreal floating buildings/structures -->
+  <!-- Building 1: tilted block -->
+  <path d="M580 280 L580 360 L680 370 L680 290Z" fill="none" stroke="#343433" stroke-width="1.8" opacity="0.35"/>
+  <path d="M580 280 L630 260 L730 270 L680 290" fill="none" stroke="#343433" stroke-width="1.5" opacity="0.25"/>
+  <path d="M580 360 L630 340 L730 350 L680 370" fill="none" stroke="#343433" stroke-width="1.2" opacity="0.2"/>
+  <!-- Windows on building -->
+  <rect x="610" y="295" width="8" height="10" rx="1" fill="none" stroke="#FF6A00" stroke-width="1" opacity="0.25" transform="rotate(3 614 300)"/>
+  <rect x="635" y="298" width="8" height="14" rx="1" fill="none" stroke="#FF6A00" stroke-width="1" opacity="0.2" transform="rotate(3 639 305)"/>
+  <rect x="655" y="302" width="8" height="10" rx="1" fill="none" stroke="#018DFF" stroke-width="1" opacity="0.2" transform="rotate(3 659 307)"/>
+
+  <!-- Building 2: crooked tower -->
+  <path d="M200 400 L240 395 L245 530 L205 535Z" fill="none" stroke="#343433" stroke-width="1.8" opacity="0.3"/>
+  <path d="M240 395 L230 370 L195 375 L205 400" fill="none" stroke="#343433" stroke-width="1.5" opacity="0.22"/>
+  <!-- Tower windows -->
+  <circle cx="220" cy="430" r="5" fill="none" stroke="#5F5DE7" stroke-width="1" opacity="0.2"/>
+  <circle cx="222" cy="455" r="5" fill="none" stroke="#5F5DE7" stroke-width="1" opacity="0.18"/>
+  <circle cx="220" cy="480" r="5" fill="none" stroke="#44C67F" stroke-width="1" opacity="0.18"/>
+
+  <!-- Floating surreal creature/cloud shapes -->
+  <path d="M380 150 C390 120 420 105 450 115 C470 105 500 115 510 135 C530 145 535 170 520 185 C535 200 525 225 505 225 C495 240 470 245 455 235 C440 250 415 245 400 230 C380 225 370 205 375 185 C365 170 370 150 380 150Z" fill="none" stroke="#343433" stroke-width="1.3" opacity="0.2"/>
+  <circle cx="445" cy="170" r="3" fill="#FF6A00" opacity="0.15"/>
+  <circle cx="470" cy="165" r="2" fill="#018DFF" opacity="0.12"/>
+
+  <!-- Eye / watchful element -->
+  <ellipse cx="620" cy="180" rx="20" ry="15" fill="none" stroke="#343433" stroke-width="1.8" opacity="0.25"/>
+  <circle cx="622" cy="180" r="7" fill="none" stroke="#343433" stroke-width="1.2" opacity="0.2"/>
+  <circle cx="623" cy="179" r="3" fill="#343433" opacity="0.15"/>
+
+  <!-- Scattered hand-drawn stars/sparkles -->
+  <path d="M340 100 L345 115 L360 118 L345 121 L340 136 L335 121 L320 118 L335 115Z" fill="none" stroke="#FF6A00" stroke-width="1" opacity="0.2"/>
+  <path d="M480 380 L483 390 L493 392 L483 394 L480 404 L477 394 L467 392 L477 390Z" fill="none" stroke="#018DFF" stroke-width="0.8" opacity="0.15"/>
+  <path d="M170 250 L172 257 L179 259 L172 261 L170 268 L168 261 L161 259 L168 257Z" fill="none" stroke="#44C67F" stroke-width="0.8" opacity="0.15"/>
+
+  <!-- Spiral / doodle elements -->
+  <path d="M160 200 C165 195 175 195 178 202 C181 209 175 215 165 215 C155 215 150 208 153 200 C156 192 165 188 175 190" fill="none" stroke="#5F5DE7" stroke-width="1" opacity="0.2"/>
+  <path d="M560 420 C565 415 575 415 578 422 C581 429 575 435 565 435" fill="none" stroke="#FF5310" stroke-width="1" opacity="0.18"/>
+
+  <!-- Hatching/cross-hatching area -->
+  <g opacity="0.08" stroke="#343433" stroke-width="0.5">
+    <line x1="700" y1="380" x2="760" y2="380"/>
+    <line x1="700" y1="386" x2="755" y2="386"/>
+    <line x1="700" y1="392" x2="750" y2="392"/>
+    <line x1="700" y1="398" x2="758" y2="398"/>
+    <line x1="380" y1="530" x2="430" y2="500"/>
+    <line x1="385" y1="535" x2="435" y2="505"/>
+    <line x1="390" y1="540" x2="440" y2="510"/>
+    <line x1="395" y1="545" x2="445" y2="515"/>
+  </g>
+
+  <!-- Floating dots / bubble cluster -->
+  <circle cx="420" cy="340" r="8" fill="none" stroke="#343433" stroke-width="0.8" opacity="0.15"/>
+  <circle cx="440" cy="330" r="5" fill="none" stroke="#343433" stroke-width="0.8" opacity="0.12"/>
+  <circle cx="400" cy="335" r="4" fill="none" stroke="#343433" stroke-width="0.8" opacity="0.1"/>
+  <path d="M420 348 C415 355 425 360 435 358" fill="none" stroke="#343433" stroke-width="0.8" opacity="0.12"/>
+
+  <!-- Brand accent splashes -->
+  <circle cx="350" cy="420" r="15" fill="#FF6A00" opacity="0.04"/>
+  <circle cx="500" cy="200" r="12" fill="#018DFF" opacity="0.04"/>
+  <circle cx="280" cy="350" r="10" fill="#44C67F" opacity="0.03"/>
+  <circle cx="650" cy="450" r="18" fill="#5F5DE7" opacity="0.03"/>
 </svg>
