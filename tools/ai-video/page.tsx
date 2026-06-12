@@ -1,22 +1,90 @@
 "use client";
 
-export default function AIVideoPage() {
-  return (
-    <div className="space-y-6">
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600">
-        <p>🎬 AI 视频生成工具 — 前端 UI 由 大师级审美前端开发 实现</p>
-        <p className="mt-1 text-xs text-gray-400">
-          接入 Runninghub 视频生成 API，文本或图片转短视频
-        </p>
-      </div>
+import { useState } from "react";
+import ToolShell, { ToolInput, ToolResult } from "@/components/tool-shell";
 
-      <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 py-20 text-center">
-        <p className="text-4xl mb-3">🎥</p>
-        <p className="text-lg font-medium text-gray-500">等待前端实现</p>
-        <p className="text-sm text-gray-400 mt-1">
-          输入描述/上传图片 → 设置时长 → 生成视频
-        </p>
-      </div>
-    </div>
+export default function AIVideoPage() {
+  const [prompt, setPrompt] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [duration, setDuration] = useState(5);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [files, setFiles] = useState<string[]>([]);
+
+  const handleSubmit = async () => {
+    if (!prompt.trim() && !imageUrl) {
+      setError("请提供文本描述或图片链接（至少一项）");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    setFiles([]);
+    try {
+      const res = await fetch("/api/tools/ai-video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, imageUrl, duration }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setFiles(data.result?.files ?? []);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "请求失败");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <ToolShell>
+      <ToolInput>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">文本描述</label>
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="描述你想要的视频内容..."
+            rows={3}
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">图片链接（可选）</label>
+          <input
+            type="url"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            placeholder="https://example.com/frame.png"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            视频时长: {duration} 秒
+          </label>
+          <input
+            type="range"
+            min={3}
+            max={10}
+            value={duration}
+            onChange={(e) => setDuration(Number(e.target.value))}
+            className="w-full accent-orange-500"
+          />
+          <div className="flex justify-between text-xs text-gray-400">
+            <span>3s</span>
+            <span>5s</span>
+            <span>10s</span>
+          </div>
+        </div>
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full rounded-lg bg-[#FF6A00] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#CC5500] disabled:opacity-50"
+        >
+          {loading ? "生成中..." : "开始生成"}
+        </button>
+      </ToolInput>
+      <ToolResult loading={loading} error={error} files={files} />
+    </ToolShell>
   );
 }
