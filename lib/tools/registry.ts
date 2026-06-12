@@ -23,6 +23,7 @@ export interface ToolManifest {
 
 import textToImage from "@/tools/text-to-image/manifest";
 import imageToImage from "@/tools/image-to-image/manifest";
+import imageUpscaler from "@/tools/image-upscaler/manifest";
 import aiVideo from "@/tools/ai-video/manifest";
 
 /**
@@ -34,6 +35,7 @@ import aiVideo from "@/tools/ai-video/manifest";
 export const toolRegistry: ToolManifest[] = [
   textToImage,
   imageToImage,
+  imageUpscaler,
   aiVideo,
 ];
 
