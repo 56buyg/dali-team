@@ -1,62 +1,201 @@
-import { shokzBrand } from "@/lib/semi-theme";
+import Link from "next/link";
+
+const TOOLS = [
+  {
+    id: "text-to-image",
+    name: "文生图",
+    desc: "描述你想的画面，AI 即刻生成——支持风格、构图、光影的精准控制",
+    icon: "✨",
+    color: "#018DFF",
+    bg: "#EEF5FF",
+  },
+  {
+    id: "image-to-image",
+    name: "风格转绘",
+    desc: "上传参考图或草图，AI 按你的意图重新渲染，保持结构，焕新风格",
+    icon: "🎨",
+    color: "#5F5DE7",
+    bg: "#F3F2FF",
+  },
+  {
+    id: "image-upscaler",
+    name: "高清放大",
+    desc: "低分辨率素材一键提升至印刷级精度，细节清晰可交付",
+    icon: "🔍",
+    color: "#44C67F",
+    bg: "#EEFAF3",
+  },
+];
+
+const ACCENT_DOTS = ["#018DFF", "#44C67F", "#5F5DE7", "#FF5310", "#F5B442"];
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4">
-      <div className="text-center space-y-6">
-        {/* 品牌标题 */}
-        <h1
-          className="text-6xl font-bold tracking-tight"
-          style={{ color: shokzBrand.black }}
-        >
-          韶音设计
-        </h1>
-        <p
-          className="text-xl font-medium"
-          style={{ color: shokzBrand.orange }}
-        >
-          Shokz Design
-        </p>
-        <p className="text-gray-500 text-sm">
-          AI 工具集成平台 · Next.js + Semi Design + Supabase
-        </p>
+    <div className="flex min-h-screen flex-col" style={{ background: "#FBFAF9" }}>
+      {/* ════ Hero Section ════ */}
+      <main className="flex flex-1 flex-col items-center justify-center px-4 text-center">
+        <div className="max-w-2xl space-y-10 py-24">
+          {/* Accent dots row */}
+          <div className="flex items-center justify-center gap-2">
+            {ACCENT_DOTS.map((color, i) => (
+              <span
+                key={i}
+                className="inline-block h-2 w-2 rounded-full"
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
 
-        {/* 品牌色预览 */}
-        <div className="flex gap-3 justify-center pt-4">
-          <div
-            className="w-10 h-10 rounded-full border border-gray-200"
-            style={{ backgroundColor: shokzBrand.white }}
-            title="白色主调"
-          />
-          <div
-            className="w-10 h-10 rounded-full"
-            style={{ backgroundColor: shokzBrand.black }}
-            title="黑色"
-          />
-          <div
-            className="w-10 h-10 rounded-full"
-            style={{ backgroundColor: shokzBrand.orange }}
-            title="橙色点缀"
-          />
+          {/* Brand label */}
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#848281]">
+            DALI · 韶音设计AI
+          </p>
+
+          {/* Tagline */}
+          <h1
+            className="text-5xl font-bold leading-tight tracking-tight sm:text-7xl"
+            style={{ color: "#343433" }}
+          >
+            AI 加持，
+            <br />
+            灵感即刻呈现
+          </h1>
+
+          {/* Subtitle */}
+          <p
+            className="mx-auto max-w-lg text-lg leading-relaxed"
+            style={{ color: "#848281" }}
+          >
+            DALI 为韶音设计师量身打造——输入文字、上传草图，即可快速生成高质量视觉素材。
+            从概念探索到成品输出，让 AI 替你跑完重复劳动。
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex items-center justify-center gap-4 pt-2">
+            <Link
+              href="/auth/login"
+              className="inline-flex items-center gap-2 rounded-xl px-7 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+              style={{ backgroundColor: "#343433" }}
+            >
+              开始使用
+              <span className="text-base">→</span>
+            </Link>
+            <a
+              href="#tools"
+              className="inline-flex items-center gap-2 rounded-xl border px-7 py-3 text-sm font-medium transition-all hover:-translate-y-0.5"
+              style={{ borderColor: "#EAEAEA", color: "#494440" }}
+            >
+              了解更多
+            </a>
+          </div>
         </div>
+      </main>
 
-        {/* CTA 按钮 */}
-        <div className="flex gap-4 justify-center pt-6">
-          <a
+      {/* ════ Tools Section ════ */}
+      <section
+        id="tools"
+        className="px-4 py-24"
+        style={{ background: "#FFFFFF", borderTop: "1px solid #EAEAEA" }}
+      >
+        <div className="mx-auto max-w-4xl space-y-14">
+          {/* Section header */}
+          <div className="text-center space-y-3">
+            <div className="flex items-center justify-center gap-2">
+              {ACCENT_DOTS.slice(0, 3).map((color, i) => (
+                <span
+                  key={i}
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
+            <h2
+              className="text-3xl font-bold tracking-tight sm:text-4xl"
+              style={{ color: "#343433" }}
+            >
+              三个工具，让创意更快落地
+            </h2>
+            <p style={{ color: "#848281" }}>
+              从概念到成品，AI 为你加速每一个环节
+            </p>
+          </div>
+
+          {/* Tool cards grid */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {TOOLS.map((tool) => (
+              <Link
+                key={tool.id}
+                href={`/tools/${tool.id}`}
+                className="group rounded-2xl border p-6 transition-all hover:-translate-y-1 hover:shadow-md"
+                style={{ backgroundColor: "#FFFFFF", borderColor: "#EAEAEA" }}
+              >
+                {/* Icon */}
+                <div
+                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-xl"
+                  style={{ backgroundColor: tool.bg }}
+                >
+                  {tool.icon}
+                </div>
+                {/* Title with subtle colored underline on hover */}
+                <h3
+                  className="mb-2 text-lg font-semibold"
+                  style={{ color: "#343433" }}
+                >
+                  <span className="bg-gradient-to-r bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-all group-hover:bg-[length:100%_2px]"
+                    style={{
+                      backgroundImage: `linear-gradient(to right, ${tool.color}, ${tool.color})`,
+                      paddingBottom: "2px",
+                    }}
+                  >
+                    {tool.name}
+                  </span>
+                </h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#848281" }}>
+                  {tool.desc}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════ Bottom CTA ════ */}
+      <section
+        className="px-4 py-24 text-center"
+        style={{ borderTop: "1px dashed #EAEAEA" }}
+      >
+        <div className="mx-auto max-w-lg space-y-6">
+          <h2
+            className="text-3xl font-bold tracking-tight"
+            style={{ color: "#343433" }}
+          >
+            准备好提升设计效率了吗？
+          </h2>
+          <Link
             href="/auth/login"
-            className="inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: shokzBrand.orange }}
+            className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+            style={{ backgroundColor: "#343433" }}
           >
-            邮箱登录
-          </a>
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-          >
-            进入工作台
-          </a>
+            免费开始
+            <span className="text-lg">→</span>
+          </Link>
+          <p className="text-sm" style={{ color: "#848281" }}>
+            韶音设计部内部工具，使用公司账号登录即可
+          </p>
         </div>
-      </div>
-    </main>
+      </section>
+
+      {/* ════ Footer ════ */}
+      <footer
+        className="px-4 py-8 text-center"
+        style={{ borderTop: "1px solid #EAEAEA" }}
+      >
+        <p className="text-xs" style={{ color: "#848281" }}>
+          © 2026 韶音科技 · 设计部内部工具
+          <span className="mx-2" style={{ color: "#EAEAEA" }}>|</span>
+          DALI · Design AI Lab
+        </p>
+      </footer>
+    </div>
   );
 }

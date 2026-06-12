@@ -6,7 +6,7 @@ const manifest: ToolManifest = {
   icon: "video",
   description: "通过文本或图片生成短视频，适用于社交媒体和广告素材",
   category: "design",
-  enabled: true,
+  enabled: false,
 };
 
 export default manifest;

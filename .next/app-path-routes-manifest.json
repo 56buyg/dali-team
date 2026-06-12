@@ -1,0 +1,20 @@
+{
+  "/(workbench)/page": "/",
+  "/(workbench)/tools/[toolId]/page": "/tools/[toolId]",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/auth/login/route": "/api/auth/login",
+  "/api/auth/logout/route": "/api/auth/logout",
+  "/api/auth/me/route": "/api/auth/me",
+  "/api/auth/send-otp/route": "/api/auth/send-otp",
+  "/api/auth/verify-otp/route": "/api/auth/verify-otp",
+  "/api/auth/verify/route": "/api/auth/verify",
+  "/api/tools/ai-video/route": "/api/tools/ai-video",
+  "/api/tools/image-to-image/route": "/api/tools/image-to-image",
+  "/api/tools/image-upscaler/route": "/api/tools/image-upscaler",
+  "/api/tools/text-to-image/route": "/api/tools/text-to-image",
+  "/auth/callback/route": "/auth/callback",
+  "/auth/login/page": "/auth/login",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/"
+}

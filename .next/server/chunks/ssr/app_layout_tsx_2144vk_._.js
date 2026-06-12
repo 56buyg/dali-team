@@ -1,0 +1,3 @@
+module.exports=[33290,a=>{"use strict";var b=a.i(7997);a.s(["default",0,function({children:a}){return(0,b.jsx)("html",{lang:"zh-CN",className:"h-full antialiased",suppressHydrationWarning:!0,children:(0,b.jsx)("body",{className:"min-h-full flex flex-col",style:{backgroundColor:"#FBFAF9",color:"#494440"},children:a})})},"metadata",0,{title:"DALI · 韶音设计AI — 让创意更快落地",description:"DALI 是韶音设计部专属 AI 创作平台，支持文生图、风格转绘、高清放大——让设计师专注创意，AI 搞定重复劳动。",keywords:["韶音","Shokz","AI设计工具","文生图","图生图","超分辨率","设计效率"],openGraph:{title:"DALI · 韶音设计AI",description:"AI 加持，灵感即刻呈现"}}])},70864,a=>{a.n(a.i(33290))}];
+
+//# sourceMappingURL=app_layout_tsx_2144vk_._.js.map

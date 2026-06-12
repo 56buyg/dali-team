@@ -1,0 +1,3 @@
+{
+  "/api/tools/text-to-image/route": "app/api/tools/text-to-image/route.js"
+}
