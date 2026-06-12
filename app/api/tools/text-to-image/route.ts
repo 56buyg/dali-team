@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitTask, waitForTask } from "@/lib/runninghub/client";
+import { submitTask } from "@/lib/runninghub/client";
 
 /**
  * POST /api/tools/text-to-image
  *
+ * 提交文生图任务，立即返回 taskId（异步模式）。
+ * 前端通过 GET /api/tools/status?taskId=xxx 轮询结果。
+ *
  * 请求体: { prompt: string; width?: number; height?: number; style?: string }
- * 响应:   { taskId: string; result?: { files: string[] } }
+ * 响应:   { taskId: string }
  */
 export async function POST(request: NextRequest) {
   try {
@@ -19,19 +22,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 提交 Runninghub 文生图任务
+    // 提交 Runninghub 文生图任务，立即返回 taskId
     const { taskId } = await submitTask({
       modelId: "2048642665947860994", // Runninghub 文生图模型 ID
       inputs: { prompt, width, height, style },
     });
 
-    // 同步等待结果（生产环境建议用 webhook 异步处理）
-    const result = await waitForTask(taskId);
-
-    return NextResponse.json({ taskId, result });
+    return NextResponse.json({ taskId });
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : "未知错误";
+      error instanceof Error ? error.message : "提交任务失败";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

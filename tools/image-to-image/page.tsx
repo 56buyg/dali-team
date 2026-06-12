@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ToolShell, { ToolInput, ToolResult } from "@/components/tool-shell";
+import { pollTaskStatus } from "@/lib/poll-task";
 
 export default function ImageToImagePage() {
   const [imageUrl, setImageUrl] = useState("");
@@ -27,10 +28,16 @@ export default function ImageToImagePage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "生成失败，请稍后重试");
-      setFiles(data.result?.files ?? []);
+
+      // 异步模式：轮询任务状态
+      pollTaskStatus(
+        data.taskId,
+        (resultFiles) => setFiles(resultFiles),
+        (errMsg) => setError(errMsg),
+        () => setLoading(false),
+      );
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "网络连接异常，请检查网络后重试");
-    } finally {
       setLoading(false);
     }
   };

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ToolShell, { ToolInput, ToolResult } from "@/components/tool-shell";
+import { pollTaskStatus } from "@/lib/poll-task";
 
 export default function DualImageEditPage() {
   const [imageUrl1, setImageUrl1] = useState("");
@@ -27,10 +28,16 @@ export default function DualImageEditPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setFiles(data.result?.files ?? []);
+
+      // 异步模式：轮询任务状态
+      pollTaskStatus(
+        data.taskId,
+        (resultFiles) => setFiles(resultFiles),
+        (errMsg) => setError(errMsg),
+        () => setLoading(false),
+      );
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "请求失败");
-    } finally {
       setLoading(false);
     }
   };

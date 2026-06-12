@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitTask, waitForTask } from "@/lib/runninghub/client";
+import { submitTask } from "@/lib/runninghub/client";
 
 /**
  * POST /api/tools/dual-image-edit
  *
- * 双图编辑 — 融合两张图片，AI 智能合成
+ * 提交双图编辑任务，立即返回 taskId（异步模式）。
+ * 前端通过 GET /api/tools/status?taskId=xxx 轮询结果。
+ *
  * 请求体: { imageUrl1: string; imageUrl2: string; prompt?: string }
- * 响应:   { taskId: string; result?: { files: string[] } }
+ * 响应:   { taskId: string }
  */
 export async function POST(request: NextRequest) {
   try {
@@ -20,17 +22,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // 提交任务，立即返回 taskId
     const { taskId } = await submitTask({
       modelId: "1999309334460985346", // Runninghub 双图编辑模型 ID
       inputs: { image_url1: imageUrl1, image_url2: imageUrl2, prompt },
     });
 
-    const result = await waitForTask(taskId);
-
-    return NextResponse.json({ taskId, result });
+    return NextResponse.json({ taskId });
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : "未知错误";
+      error instanceof Error ? error.message : "提交任务失败";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ToolShell, { ToolInput, ToolResult } from "@/components/tool-shell";
+import { pollTaskStatus } from "@/lib/poll-task";
 
 const QUICK_EXAMPLES = [
   "一副韶音OpenRun运动耳机悬浮在液态金属表面，深色背景，橙色光束勾勒轮廓，产品摄影质感",
@@ -42,10 +43,16 @@ export default function TextToImagePage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "生成失败，请稍后重试");
-      setFiles(data.result?.files ?? []);
+
+      // 异步模式：轮询任务状态
+      pollTaskStatus(
+        data.taskId,
+        (resultFiles) => setFiles(resultFiles),
+        (errMsg) => setError(errMsg),
+        () => setLoading(false),
+      );
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "网络连接异常，请检查网络后重试");
-    } finally {
       setLoading(false);
     }
   };
