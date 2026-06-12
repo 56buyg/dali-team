@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import { getTaskStatus } from "@/lib/runninghub/client";
 
 /**
@@ -8,6 +9,13 @@ import { getTaskStatus } from "@/lib/runninghub/client";
  */
 export async function GET(request: NextRequest) {
   try {
+    // 鉴权
+    const supabase = await createClient();
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) {
+      return NextResponse.json({ error: "请先登录" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const taskId = searchParams.get("taskId");
 

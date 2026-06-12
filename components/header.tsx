@@ -1,10 +1,29 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated && data.user?.username) {
+          setUsername(data.user.username);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/auth/login");
+  };
 
   const segments = pathname.split("/").filter(Boolean);
   const breadcrumbs = [
@@ -14,6 +33,8 @@ export default function Header() {
       href: "/" + segments.slice(0, i + 1).join("/"),
     })),
   ];
+
+  const initial = username?.charAt(0)?.toUpperCase() ?? "U";
 
   return (
     <header
@@ -42,29 +63,21 @@ export default function Header() {
         ))}
       </nav>
 
-      {/* Actions */}
-      <div className="flex items-center gap-2">
+      {/* User */}
+      <div className="flex items-center gap-3">
+        {username && (
+          <span className="text-xs font-medium" style={{ color: "#494440" }}>
+            {username}
+          </span>
+        )}
         <button
-          className="rounded-xl p-2 transition-colors hover:bg-gray-50"
-          style={{ color: "#848281" }}
-        >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
-
-        <Link
-          href="/auth/login"
+          onClick={handleLogout}
           className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-opacity hover:opacity-80"
           style={{ backgroundColor: "#343433" }}
+          title="退出登录"
         >
-          U
-        </Link>
+          {initial}
+        </button>
       </div>
     </header>
   );

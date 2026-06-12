@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import { submitTask } from "@/lib/runninghub/client";
 
 /**
@@ -12,6 +13,13 @@ import { submitTask } from "@/lib/runninghub/client";
  */
 export async function POST(request: NextRequest) {
   try {
+    // 鉴权
+    const supabase = await createClient();
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) {
+      return NextResponse.json({ error: "请先登录" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { imageUrl1, imageUrl2, prompt = "" } = body;
 

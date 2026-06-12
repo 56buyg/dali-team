@@ -21,11 +21,19 @@ export async function GET() {
       );
     }
 
+    // 获取 profile 中的用户名
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("username, created_at, updated_at")
+      .eq("id", user.id)
+      .maybeSingle();
+
     return NextResponse.json({
       authenticated: true,
       user: {
         id: user.id,
         email: user.email,
+        username: profile?.username ?? user.user_metadata?.username ?? null,
         created_at: user.created_at,
       },
     });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -18,8 +18,23 @@ const TOOL_ICONS: Record<string, string> = {
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [username, setUsername] = useState<string | null>(null);
   const pathname = usePathname();
   const grouped = getToolsByCategory();
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated && data.user?.username) {
+          setUsername(data.user.username);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const displayName = username ?? "用户";
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <aside
@@ -96,7 +111,7 @@ export default function Sidebar() {
             className="mx-auto flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold"
             style={{ backgroundColor: "#f2f0ed", color: "#848281" }}
           >
-            U
+            {initial}
           </div>
         ) : (
           <div className="flex items-center gap-2.5">
@@ -104,10 +119,10 @@ export default function Sidebar() {
               className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold"
               style={{ backgroundColor: "#f2f0ed", color: "#848281" }}
             >
-              U
+              {initial}
             </div>
             <div className="flex-1 text-sm leading-tight">
-              <p className="font-medium" style={{ color: "#343433" }}>用户</p>
+              <p className="font-medium" style={{ color: "#343433" }}>{displayName}</p>
               <p className="text-xs" style={{ color: "#848281" }}>设计部</p>
             </div>
           </div>

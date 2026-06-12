@@ -12,6 +12,23 @@ export default function ImageToImagePage() {
   const [error, setError] = useState("");
   const [files, setFiles] = useState<string[]>([]);
 
+  /** 保存生成结果到用户数据库 */
+  const saveToDb = async (resultFiles: string[]) => {
+    try {
+      await fetch("/api/user/images", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tool_type: "image-to-image",
+          prompt: prompt.trim() || imageUrl,
+          image_urls: resultFiles,
+        }),
+      });
+    } catch {
+      // 静默失败
+    }
+  };
+
   const handleSubmit = async () => {
     if (!imageUrl) {
       setError("请先上传一张图片");
@@ -29,9 +46,13 @@ export default function ImageToImagePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "生成失败，请稍后重试");
 
+      // 异步模式：轮询任务状态，完成后保存到数据库
       pollTaskStatus(
         data.taskId,
-        (resultFiles) => setFiles(resultFiles),
+        (resultFiles) => {
+          setFiles(resultFiles);
+          saveToDb(resultFiles);
+        },
         (errMsg) => setError(errMsg),
         () => setLoading(false),
       );
