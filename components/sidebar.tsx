@@ -23,10 +23,10 @@ export default function Sidebar() {
       {/* 品牌区 */}
       <div className="flex h-14 items-center gap-3 border-b border-gray-100 px-4">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6A00] text-sm font-bold text-white">
-          D
+          韶
         </div>
         {!collapsed && (
-          <span className="text-base font-bold text-gray-900">DAL</span>
+          <span className="text-base font-bold text-gray-900">韶音设计</span>
         )}
       </div>
 

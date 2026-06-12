@@ -1,10 +1,10 @@
-import type { ComponentType } from "react";
-
 /**
  * 工具注册清单接口
  *
- * 新增工具只需在此文件追加一个 ToolManifest 条目，
- * 即可自动在 Sidebar、路由和仪表盘中出现。
+ * 新增工具步骤：
+ * 1. 在 tools/[tool-id]/ 下创建 manifest.ts + page.tsx
+ * 2. 在 app/api/tools/[tool-id]/route.ts 创建 API 路由
+ * 3. 在此数组追加 import 和 manifest 条目
  */
 export interface ToolManifest {
   /** 唯一标识，作为路由 /tools/[id] 的路径段 */
@@ -17,32 +17,24 @@ export interface ToolManifest {
   description: string;
   /** 分类分组 */
   category: "design" | "development" | "productivity" | "other";
-  /** 动态导入的工具页面组件 */
-  component: ComponentType;
   /** 是否启用（可动态关闭） */
   enabled: boolean;
 }
 
+import textToImage from "@/tools/text-to-image/manifest";
+import imageToImage from "@/tools/image-to-image/manifest";
+import aiVideo from "@/tools/ai-video/manifest";
+
 /**
  * 工具注册表
  *
- * 所有 AI 工具在此注册。后端新增工具只需：
- * 1. 在 tools/[tool-id]/ 下创建 manifest.ts 和 page.tsx
- * 2. 在此数组追加一个条目
- *
- * 当前为空 — 后续业务工具从 P2 开始填充
+ * Runninghub AI 出图工具已注册。
+ * 新增工具：创建 tools/[id]/manifest.ts → 在此追加导入和条目即可。
  */
 export const toolRegistry: ToolManifest[] = [
-  // 示例（后续取消注释并替换）：
-  // {
-  //   id: "image-compressor",
-  //   name: "AI 图片压缩",
-  //   icon: "image",
-  //   description: "智能压缩图片，保持视觉质量",
-  //   category: "design",
-  //   component: dynamic(() => import("@/tools/image-compressor/page")),
-  //   enabled: true,
-  // },
+  textToImage,
+  imageToImage,
+  aiVideo,
 ];
 
 /** 按分类分组的工具列表（Sidebar 渲染用） */

@@ -9,16 +9,16 @@ export default function HomePage() {
           className="text-6xl font-bold tracking-tight"
           style={{ color: shokzBrand.black }}
         >
-          DAL
+          韶音设计
         </h1>
         <p
           className="text-xl font-medium"
           style={{ color: shokzBrand.orange }}
         >
-          韶音 · Shokz
+          Shokz Design
         </p>
         <p className="text-gray-500 text-sm">
-          项目骨架已搭建 · Next.js + Semi Design + Supabase
+          AI 工具集成平台 · Next.js + Semi Design + Supabase
         </p>
 
         {/* 品牌色预览 */}

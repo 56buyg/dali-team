@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getToolById } from "@/lib/tools/registry";
+import ToolClient from "./client";
 
 export default async function ToolPage({
   params,
@@ -13,8 +14,6 @@ export default async function ToolPage({
     notFound();
   }
 
-  const ToolComponent = tool.component;
-
   return (
     <div className="space-y-4">
       <div>
@@ -22,7 +21,7 @@ export default async function ToolPage({
         <p className="text-sm text-gray-500">{tool.description}</p>
       </div>
       <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <ToolComponent />
+        <ToolClient toolId={toolId} />
       </div>
     </div>
   );
