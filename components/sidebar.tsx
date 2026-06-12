@@ -6,8 +6,14 @@ import { usePathname } from "next/navigation";
 import {
   getToolsByCategory,
   CATEGORY_LABELS,
-  type ToolManifest,
 } from "@/lib/tools/registry";
+
+const TOOL_ICONS: Record<string, string> = {
+  "text-to-image": "✨",
+  "image-to-image": "🎨",
+  "image-upscaler": "🔍",
+  "ai-video": "🎬",
+};
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -16,36 +22,46 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`flex flex-col border-r border-gray-200 bg-white transition-all duration-200 ${
+      className={`flex flex-col border-r transition-all duration-300 ${
         collapsed ? "w-16" : "w-60"
       }`}
+      style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF" }}
     >
-      {/* 品牌区 */}
-      <div className="flex h-14 items-center gap-3 border-b border-gray-100 px-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6A00] text-sm font-bold text-white">
-          韶
+      {/* ── Brand ── */}
+      <div
+        className="flex h-14 items-center gap-3 border-b px-4"
+        style={{ borderColor: "#f2f0ed" }}
+      >
+        <div
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-white"
+          style={{ backgroundColor: "#343433" }}
+        >
+          D
         </div>
         {!collapsed && (
-          <span className="text-base font-bold text-gray-900">韶音设计</span>
+          <span className="text-base font-semibold" style={{ color: "#343433" }}>
+            DALI
+          </span>
         )}
       </div>
 
-      {/* 导航菜单 */}
+      {/* ── Nav ── */}
       <nav className="flex-1 overflow-y-auto px-2 py-3">
-        {/* 仪表盘 */}
         <NavItem
           href="/"
-          icon="📊"
-          label="仪表盘"
+          icon="←"
+          label="首页"
           collapsed={collapsed}
           active={pathname === "/"}
         />
 
-        {/* 工具分组 */}
         {Array.from(grouped.entries()).map(([category, tools]) => (
-          <div key={category} className="mt-3">
+          <div key={category} className="mt-4">
             {!collapsed && (
-              <p className="mb-1 px-3 text-xs font-medium uppercase text-gray-400">
+              <p
+                className="mb-1.5 px-3 text-[11px] font-semibold uppercase tracking-wider"
+                style={{ color: "#848281" }}
+              >
                 {CATEGORY_LABELS[category] ?? category}
               </p>
             )}
@@ -53,7 +69,7 @@ export default function Sidebar() {
               <NavItem
                 key={tool.id}
                 href={`/tools/${tool.id}`}
-                icon="🔧"
+                icon={TOOL_ICONS[tool.id] ?? "🔧"}
                 label={tool.name}
                 collapsed={collapsed}
                 active={pathname === `/tools/${tool.id}`}
@@ -62,37 +78,46 @@ export default function Sidebar() {
           </div>
         ))}
 
-        {/* 空状态提示 */}
         {grouped.size === 0 && !collapsed && (
-          <p className="mt-4 px-3 text-xs text-gray-400">
-            暂无工具 — 在 registry.ts 中注册
+          <p className="mt-4 px-3 text-xs" style={{ color: "#848281" }}>
+            暂无可用工具
           </p>
         )}
       </nav>
 
-      {/* 底部用户区 */}
-      <div className="border-t border-gray-100 p-3">
+      {/* ── User ── */}
+      <div
+        className="border-t p-3"
+        style={{ borderColor: "#f2f0ed" }}
+      >
         {collapsed ? (
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-medium text-gray-600 mx-auto">
+          <div
+            className="mx-auto flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold"
+            style={{ backgroundColor: "#f2f0ed", color: "#848281" }}
+          >
             U
           </div>
         ) : (
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-medium text-gray-600">
+          <div className="flex items-center gap-2.5">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold"
+              style={{ backgroundColor: "#f2f0ed", color: "#848281" }}
+            >
               U
             </div>
-            <div className="flex-1 text-sm">
-              <p className="font-medium text-gray-900">用户</p>
-              <p className="text-xs text-gray-500">设计部</p>
+            <div className="flex-1 text-sm leading-tight">
+              <p className="font-medium" style={{ color: "#343433" }}>用户</p>
+              <p className="text-xs" style={{ color: "#848281" }}>设计部</p>
             </div>
           </div>
         )}
       </div>
 
-      {/* 折叠按钮 */}
+      {/* ── Collapse toggle ── */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="flex h-8 items-center justify-center border-t border-gray-100 text-xs text-gray-400 hover:text-gray-600"
+        className="flex h-8 items-center justify-center border-t text-xs transition-colors hover:bg-gray-50"
+        style={{ borderColor: "#f2f0ed", color: "#848281" }}
       >
         {collapsed ? "→" : "←"}
       </button>
@@ -116,14 +141,17 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
+      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all ${
+        collapsed ? "justify-center" : ""
+      }`}
+      style={
         active
-          ? "bg-orange-50 text-[#FF6A00] font-medium"
-          : "text-gray-700 hover:bg-gray-50"
-      } ${collapsed ? "justify-center" : ""}`}
+          ? { backgroundColor: "#f2f0ed", color: "#343433", fontWeight: 600 }
+          : { color: "#494440" }
+      }
       title={collapsed ? label : undefined}
     >
-      <span className="text-base flex-shrink-0">{icon}</span>
+      <span className="flex-shrink-0 text-base">{icon}</span>
       {!collapsed && <span className="truncate">{label}</span>}
     </Link>
   );

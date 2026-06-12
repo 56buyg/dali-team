@@ -1,0 +1,150 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/tools/[toolId]",
+      "regex": "^/tools/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPtoolId": "nxtPtoolId"
+      },
+      "namedRegex": "^/tools/(?<nxtPtoolId>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/auth/login",
+      "regex": "^/api/auth/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/login(?:/)?$"
+    },
+    {
+      "page": "/api/auth/logout",
+      "regex": "^/api/auth/logout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/logout(?:/)?$"
+    },
+    {
+      "page": "/api/auth/me",
+      "regex": "^/api/auth/me(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/me(?:/)?$"
+    },
+    {
+      "page": "/api/auth/send-otp",
+      "regex": "^/api/auth/send\\-otp(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/send\\-otp(?:/)?$"
+    },
+    {
+      "page": "/api/auth/verify",
+      "regex": "^/api/auth/verify(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/verify(?:/)?$"
+    },
+    {
+      "page": "/api/auth/verify-otp",
+      "regex": "^/api/auth/verify\\-otp(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/verify\\-otp(?:/)?$"
+    },
+    {
+      "page": "/api/tools/ai-video",
+      "regex": "^/api/tools/ai\\-video(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tools/ai\\-video(?:/)?$"
+    },
+    {
+      "page": "/api/tools/image-to-image",
+      "regex": "^/api/tools/image\\-to\\-image(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tools/image\\-to\\-image(?:/)?$"
+    },
+    {
+      "page": "/api/tools/image-upscaler",
+      "regex": "^/api/tools/image\\-upscaler(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tools/image\\-upscaler(?:/)?$"
+    },
+    {
+      "page": "/api/tools/text-to-image",
+      "regex": "^/api/tools/text\\-to\\-image(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tools/text\\-to\\-image(?:/)?$"
+    },
+    {
+      "page": "/auth/callback",
+      "regex": "^/auth/callback(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/callback(?:/)?$"
+    },
+    {
+      "page": "/auth/login",
+      "regex": "^/auth/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/login(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

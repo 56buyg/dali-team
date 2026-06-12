@@ -13,7 +13,7 @@ export default function ImageToImagePage() {
 
   const handleSubmit = async () => {
     if (!imageUrl) {
-      setError("请提供图片地址");
+      setError("请先上传一张图片");
       return;
     }
     setError("");
@@ -26,67 +26,118 @@ export default function ImageToImagePage() {
         body: JSON.stringify({ imageUrl, prompt, strength: strength / 100 }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      if (!res.ok) throw new Error(data.error ?? "生成失败，请稍后重试");
       setFiles(data.result?.files ?? []);
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "请求失败");
+      setError(e instanceof Error ? e.message : "网络连接异常，请检查网络后重试");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <ToolShell>
-      <ToolInput>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">原图地址</label>
-          <input
-            type="url"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="https://example.com/original.png"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
-          />
-          {imageUrl && (
-            <img src={imageUrl} alt="预览" className="mt-2 w-full rounded-lg border border-gray-200" />
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
+          风格转绘 · 以图生图
+        </h1>
+        <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
+          上传一张图片作为起点，AI 按你的描述重新演绎——保留结构，改变风格
+        </p>
+      </div>
+
+      <ToolShell>
+        <ToolInput title="参考图片">
+          {/* Upload area */}
+          {!imageUrl && (
+            <div
+              className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-colors"
+              style={{ borderColor: "#EAEAEA" }}
+            >
+              <p className="text-3xl mb-2">🖼️</p>
+              <p className="text-sm font-medium" style={{ color: "#494440" }}>
+                拖拽图片到此处，或点击上传
+              </p>
+              <p className="mt-1 text-xs" style={{ color: "#848281" }}>
+                支持 JPG、PNG、WebP，单张不超过 20MB
+              </p>
+            </div>
           )}
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">修改描述（可选）</label>
-          <input
-            type="text"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="如：转换为水彩风格..."
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
-          />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
-            变换强度: {strength}%
-          </label>
-          <input
-            type="range"
-            min={10}
-            max={100}
-            value={strength}
-            onChange={(e) => setStrength(Number(e.target.value))}
-            className="w-full accent-orange-500"
-          />
-          <div className="flex justify-between text-xs text-gray-400">
-            <span>10%</span>
-            <span>100%</span>
+
+          <div>
+            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+              图片地址
+            </label>
+            <input
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://example.com/original.png"
+              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
+            />
+            {imageUrl && (
+              <div className="mt-2 space-y-2">
+                <img src={imageUrl} alt="预览" className="w-full rounded-xl border" style={{ borderColor: "#EAEAEA" }} />
+                <button
+                  onClick={() => setImageUrl("")}
+                  className="text-xs hover:underline"
+                  style={{ color: "#848281" }}
+                >
+                  清除
+                </button>
+              </div>
+            )}
           </div>
-        </div>
-        <button
-          onClick={handleSubmit}
-          disabled={loading}
-          className="w-full rounded-lg bg-[#FF6A00] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#CC5500] disabled:opacity-50"
-        >
-          {loading ? "转换中..." : "开始转换"}
-        </button>
-      </ToolInput>
-      <ToolResult loading={loading} error={error} files={files} />
-    </ToolShell>
+
+          <div>
+            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+              想要什么风格？ <span className="font-normal" style={{ color: "#848281" }}>（选填）</span>
+            </label>
+            <input
+              type="text"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="例如：转换为赛博朋克风格、改为浅色背景、增强光影对比……"
+              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
+            />
+            <p className="mt-1 text-xs" style={{ color: "#848281" }}>
+              留空则 AI 自动优化；填写则按你的意图转绘
+            </p>
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+              保留原图程度：{strength}%
+            </label>
+            <input
+              type="range"
+              min={10}
+              max={100}
+              value={strength}
+              onChange={(e) => setStrength(Number(e.target.value))}
+              className="w-full"
+              style={{ accentColor: "#343433" }}
+            />
+            <div className="flex justify-between text-xs" style={{ color: "#848281" }}>
+              <span>轻度参考</span>
+              <span>高度还原</span>
+            </div>
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
+            style={{ backgroundColor: "#343433" }}
+          >
+            {loading ? "AI 正在转绘……" : "开始转绘"}
+          </button>
+        </ToolInput>
+
+        <ToolResult loading={loading} error={error} files={files} />
+      </ToolShell>
+    </div>
   );
 }

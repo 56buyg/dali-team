@@ -1,11 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const pathname = usePathname();
 
-  // 从路径生成面包屑
   const segments = pathname.split("/").filter(Boolean);
   const breadcrumbs = [
     { label: "首页", href: "/" },
@@ -16,36 +16,39 @@ export default function Header() {
   ];
 
   return (
-    <header className="flex h-14 items-center justify-between border-b border-gray-100 bg-white px-6">
-      {/* 面包屑 */}
+    <header
+      className="flex h-14 items-center justify-between border-b bg-white px-6"
+      style={{ borderColor: "#EAEAEA" }}
+    >
+      {/* Breadcrumbs */}
       <nav className="flex items-center gap-1 text-sm">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.href} className="flex items-center gap-1">
-            {i > 0 && <span className="text-gray-300">/</span>}
+            {i > 0 && <span style={{ color: "#EAEAEA" }}>/</span>}
             {i === breadcrumbs.length - 1 ? (
-              <span className="font-medium text-gray-900">{crumb.label}</span>
+              <span className="font-medium" style={{ color: "#343433" }}>
+                {crumb.label}
+              </span>
             ) : (
-              <a
+              <Link
                 href={crumb.href}
-                className="text-gray-500 hover:text-[#FF6A00] transition-colors"
+                className="transition-colors hover:text-[#343433]"
+                style={{ color: "#848281" }}
               >
                 {crumb.label}
-              </a>
+              </Link>
             )}
           </span>
         ))}
       </nav>
 
-      {/* 操作区 */}
-      <div className="flex items-center gap-3">
-        {/* 帮助 */}
-        <button className="rounded-lg p-2 text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors">
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+      {/* Actions */}
+      <div className="flex items-center gap-2">
+        <button
+          className="rounded-xl p-2 transition-colors hover:bg-gray-50"
+          style={{ color: "#848281" }}
+        >
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -55,27 +58,13 @@ export default function Header() {
           </svg>
         </button>
 
-        {/* 通知 */}
-        <button className="rounded-lg p-2 text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors">
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-            />
-          </svg>
-        </button>
-
-        {/* 头像 */}
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FF6A00] text-xs font-bold text-white">
+        <Link
+          href="/auth/login"
+          className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-opacity hover:opacity-80"
+          style={{ backgroundColor: "#343433" }}
+        >
           U
-        </div>
+        </Link>
       </div>
     </header>
   );

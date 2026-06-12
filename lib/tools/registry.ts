@@ -1,10 +1,12 @@
 /**
- * 工具注册清单接口
+ * 工具注册中心
  *
  * 新增工具步骤：
  * 1. 在 tools/[tool-id]/ 下创建 manifest.ts + page.tsx
  * 2. 在 app/api/tools/[tool-id]/route.ts 创建 API 路由
  * 3. 在此数组追加 import 和 manifest 条目
+ *
+ * DALI v1 — 韶音设计部 AI 工具箱，4 个出图工具（3 个启用）。
  */
 export interface ToolManifest {
   /** 唯一标识，作为路由 /tools/[id] 的路径段 */

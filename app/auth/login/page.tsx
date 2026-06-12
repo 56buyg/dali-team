@@ -12,7 +12,6 @@ export default function LoginPage() {
   const [countdown, setCountdown] = useState(0);
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // 倒计时
   useEffect(() => {
     if (countdown <= 0) return;
     const t = setInterval(() => setCountdown((c) => c - 1), 1000);
@@ -38,7 +37,7 @@ export default function LoginPage() {
       setCountdown(60);
       otpRefs.current[0]?.focus();
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "发送失败");
+      setError(e instanceof Error ? e.message : "发送失败，请稍后重试");
       setStep("email");
     }
   };
@@ -61,7 +60,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.error);
       router.push("/");
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "验证失败");
+      setError(e instanceof Error ? e.message : "验证失败，请重新输入");
       setStep("otp");
     }
   };
@@ -87,40 +86,60 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.error);
       router.push("/");
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "验证失败");
+      setError(e instanceof Error ? e.message : "验证失败，请重新输入");
       setStep("otp");
     }
   };
 
-  const brandOrange = "#FF6A00";
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-sm">
-        {/* Logo */}
+    <div
+      className="flex min-h-screen items-center justify-center px-4"
+      style={{ backgroundColor: "#FBFAF9" }}
+    >
+      <div
+        className="w-full max-w-sm rounded-2xl border bg-white p-8"
+        style={{ borderColor: "#EAEAEA" }}
+      >
+        {/* Brand */}
         <div className="mb-8 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            {["#018DFF", "#44C67F", "#5F5DE7"].map((color, i) => (
+              <span
+                key={i}
+                className="inline-block h-1.5 w-1.5 rounded-full"
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
           <div
             className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold text-white"
-            style={{ backgroundColor: brandOrange }}
+            style={{ backgroundColor: "#343433" }}
           >
-            韶
+            D
           </div>
-          <h1 className="text-xl font-bold text-gray-900">韶音设计</h1>
-          <p className="text-sm text-gray-500">Shokz Design AI 工具箱</p>
+          <h1 className="text-xl font-bold" style={{ color: "#343433" }}>
+            登录 DALI
+          </h1>
+          <p className="mt-1 text-sm" style={{ color: "#848281" }}>
+            DALI · 韶音设计AI — 让创意更快落地
+          </p>
         </div>
 
-        {/* 错误提示 */}
+        {/* Error */}
         {error && (
-          <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
+          <div
+            className="mb-4 rounded-xl p-3 text-sm"
+            style={{ backgroundColor: "#FFF5F5", color: "#EF4444" }}
+          >
             {error}
           </div>
         )}
 
-        {/* 邮箱输入 */}
+        {/* Email step */}
         {step === "email" && (
           <div className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
                 邮箱地址
               </label>
               <input
@@ -128,25 +147,30 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@shokz.com"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                style={{ borderColor: "#EAEAEA", backgroundColor: "#FBFAF9", color: "#343433" }}
                 onKeyDown={(e) => e.key === "Enter" && sendOtp()}
               />
             </div>
             <button
               onClick={sendOtp}
-              className="w-full rounded-lg py-2.5 text-sm font-medium text-white transition-colors hover:opacity-90"
-              style={{ backgroundColor: brandOrange }}
+              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md"
+              style={{ backgroundColor: "#343433" }}
             >
               发送验证码
             </button>
+            <p className="text-center text-xs" style={{ color: "#848281" }}>
+              仅限韶音设计部内部使用
+            </p>
           </div>
         )}
 
-        {/* 验证码输入 */}
+        {/* OTP step */}
         {step === "otp" && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-500 text-center">
-              验证码已发送至 <span className="font-medium text-gray-900">{email}</span>
+            <p className="text-center text-sm" style={{ color: "#848281" }}>
+              验证码已发送至{" "}
+              <span className="font-medium" style={{ color: "#343433" }}>{email}</span>
             </p>
             <div className="flex justify-center gap-2">
               {otp.map((d, i) => (
@@ -158,38 +182,45 @@ export default function LoginPage() {
                   maxLength={1}
                   value={d}
                   onChange={(e) => handleOtpChange(i, e.target.value)}
-                  className="h-12 w-10 rounded-lg border border-gray-300 text-center text-lg font-bold focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  className="h-12 w-10 rounded-xl border text-center text-lg font-bold transition-colors focus:outline-none focus:ring-2"
+                  style={{ borderColor: "#EAEAEA", color: "#343433", backgroundColor: "#FFFFFF" }}
                 />
               ))}
             </div>
             <button
               onClick={verifyOtp}
-              className="w-full rounded-lg py-2.5 text-sm font-medium text-white transition-colors hover:opacity-90"
-              style={{ backgroundColor: brandOrange }}
+              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
+              style={{ backgroundColor: "#343433" }}
               disabled={otp.some((d) => !d)}
             >
               验证登录
             </button>
-            <div className="text-center text-xs text-gray-400 space-x-2">
+            <div className="flex justify-center gap-4 text-xs" style={{ color: "#848281" }}>
               {countdown > 0 ? (
                 <span>{countdown}s 后可重发</span>
               ) : (
-                <button onClick={sendOtp} className="text-orange-500 hover:underline">
+                <button onClick={sendOtp} style={{ color: "#018DFF" }} className="hover:underline">
                   重新发送
                 </button>
               )}
-              <button onClick={() => { setStep("email"); setOtp(["", "", "", "", "", ""]); }} className="text-gray-400 hover:underline">
+              <button
+                onClick={() => { setStep("email"); setOtp(["", "", "", "", "", ""]); }}
+                className="hover:underline"
+              >
                 修改邮箱
               </button>
             </div>
           </div>
         )}
 
-        {/* 加载中 */}
+        {/* Loading */}
         {step === "loading" && (
           <div className="flex flex-col items-center py-8">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-orange-500 border-t-transparent" />
-            <p className="mt-3 text-sm text-gray-500">加载中...</p>
+            <div
+              className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"
+              style={{ borderColor: "#EAEAEA", borderTopColor: "#343433" }}
+            />
+            <p className="mt-3 text-sm" style={{ color: "#848281" }}>验证中……</p>
           </div>
         )}
       </div>
