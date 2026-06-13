@@ -39,3 +39,4 @@ venv/
 dist/
 build/
 out/
+.next/
