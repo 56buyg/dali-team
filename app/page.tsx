@@ -39,7 +39,7 @@ export default function HomePage() {
             <div className="flex items-center justify-center pt-2 lg:justify-start animate-slide-up" style={{ animationDelay: "0.25s" }}>
               <Link
                 href="/auth/login"
-                className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full px-10 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-0.5"
                 style={{ backgroundColor: "#1A1A1A", boxShadow: "var(--shadow-elevation-md)" }}
               >
                 开始使用<span className="text-lg">→</span>
