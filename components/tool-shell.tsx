@@ -60,7 +60,7 @@ export function ToolResult({ loading, error, files }: { loading?: boolean; error
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {files.map((url, i) => (
-              <a key={i} href={url} download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-full border px-4 py-2 text-xs font-medium transition-all hover:bg-gray-50 hover:-translate-y-0.5" style={{ borderColor: "rgba(0,0,0,0.1)", color: "#494440" }}>下载</a>
+              <a key={i} href={url} download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-full border px-6 py-2 text-xs font-medium transition-all hover:bg-gray-50 hover:-translate-y-0.5" style={{ borderColor: "rgba(0,0,0,0.1)", color: "#494440" }}>下载</a>
             ))}
           </div>
         </div>

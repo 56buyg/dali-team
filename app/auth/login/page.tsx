@@ -88,17 +88,25 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex min-h-screen items-center justify-center px-4"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
       style={{ backgroundColor: "#FBFAF9" }}
     >
+      {/* ── Geometric background decorations ── */}
+      <div className="decor-shape decor-shape-3xl decor-circle decor-blue decor-d1" style={{ top: "-15%", left: "-12%" }} />
+      <div className="decor-shape decor-shape-2xl decor-rounded decor-purple decor-d2" style={{ top: "-8%", right: "-10%" }} />
+      <div className="decor-shape decor-shape-sm decor-circle decor-green decor-d3" style={{ bottom: "12%", left: "8%" }} />
+      <div className="decor-shape decor-shape-2xl decor-circle decor-orange decor-d4" style={{ bottom: "-12%", right: "-12%" }} />
+      <div className="decor-shape decor-shape-lg decor-triangle decor-gold decor-d5" style={{ top: "35%", right: "12%" }} />
+      <div className="decor-shape decor-shape-sm decor-capsule decor-pink decor-d6" style={{ top: "55%", left: "8%" }} />
+
       <div
-        className="w-full max-w-sm rounded-2xl border bg-white p-8"
-        style={{ borderColor: "#EAEAEA" }}
+        className="relative z-[1] w-full max-w-sm rounded-2xl border bg-white p-8"
+        style={{ borderColor: "rgba(0,0,0,0.06)", boxShadow: "var(--shadow-elevation-sm)" }}
       >
         {/* Brand */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            {["#018DFF", "#44C67F", "#5F5DE7"].map((color, i) => (
+            {["#018DFF", "#44C67F", "#5F5DE7", "#FF5310", "#F5B442"].map((color, i) => (
               <span
                 key={i}
                 className="inline-block h-1.5 w-1.5 rounded-full"
@@ -108,11 +116,11 @@ export default function LoginPage() {
           </div>
           <div
             className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold text-white"
-            style={{ backgroundColor: "#343433" }}
+            style={{ backgroundColor: "#1A1A1A" }}
           >
             D
           </div>
-          <h1 className="text-xl font-bold" style={{ color: "#343433" }}>
+          <h1 className="text-xl font-bold tracking-tight" style={{ color: "#1A1A1A" }}>
             {mode === "login" ? "登录 DALI" : "注册 DALI"}
           </h1>
           <p className="mt-1 text-sm" style={{ color: "#848281" }}>
@@ -145,7 +153,7 @@ export default function LoginPage() {
           <div className="flex flex-col items-center py-8">
             <div
               className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"
-              style={{ borderColor: "#EAEAEA", borderTopColor: "#343433" }}
+              style={{ borderColor: "rgba(0,0,0,0.06)", borderTopColor: "#1A1A1A" }}
             />
             <p className="mt-3 text-sm" style={{ color: "#848281" }}>
               {mode === "login" ? "登录中……" : "注册中……"}
@@ -157,7 +165,7 @@ export default function LoginPage() {
             <div>
               <label
                 className="mb-1.5 block text-sm font-medium"
-                style={{ color: "#343433" }}
+                style={{ color: "#1A1A1A" }}
               >
                 用户名
               </label>
@@ -167,11 +175,11 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="请输入用户名"
                 autoComplete="username"
-                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                className="w-full rounded-xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
                 style={{
-                  borderColor: "#EAEAEA",
+                  borderColor: "rgba(0,0,0,0.08)",
                   backgroundColor: "#FBFAF9",
-                  color: "#343433",
+                  color: "#1A1A1A",
                 }}
                 onKeyDown={handleSubmit}
               />
@@ -181,7 +189,7 @@ export default function LoginPage() {
             <div>
               <label
                 className="mb-1.5 block text-sm font-medium"
-                style={{ color: "#343433" }}
+                style={{ color: "#1A1A1A" }}
               >
                 密码
               </label>
@@ -191,11 +199,11 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="请输入密码"
                 autoComplete={mode === "login" ? "current-password" : "new-password"}
-                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                className="w-full rounded-xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
                 style={{
-                  borderColor: "#EAEAEA",
+                  borderColor: "rgba(0,0,0,0.08)",
                   backgroundColor: "#FBFAF9",
-                  color: "#343433",
+                  color: "#1A1A1A",
                 }}
                 onKeyDown={handleSubmit}
               />
@@ -206,7 +214,7 @@ export default function LoginPage() {
               <div>
                 <label
                   className="mb-1.5 block text-sm font-medium"
-                  style={{ color: "#343433" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   验证码
                 </label>
@@ -215,11 +223,11 @@ export default function LoginPage() {
                   value={captcha}
                   onChange={(e) => setCaptcha(e.target.value)}
                   placeholder="请输入注册验证码"
-                  className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                  className="w-full rounded-xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
                   style={{
-                    borderColor: "#EAEAEA",
+                    borderColor: "rgba(0,0,0,0.08)",
                     backgroundColor: "#FBFAF9",
-                    color: "#343433",
+                    color: "#1A1A1A",
                   }}
                   onKeyDown={handleSubmit}
                 />
@@ -232,8 +240,8 @@ export default function LoginPage() {
             {/* Submit button */}
             <button
               onClick={mode === "login" ? handleLogin : handleRegister}
-              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md"
-              style={{ backgroundColor: "#343433" }}
+              className="w-full rounded-full px-10 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5"
+              style={{ backgroundColor: "#1A1A1A", boxShadow: "var(--shadow-elevation-sm)" }}
             >
               {mode === "login" ? "登录" : "注册"}
             </button>

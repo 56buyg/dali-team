@@ -93,7 +93,7 @@ export default function DualImageEditPage() {
               value={imageUrl1}
               onChange={(e) => setImageUrl1(e.target.value)}
               placeholder="https://example.com/image1.png"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl1 && (
@@ -114,7 +114,7 @@ export default function DualImageEditPage() {
               value={imageUrl2}
               onChange={(e) => setImageUrl2(e.target.value)}
               placeholder="https://example.com/image2.png"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl2 && (
@@ -135,7 +135,7 @@ export default function DualImageEditPage() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="如：将图2的人物合成到图1的背景中..."
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
           </div>
