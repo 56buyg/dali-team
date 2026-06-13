@@ -4,15 +4,12 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#FBFAF9" }}>
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4">
-        {/* ── Geometric background decorations (8 shapes, varied, bright) ── */}
-        <div className="decor-shape decor-shape-xl decor-circle decor-blue decor-d1" style={{ top: "-6%", right: "-4%" }} />
-        <div className="decor-shape decor-shape-lg decor-rounded decor-purple decor-d2" style={{ bottom: "8%", left: "-3%" }} />
-        <div className="decor-shape decor-shape-md decor-circle decor-gold decor-d3" style={{ top: "35%", left: "3%" }} />
-        <div className="decor-shape decor-shape-sm decor-capsule decor-green decor-d4" style={{ top: "15%", right: "8%" }} />
-        <div className="decor-shape decor-shape-md decor-triangle decor-orange decor-d5" style={{ bottom: "30%", right: "12%" }} />
-        <div className="decor-shape decor-dot decor-purple decor-d6" style={{ top: "12%", right: "30%" }} />
-        <div className="decor-shape decor-dot decor-gold decor-d7" style={{ top: "50%", left: "15%" }} />
-        <div className="decor-shape decor-shape-sm decor-circle decor-pink decor-d8" style={{ bottom: "5%", right: "25%" }} />
+        {/* ── 5 large geometric shapes, evenly distributed ── */}
+        <div className="decor-shape decor-shape-2xl decor-circle decor-blue decor-d1" style={{ top: "-10%", left: "-8%" }} />
+        <div className="decor-shape decor-shape-xl decor-rounded decor-purple decor-d2" style={{ top: "-5%", right: "-6%" }} />
+        <div className="decor-shape decor-shape-xl decor-circle decor-green decor-d3" style={{ bottom: "-8%", left: "-5%" }} />
+        <div className="decor-shape decor-shape-2xl decor-rounded decor-orange decor-d4" style={{ bottom: "-10%", right: "-8%" }} />
+        <div className="decor-shape decor-shape-lg decor-triangle decor-gold decor-d5" style={{ top: "40%", left: "50%", transform: "translate(-50%, -50%)" }} />
 
         <div className="flex w-full max-w-6xl flex-col items-center gap-10 py-16 lg:flex-row lg:gap-16 lg:py-24">
           {/* Left: Text + CTA */}
@@ -47,15 +44,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: Geometric cluster replacing hero illustration */}
-          <div className="relative flex-shrink-0 h-[320px] w-[320px] sm:h-[480px] sm:w-[480px] lg:h-[560px] lg:w-[560px] animate-float">
-            <div className="decor-shape decor-shape-xl decor-circle decor-blue" style={{ top: "10%", left: "5%" }} />
-            <div className="decor-shape decor-shape-lg decor-capsule decor-purple" style={{ top: "5%", right: "10%", animationDelay: "0.1s" }} />
-            <div className="decor-shape decor-shape-md decor-triangle decor-orange" style={{ bottom: "15%", left: "20%", animationDelay: "0.15s" }} />
-            <div className="decor-shape decor-shape-lg decor-rounded decor-green" style={{ bottom: "10%", right: "5%", animationDelay: "0.2s" }} />
-            <div className="decor-shape decor-shape-sm decor-circle decor-gold" style={{ top: "45%", left: "40%", animationDelay: "0.25s" }} />
-            <div className="decor-shape decor-shape-md decor-circle decor-pink" style={{ top: "30%", left: "50%", animationDelay: "0.3s" }} />
-          </div>
         </div>
       </main>
 

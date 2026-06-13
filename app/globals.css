@@ -221,8 +221,9 @@ a {
 /* Size variants */
 .decor-shape-sm  { width: 40px;  height: 40px;  }
 .decor-shape-md  { width: 80px;  height: 80px;  }
-.decor-shape-lg  { width: 120px; height: 120px; }
-.decor-shape-xl  { width: 180px; height: 180px; }
+.decor-shape-lg  { width: 140px; height: 140px; }
+.decor-shape-xl  { width: 220px; height: 220px; }
+.decor-shape-2xl { width: 320px; height: 320px; }
 
 /* Shape variants */
 .decor-circle   { border-radius: 50%; }
