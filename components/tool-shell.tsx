@@ -1,13 +1,18 @@
 "use client";
 
 export default function ToolShell({ children }: { children: React.ReactNode }) {
-  return <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">{children}</div>;
+  return <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">{children}</div>;
 }
 
 export function ToolInput({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-5 rounded-2xl border bg-white p-6" style={{ borderColor: "#EAEAEA" }}>
-      <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "#848281" }}>{title ?? "输入参数"}</h3>
+    <div
+      className="space-y-5 rounded-2xl border bg-white p-6"
+      style={{ borderColor: "rgba(0,0,0,0.06)", boxShadow: "var(--shadow-elevation-sm)" }}
+    >
+      <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "#848281" }}>
+        {title ?? "输入参数"}
+      </h3>
       {children}
     </div>
   );
@@ -15,13 +20,18 @@ export function ToolInput({ title, children }: { title?: string; children: React
 
 export function ToolResult({ loading, error, files }: { loading?: boolean; error?: string; files?: string[] }) {
   return (
-    <div className="space-y-5 rounded-2xl border bg-white p-6" style={{ borderColor: "#EAEAEA" }}>
-      <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "#848281" }}>生成结果</h3>
+    <div
+      className="space-y-5 rounded-2xl border bg-white p-6"
+      style={{ borderColor: "rgba(0,0,0,0.06)", boxShadow: "var(--shadow-elevation-sm)" }}
+    >
+      <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "#848281" }}>
+        生成结果
+      </h3>
 
       {loading && (
         <div className="flex flex-col items-center py-12">
           <img src="/illustrations/empty-loading.svg" alt="" className="mb-4 w-full max-w-[200px] animate-fade-in" aria-hidden="true" />
-          <p className="text-sm font-medium" style={{ color: "#343433" }}>AI 正在为你生成……</p>
+          <p className="text-sm font-medium" style={{ color: "#1A1A1A" }}>AI 正在为你生成……</p>
           <p className="mt-1 text-xs" style={{ color: "#848281" }}>通常需要 10-30 秒，请稍候</p>
         </div>
       )}
@@ -45,12 +55,12 @@ export function ToolResult({ loading, error, files }: { loading?: boolean; error
           </div>
           <div className="grid grid-cols-1 gap-4">
             {files.map((url, i) => (
-              <img key={i} src={url} alt={`生成结果 ${i + 1}`} className="w-full rounded-2xl border" style={{ borderColor: "#EAEAEA" }} />
+              <img key={i} src={url} alt={`生成结果 ${i + 1}`} className="w-full rounded-2xl border" style={{ borderColor: "rgba(0,0,0,0.06)" }} />
             ))}
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {files.map((url, i) => (
-              <a key={i} href={url} download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-xl border px-4 py-2 text-xs font-medium transition-colors hover:bg-gray-50" style={{ borderColor: "#EAEAEA", color: "#494440" }}>下载</a>
+              <a key={i} href={url} download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-full border px-4 py-2 text-xs font-medium transition-all hover:bg-gray-50 hover:-translate-y-0.5" style={{ borderColor: "rgba(0,0,0,0.1)", color: "#494440" }}>下载</a>
             ))}
           </div>
         </div>

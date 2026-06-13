@@ -37,23 +37,20 @@ export default function Header() {
   const initial = username?.charAt(0)?.toUpperCase() ?? "U";
 
   return (
-    <header
-      className="flex h-14 items-center justify-between border-b bg-white px-6"
-      style={{ borderColor: "#EAEAEA" }}
-    >
+    <header className="glass-header sticky top-0 z-30 flex h-14 items-center justify-between px-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-1 text-sm">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.href} className="flex items-center gap-1">
             {i > 0 && <span style={{ color: "#EAEAEA" }}>/</span>}
             {i === breadcrumbs.length - 1 ? (
-              <span className="font-medium" style={{ color: "#343433" }}>
+              <span className="font-semibold" style={{ color: "#1A1A1A" }}>
                 {crumb.label}
               </span>
             ) : (
               <Link
                 href={crumb.href}
-                className="transition-colors hover:text-[#343433]"
+                className="transition-colors hover:text-[#1A1A1A]"
                 style={{ color: "#848281" }}
               >
                 {crumb.label}
@@ -72,8 +69,8 @@ export default function Header() {
         )}
         <button
           onClick={handleLogout}
-          className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-opacity hover:opacity-80"
-          style={{ backgroundColor: "#343433" }}
+          className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-all hover:opacity-80 hover:scale-105"
+          style={{ backgroundColor: "#1A1A1A" }}
           title="退出登录"
         >
           {initial}

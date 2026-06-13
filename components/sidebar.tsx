@@ -41,21 +41,21 @@ export default function Sidebar() {
       className={`flex flex-col border-r transition-all duration-300 ${
         collapsed ? "w-16" : "w-60"
       }`}
-      style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF" }}
+      style={{ borderColor: "rgba(0,0,0,0.06)", backgroundColor: "#FFFFFF" }}
     >
       {/* ── Brand ── */}
       <div
         className="flex h-14 items-center gap-3 border-b px-4"
-        style={{ borderColor: "#f2f0ed" }}
+        style={{ borderColor: "rgba(0,0,0,0.04)" }}
       >
         <div
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-white"
-          style={{ backgroundColor: "#343433" }}
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
+          style={{ backgroundColor: "#1A1A1A" }}
         >
           D
         </div>
         {!collapsed && (
-          <span className="text-base font-semibold" style={{ color: "#343433" }}>
+          <span className="text-base font-bold tracking-tight" style={{ color: "#1A1A1A", fontFamily: "var(--font-heading)" }}>
             DALI
           </span>
         )}
@@ -104,7 +104,7 @@ export default function Sidebar() {
       {/* ── User ── */}
       <div
         className="border-t p-3"
-        style={{ borderColor: "#f2f0ed" }}
+        style={{ borderColor: "rgba(0,0,0,0.04)" }}
       >
         {collapsed ? (
           <div
@@ -122,7 +122,7 @@ export default function Sidebar() {
               {initial}
             </div>
             <div className="flex-1 text-sm leading-tight">
-              <p className="font-medium" style={{ color: "#343433" }}>{displayName}</p>
+              <p className="font-medium" style={{ color: "#1A1A1A" }}>{displayName}</p>
               <p className="text-xs" style={{ color: "#848281" }}>设计部</p>
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function Sidebar() {
       <button
         onClick={() => setCollapsed(!collapsed)}
         className="flex h-8 items-center justify-center border-t text-xs transition-colors hover:bg-gray-50"
-        style={{ borderColor: "#f2f0ed", color: "#848281" }}
+        style={{ borderColor: "rgba(0,0,0,0.04)", color: "#848281" }}
       >
         {collapsed ? "→" : "←"}
       </button>
@@ -157,12 +157,12 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all ${
+      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all duration-200 ${
         collapsed ? "justify-center" : ""
       }`}
       style={
         active
-          ? { backgroundColor: "#f2f0ed", color: "#343433", fontWeight: 600 }
+          ? { backgroundColor: "#f2f0ed", color: "#1A1A1A", fontWeight: 600 }
           : { color: "#494440" }
       }
       title={collapsed ? label : undefined}

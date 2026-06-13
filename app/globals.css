@@ -1,40 +1,99 @@
 @import "tailwindcss";
 
+/* ══════════════════════════════════════════════
+   DALI Design System v2 — SuperHi-inspired tokens
+   ══════════════════════════════════════════════ */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
-  --font-mono: 'SF Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', Menlo, Courier, monospace;
+  --font-heading: var(--font-geist-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: var(--font-geist-mono), 'SF Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', Menlo, Courier, monospace;
 
-  /* ── Warm Design System (inspired by family.co) ── */
-  --color-warm-heading: #343433;
+  /* ── 4px-base Spacing System ── */
+  --spacing-4: 0.25rem;
+  --spacing-8: 0.5rem;
+  --spacing-16: 1rem;
+  --spacing-24: 1.5rem;
+  --spacing-32: 2rem;
+  --spacing-40: 2.5rem;
+  --spacing-48: 3rem;
+  --spacing-64: 4rem;
+  --spacing-80: 5rem;
+
+  /* ── Border Radius System ── */
+  --radius-xs: 4px;
+  --radius-s: 8px;
+  --radius-m: 16px;
+  --radius-l: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* ── Warm Neutral Palette (DALI brand base) ── */
+  --color-warm-heading: #1A1A1A;
   --color-warm-body: #494440;
   --color-warm-muted: #848281;
   --color-warm-beige: #FBFAF9;
   --color-warm-beige-dark: #EAEAEA;
   --color-warm-gray-light: #f2f0ed;
 
-  /* Vibrant Accents */
-  --color-accent-orange: #FF5310;
+  /* ── DALI 5-Color Accent System (3-step: light / default / dark) ── */
+  /* Blue */
+  --color-accent-blue-light: #EEF5FF;
   --color-accent-blue: #018DFF;
+  --color-accent-blue-dark: #0066CC;
+  /* Green */
+  --color-accent-green-light: #EEFAF3;
   --color-accent-green: #44C67F;
+  --color-accent-green-dark: #2EA85F;
+  /* Purple */
+  --color-accent-purple-light: #F3F2FF;
   --color-accent-purple: #5F5DE7;
+  --color-accent-purple-dark: #4543C7;
+  /* Gold */
+  --color-accent-gold-light: #FFF8ED;
   --color-accent-gold: #F5B442;
+  --color-accent-gold-dark: #D49520;
+  /* Orange */
+  --color-accent-orange-light: #FFF5F0;
+  --color-accent-orange: #FF5310;
+  --color-accent-orange-dark: #CC4400;
+  /* Pink */
+  --color-accent-pink-light: #FFF0F5;
   --color-accent-pink: #F966AC;
+  --color-accent-pink-dark: #D94488;
 
-  /* Brand Orange (Shokz — kept as accent) */
+  /* ── Brand Orange (Shokz) ── */
   --color-brand-orange: #FF6A00;
   --color-brand-orange-light: #FF8F33;
   --color-brand-orange-dark: #CC5500;
 
-  /* Selection */
+  /* ── Selection ── */
   --color-selection-bg: #D8ECFC;
   --color-selection-text: #008cff;
 
-  /* Illustration animations */
-  --animate-fade-in: fadeIn 0.6s ease-out both;
-  --animate-spring-in: springIn 0.5s ease-out both;
+  /* ── Blue-Tinted Elevation (SuperHi-inspired) ── */
+  --shadow-elevation-sm: 0 0.2rem 0.25rem rgba(0, 102, 204, 0.07);
+  --shadow-elevation-md: 0 0.2rem 0.25rem rgba(0, 102, 204, 0.13);
+  --shadow-glass: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.06);
+
+  /* ── Easing Curves ── */
+  --ease-fade: cubic-bezier(0.37, 0, 0.63, 1);
+  --ease-movement: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Timing ── */
+  --timing-fade: 200ms;
+  --timing-movement: 400ms;
+
+  /* ── Animation Keyframe Bindings ── */
+  --animate-fade-in: fadeIn 0.4s var(--ease-movement) both;
+  --animate-slide-up: slideUp 0.4s var(--ease-movement) both;
+  --animate-spring-in: springIn 0.5s var(--ease-movement) both;
   --animate-float: float 6s ease-in-out infinite;
+  --animate-decor-1: decorFloat1 8s ease-in-out infinite;
+  --animate-decor-2: decorFloat2 10s ease-in-out infinite;
+  --animate-decor-3: decorFloat3 7s ease-in-out infinite;
 }
 
 :root {
@@ -42,7 +101,10 @@
   --foreground: #494440;
 }
 
-/* ── Base Styles ── */
+/* ══════════════════════════════════════════════
+   Base Styles
+   ══════════════════════════════════════════════ */
+
 html {
   background: var(--background);
   color: var(--foreground);
@@ -71,11 +133,13 @@ body {
 
 /* ── Typography ── */
 h1, h2, h3, h4, h5, h6 {
-  color: #343433;
+  color: #1A1A1A;
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+  letter-spacing: -0.01em;
 }
 
 a {
-  transition: all 0.2s ease-out;
+  transition: all var(--timing-fade) var(--ease-fade);
 }
 
 /* ── Scrollbar ── */
@@ -97,34 +161,172 @@ a {
   background: rgba(0, 0, 0, 0.25);
 }
 
-/* ── Illustration Animations ── */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes springIn {
-  0% { opacity: 0; transform: scale(0.6); }
-  60% { opacity: 1; transform: scale(1.1); }
-  100% { opacity: 1; transform: scale(1); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+/* ══════════════════════════════════════════════
+   Keyframes
+   ══════════════════════════════════════════════ */
+
+/* tIn — slide up + fade in (matching SuperHi) */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Semi Design Brand Color Override ── */
+/* slideUp variants — target semi-transparent final opacity (decorative shapes) */
+@keyframes slideUp40 {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 0.4; transform: translateY(0); }
+}
+@keyframes slideUp30 {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 0.3; transform: translateY(0); }
+}
+@keyframes slideUp25 {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 0.25; transform: translateY(0); }
+}
+
+/* Decor faded opacity classes (use with .decor-shape, replaces inline opacity) */
+.decor-faded-40 { animation-name: slideUp40; }
+.decor-faded-30 { animation-name: slideUp30; }
+.decor-faded-25 { animation-name: slideUp25; }
+
+/* fadeIn — kept from original, tweaked timing */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* springIn — bounce scale */
+@keyframes springIn {
+  0%   { opacity: 0; transform: scale(0.6); }
+  60%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* float — gentle bob */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Decorative shape float animations ── */
+@keyframes decorFloat1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%      { transform: translate(8px, -12px) rotate(3deg); }
+  66%      { transform: translate(-4px, 6px) rotate(-2deg); }
+}
+@keyframes decorFloat2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(-10px, -8px) rotate(-4deg); }
+}
+@keyframes decorFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(6px, -14px) scale(1.05); }
+}
+
+/* ══════════════════════════════════════════════
+   Geometric Decoration (pure CSS shapes)
+   ══════════════════════════════════════════════ */
+
+.decor-shape {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: slideUp 0.4s var(--ease-movement) both;
+}
+
+/* Size variants */
+.decor-shape-sm  { width: 40px;  height: 40px;  }
+.decor-shape-md  { width: 80px;  height: 80px;  }
+.decor-shape-lg  { width: 120px; height: 120px; }
+.decor-shape-xl  { width: 180px; height: 180px; }
+
+/* Shape variants */
+.decor-circle   { border-radius: 50%; }
+.decor-rounded  { border-radius: var(--radius-l); }
+.decor-dot      { border-radius: 50%; width: 12px; height: 12px; }
+
+/* Color variants */
+.decor-blue    { background: var(--color-accent-blue-light); }
+.decor-green   { background: var(--color-accent-green-light); }
+.decor-purple  { background: var(--color-accent-purple-light); }
+.decor-gold    { background: var(--color-accent-gold-light); }
+.decor-orange  { background: var(--color-accent-orange-light); }
+.decor-pink    { background: var(--color-accent-pink-light); }
+
+/* Stagger delays */
+.decor-d1 { animation-delay: 0.1s; }
+.decor-d2 { animation-delay: 0.2s; }
+.decor-d3 { animation-delay: 0.3s; }
+.decor-d4 { animation-delay: 0.4s; }
+.decor-d5 { animation-delay: 0.5s; }
+.decor-d6 { animation-delay: 0.6s; }
+
+/* ══════════════════════════════════════════════
+   Card Stagger Animation
+   ══════════════════════════════════════════════ */
+
+.card-stagger > * {
+  opacity: 0;
+  animation: slideUp 0.4s var(--ease-movement) both;
+}
+.card-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.card-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.card-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.card-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.card-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.card-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.card-stagger > *:nth-child(7) { animation-delay: 0.35s; }
+.card-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+.card-stagger > *:nth-child(9) { animation-delay: 0.45s; }
+
+/* ══════════════════════════════════════════════
+   Glass Header
+   ══════════════════════════════════════════════ */
+
+.glass-header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ══════════════════════════════════════════════
+   Dashboard Card Color Alternation
+   ══════════════════════════════════════════════ */
+
+.dashboard-card {
+  border: 1px solid transparent;
+  transition: transform 0.3s var(--ease-movement), box-shadow 0.2s var(--ease-fade);
+}
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-elevation-md);
+}
+/* Color rotation — each card gets its own accent light bg on hover */
+.dashboard-card.card-blue:hover   { border-color: var(--color-accent-blue-light); }
+.dashboard-card.card-purple:hover { border-color: var(--color-accent-purple-light); }
+.dashboard-card.card-gold:hover   { border-color: var(--color-accent-gold-light); }
+.dashboard-card.card-green:hover  { border-color: var(--color-accent-green-light); }
+.dashboard-card.card-orange:hover { border-color: var(--color-accent-orange-light); }
+
+/* ══════════════════════════════════════════════
+   Semi Design Brand Color Override (v2)
+   ══════════════════════════════════════════════ */
+
 :root {
-  --semi-color-primary: #343433;
-  --semi-color-primary-hover: #494440;
-  --semi-color-primary-active: #1A1A1A;
-  --semi-color-primary-light-default: rgba(52, 52, 51, 0.06);
-  --semi-color-primary-light-hover: rgba(52, 52, 51, 0.10);
-  --semi-color-primary-light-active: rgba(52, 52, 51, 0.14);
-  --semi-color-focus-border: #343433;
+  --semi-color-primary: #1A1A1A;
+  --semi-color-primary-hover: #333333;
+  --semi-color-primary-active: #000000;
+  --semi-color-primary-light-default: rgba(26, 26, 26, 0.06);
+  --semi-color-primary-light-hover: rgba(26, 26, 26, 0.10);
+  --semi-color-primary-light-active: rgba(26, 26, 26, 0.14);
+  --semi-color-focus-border: #1A1A1A;
   --semi-color-bg-0: #FFFFFF;
   --semi-color-bg-1: #FBFAF9;
   --semi-color-bg-2: #f2f0ed;
-  --semi-color-text-0: #343433;
+  --semi-color-text-0: #1A1A1A;
   --semi-color-text-1: #494440;
   --semi-color-text-2: #848281;
   --semi-color-border: #EAEAEA;
