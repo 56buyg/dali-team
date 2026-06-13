@@ -235,6 +235,7 @@ a {
 .decor-star     { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .decor-bubble   { border-radius: 60% 60% 60% 60% / 55% 55% 55% 55%; width: 200px; height: 160px; }
 .decor-hexagon  { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+.decor-octagon  { clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); }
 .decor-dot      { border-radius: 50%; width: 12px; height: 12px; }
 
 /* Color variants — bright DALI 5-color default tier */

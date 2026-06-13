@@ -6,15 +6,15 @@ export default function HomePage() {
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4">
         {/* ── 3XL anchors + XL/2XL companions ── */}
         <div className="decor-shape decor-shape-3xl decor-star decor-gold decor-d1" style={{ top: "-12%", left: "-10%" }} />
-        <div className="decor-shape decor-shape-md decor-star decor-orange decor-d5" style={{ top: "-8%", left: "5%" }} />
+        <div className="decor-shape decor-shape-md decor-star decor-orange decor-d5" style={{ top: "-8%", left: "8%" }} />
         <div className="decor-shape decor-shape-3xl decor-hexagon decor-purple decor-d2" style={{ top: "-10%", right: "-10%" }} />
         <div className="decor-shape decor-shape-xl decor-circle decor-pink decor-d10" style={{ top: "-8%", right: "20%" }} />
         <div className="decor-shape decor-shape-3xl decor-circle decor-orange decor-d3" style={{ bottom: "-12%", right: "-12%" }} />
-        <div className="decor-shape decor-shape-2xl decor-circle decor-green decor-d4" style={{ bottom: "-12%", left: "-10%" }} />
+        <div className="decor-shape decor-shape-2xl decor-octagon decor-green decor-d4" style={{ bottom: "-12%", left: "-10%" }} />
         {/* Bottom-right companions */}
         <div className="decor-shape decor-shape-lg decor-heart decor-pink decor-d6" style={{ bottom: "5%", right: "25%" }} />
         {/* Bottom-left companion */}
-        <div className="decor-shape decor-shape-sm decor-circle decor-orange decor-d7" style={{ bottom: "8%", left: "12%" }} />
+        <div className="decor-shape decor-shape-lg decor-circle decor-orange decor-d7" style={{ bottom: "3%", left: "10%" }} />
         {/* Right side near text: chat bubble */}
         <div className="decor-shape decor-shape-sm decor-circle decor-green decor-d9" style={{ top: "55%", right: "20%" }} />
 
