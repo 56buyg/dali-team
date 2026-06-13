@@ -14,7 +14,7 @@ export default function HomePage() {
         {/* Bottom-right companions */}
         <div className="decor-shape decor-shape-lg decor-heart decor-pink decor-d6" style={{ bottom: "5%", right: "25%" }} />
         {/* Bottom-left companion */}
-        <div className="decor-shape decor-shape-lg decor-circle decor-orange decor-d7" style={{ bottom: "10%", left: "21%" }} />
+        <div className="decor-shape decor-shape-lg decor-circle decor-orange decor-d7" style={{ bottom: "13%", left: "24%" }} />
         {/* Right side near text: chat bubble */}
         <div className="decor-shape decor-shape-sm decor-circle decor-green decor-d9" style={{ top: "55%", right: "20%" }} />
 
