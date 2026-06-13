@@ -224,6 +224,7 @@ a {
 .decor-shape-lg  { width: 140px; height: 140px; }
 .decor-shape-xl  { width: 220px; height: 220px; }
 .decor-shape-2xl { width: 320px; height: 320px; }
+.decor-shape-3xl { width: 440px; height: 440px; }
 
 /* Shape variants */
 .decor-circle   { border-radius: 50%; }
