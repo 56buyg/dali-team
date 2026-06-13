@@ -4,18 +4,12 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#FBFAF9" }}>
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4">
-        {/* ── 11 geometric shapes, mixed sizes (3XL→SM), heart + star ── */}
-        <div className="decor-shape decor-shape-3xl decor-star decor-gold decor-d1" style={{ top: "-10%", left: "-8%" }} />
-        <div className="decor-shape decor-shape-2xl decor-rounded decor-purple decor-d2" style={{ top: "-8%", right: "-10%" }} />
-        <div className="decor-shape decor-shape-sm decor-circle decor-blue decor-d3" style={{ bottom: "4%", left: "4%" }} />
-        <div className="decor-shape decor-shape-2xl decor-circle decor-orange decor-d4" style={{ bottom: "-12%", right: "-12%" }} />
-        <div className="decor-shape decor-shape-lg decor-triangle decor-gold decor-d5" style={{ top: "35%", left: "55%" }} />
-        <div className="decor-shape decor-shape-sm decor-capsule decor-pink decor-d6" style={{ top: "50%", left: "12%" }} />
-        <div className="decor-shape decor-shape-xl decor-star decor-gold decor-d7" style={{ top: "12%", right: "16%" }} />
-        <div className="decor-shape decor-shape-xl decor-heart decor-pink decor-d8" style={{ top: "42%", right: "16%" }} />
-        <div className="decor-shape decor-shape-2xl decor-rounded decor-purple decor-d9" style={{ top: "44%", right: "22%" }} />
-        <div className="decor-shape decor-shape-sm decor-circle decor-green decor-d10" style={{ top: "60%", right: "12%" }} />
-        <div className="decor-shape decor-shape-md decor-capsule decor-purple decor-d11" style={{ top: "78%", right: "18%" }} />
+        {/* ── 5 large 3XL shapes, bold & impactful ── */}
+        <div className="decor-shape decor-shape-3xl decor-star decor-gold decor-d1" style={{ top: "-12%", left: "-10%" }} />
+        <div className="decor-shape decor-shape-3xl decor-rounded decor-purple decor-d2" style={{ top: "-10%", right: "-10%" }} />
+        <div className="decor-shape decor-shape-3xl decor-circle decor-orange decor-d3" style={{ bottom: "-12%", right: "-10%" }} />
+        <div className="decor-shape decor-shape-3xl decor-rounded decor-green decor-d4" style={{ bottom: "-12%", left: "-10%" }} />
+        <div className="decor-shape decor-shape-3xl decor-circle decor-blue decor-d5" style={{ top: "40%", left: "50%", transform: "translate(-50%, -50%)" }} />
 
         <div className="flex w-full max-w-6xl flex-col items-center gap-10 py-16 lg:flex-row lg:gap-16 lg:py-24">
           {/* Left: Text + CTA */}
