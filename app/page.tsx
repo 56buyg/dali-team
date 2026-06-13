@@ -19,8 +19,8 @@ export default function HomePage() {
 
         <div className="flex w-full max-w-6xl flex-col items-center gap-10 py-16 lg:flex-row lg:gap-16 lg:py-24">
           {/* Left: Text + CTA */}
-          <div className="flex-1 space-y-8 text-center lg:text-left">
-            <div className="flex items-center justify-center gap-2 lg:justify-start animate-slide-up">
+          <div className="flex-1 space-y-8 text-center">
+            <div className="flex items-center justify-center gap-2 animate-slide-up">
               {["#018DFF", "#44C67F", "#5F5DE7", "#FF5310", "#F5B442"].map((color, i) => (
                 <span key={i} className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
               ))}
@@ -34,12 +34,12 @@ export default function HomePage() {
               AI 加持，<br />灵感即刻呈现
             </h1>
 
-            <p className="mx-auto max-w-lg text-lg leading-relaxed lg:mx-0 animate-slide-up" style={{ color: "#848281", animationDelay: "0.2s" }}>
+            <p className="mx-auto max-w-lg text-lg leading-relaxed animate-slide-up" style={{ color: "#848281", animationDelay: "0.2s" }}>
               DALI 为韶音设计师量身打造——输入文字、上传草图，即可快速生成高质量视觉素材。
               从概念探索到成品输出，让 AI 替你跑完重复劳动。
             </p>
 
-            <div className="flex items-center justify-center pt-2 lg:justify-start animate-slide-up" style={{ animationDelay: "0.25s" }}>
+            <div className="flex items-center justify-center pt-2 animate-slide-up" style={{ animationDelay: "0.25s" }}>
               <Link
                 href="/auth/login"
                 className="inline-flex items-center gap-2 rounded-full px-10 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-0.5"
