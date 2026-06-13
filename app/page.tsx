@@ -32,7 +32,7 @@ export default function HomePage() {
             </p>
 
             <h1 className="text-5xl font-bold leading-tight tracking-tight sm:text-7xl animate-slide-up" style={{ color: "#1A1A1A", animationDelay: "0.15s" }}>
-              AI 加持，<br />灵感即刻呈现
+              AI 加持 <br />灵感即刻呈现
             </h1>
 
             <p className="mx-auto max-w-lg text-lg leading-relaxed animate-slide-up" style={{ color: "#848281", animationDelay: "0.2s" }}>
