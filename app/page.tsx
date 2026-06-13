@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#FBFAF9" }}>
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4">
-        {/* ── 8 geometric shapes, mixed sizes (3XL→SM), full contrast ── */}
+        {/* ── 11 geometric shapes, mixed sizes (3XL→SM), heart + star ── */}
         <div className="decor-shape decor-shape-3xl decor-circle decor-blue decor-d1" style={{ top: "-15%", left: "-12%" }} />
         <div className="decor-shape decor-shape-2xl decor-rounded decor-purple decor-d2" style={{ top: "-8%", right: "-10%" }} />
         <div className="decor-shape decor-shape-sm decor-circle decor-green decor-d3" style={{ bottom: "12%", left: "8%" }} />
@@ -13,6 +13,9 @@ export default function HomePage() {
         <div className="decor-shape decor-shape-sm decor-capsule decor-pink decor-d6" style={{ top: "50%", left: "12%" }} />
         <div className="decor-shape decor-shape-md decor-rounded decor-purple decor-d7" style={{ top: "30%", right: "14%" }} />
         <div className="decor-shape decor-shape-sm decor-circle decor-green decor-d8" style={{ top: "42%", right: "10%" }} />
+        <div className="decor-shape decor-shape-sm decor-heart decor-pink decor-d9" style={{ top: "25%", right: "22%" }} />
+        <div className="decor-shape decor-shape-md decor-star decor-gold decor-d10" style={{ top: "55%", right: "18%" }} />
+        <div className="decor-shape decor-shape-sm decor-capsule decor-purple decor-d11" style={{ top: "68%", right: "6%" }} />
 
         <div className="flex w-full max-w-6xl flex-col items-center gap-10 py-16 lg:flex-row lg:gap-16 lg:py-24">
           {/* Left: Text + CTA */}

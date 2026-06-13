@@ -231,6 +231,8 @@ a {
 .decor-rounded  { border-radius: var(--radius-l); }
 .decor-capsule  { border-radius: 9999px; }
 .decor-triangle { border-radius: 4px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+.decor-heart    { clip-path: polygon(50% 15%, 65% 0%, 82% 5%, 95% 18%, 100% 35%, 80% 60%, 50% 85%, 20% 60%, 0% 35%, 5% 18%, 18% 5%, 35% 0%); }
+.decor-star     { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .decor-dot      { border-radius: 50%; width: 12px; height: 12px; }
 
 /* Color variants — bright DALI 5-color default tier */
@@ -250,6 +252,9 @@ a {
 .decor-d6 { animation-delay: 0.30s; }
 .decor-d7 { animation-delay: 0.35s; }
 .decor-d8 { animation-delay: 0.40s; }
+.decor-d9 { animation-delay: 0.45s; }
+.decor-d10 { animation-delay: 0.50s; }
+.decor-d11 { animation-delay: 0.55s; }
 
 /* ══════════════════════════════════════════════
    Card Stagger Animation
