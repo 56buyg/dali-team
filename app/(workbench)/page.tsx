@@ -9,12 +9,12 @@ const TOOL_ICONS: Record<string, string> = {
   "ai-video": "🎬",
 };
 
-const TOOL_COLORS: Record<string, { color: string; bg: string; cardBg: string; accentClass: string }> = {
-  "text-to-image":    { color: "#018DFF", bg: "#EEF5FF", cardBg: "#F8FBFF", accentClass: "card-blue" },
-  "image-to-image":   { color: "#5F5DE7", bg: "#F3F2FF", cardBg: "#F9F8FF", accentClass: "card-purple" },
-  "dual-image-edit":  { color: "#F5B442", bg: "#FFF8ED", cardBg: "#FFFCF5", accentClass: "card-gold" },
-  "image-upscaler":   { color: "#44C67F", bg: "#EEFAF3", cardBg: "#F6FCF8", accentClass: "card-green" },
-  "ai-video":         { color: "#FF5310", bg: "#FFF5F0", cardBg: "#FFF9F7", accentClass: "card-orange" },
+const TOOL_COLORS: Record<string, { color: string; bg: string; accentClass: string }> = {
+  "text-to-image":    { color: "#fff", bg: "#018DFF", accentClass: "" },
+  "image-to-image":   { color: "#fff", bg: "#5F5DE7", accentClass: "" },
+  "dual-image-edit":  { color: "#1A1A1A", bg: "#F5B442", accentClass: "" },
+  "image-upscaler":   { color: "#fff", bg: "#44C67F", accentClass: "" },
+  "ai-video":         { color: "#fff", bg: "#FF5310", accentClass: "" },
 };
 
 export default function DashboardPage() {
@@ -23,12 +23,15 @@ export default function DashboardPage() {
 
   return (
     <div className="relative space-y-10">
-      {/* ── Geometric Decorations (background layer) ── */}
-      <div className="decor-shape decor-shape-lg decor-rounded decor-blue decor-d1" style={{ top: "-2%", right: "-3%" }} />
-      <div className="decor-shape decor-shape-md decor-circle decor-purple decor-d2" style={{ bottom: "15%", left: "-2%" }} />
-      <div className="decor-shape decor-shape-sm decor-rounded decor-gold decor-d3" style={{ top: "40%", right: "5%" }} />
-      <div className="decor-shape decor-dot decor-green" style={{ top: "25%", right: "15%" }} />
-      <div className="decor-shape decor-dot decor-orange" style={{ bottom: "30%", left: "10%" }} />
+      {/* ── Geometric Decorations (8 shapes, bright, varied) ── */}
+      <div className="decor-shape decor-shape-xl decor-circle decor-blue decor-d1" style={{ top: "-3%", right: "-3%" }} />
+      <div className="decor-shape decor-shape-lg decor-rounded decor-purple decor-d2" style={{ bottom: "10%", left: "-2%" }} />
+      <div className="decor-shape decor-shape-md decor-triangle decor-gold decor-d3" style={{ top: "30%", right: "6%" }} />
+      <div className="decor-shape decor-shape-sm decor-capsule decor-green decor-d4" style={{ top: "8%", right: "20%" }} />
+      <div className="decor-shape decor-shape-md decor-circle decor-orange decor-d5" style={{ bottom: "25%", right: "10%" }} />
+      <div className="decor-shape decor-dot decor-blue decor-d6" style={{ top: "20%", right: "15%" }} />
+      <div className="decor-shape decor-dot decor-purple decor-d7" style={{ bottom: "35%", left: "8%" }} />
+      <div className="decor-shape decor-shape-sm decor-circle decor-pink decor-d8" style={{ top: "55%", left: "5%" }} />
 
       {/* Welcome */}
       <div className="relative z-[1] animate-slide-up">
@@ -51,18 +54,18 @@ export default function DashboardPage() {
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 card-stagger">
             {tools.map((tool) => {
-              const c = TOOL_COLORS[tool.id] ?? { color: "#1A1A1A", bg: "#f2f0ed", cardBg: "#FFFFFF", accentClass: "" };
+              const c = TOOL_COLORS[tool.id] ?? { color: "#1A1A1A", bg: "#f2f0ed", accentClass: "" };
               return (
                 <Link
                   key={tool.id}
                   href={`/tools/${tool.id}`}
-                  className={`group dashboard-card rounded-2xl p-5 ${c.accentClass}`}
-                  style={{ borderColor: "rgba(0,0,0,0.06)", backgroundColor: c.cardBg }}
+                  className="group dashboard-card rounded-2xl p-5"
+                  style={{ borderColor: "rgba(0,0,0,0.06)", backgroundColor: "#FFFFFF" }}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className="flex h-11 w-11 items-center justify-center rounded-xl text-lg transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: c.bg }}
+                      style={{ backgroundColor: c.bg, color: c.color }}
                     >
                       {TOOL_ICONS[tool.id] ?? "🔧"}
                     </div>

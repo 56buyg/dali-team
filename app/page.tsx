@@ -1,38 +1,24 @@
 import Link from "next/link";
 
-const ACCENT_DOTS = ["#018DFF", "#44C67F", "#5F5DE7", "#FF5310", "#F5B442"];
-
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#FBFAF9" }}>
-      {/* Hero Section — absurd.design style, illustration-dense */}
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4">
-        {/* ── Geometric background decorations ── */}
-        <div className="decor-shape decor-shape-xl decor-circle decor-blue decor-d1 decor-faded-40" style={{ top: "-8%", right: "-5%" }} />
-        <div className="decor-shape decor-shape-lg decor-rounded decor-purple decor-d2 decor-faded-30" style={{ bottom: "10%", left: "-3%" }} />
-        <div className="decor-shape decor-shape-md decor-circle decor-gold decor-d3 decor-faded-25" style={{ top: "30%", left: "5%" }} />
-        <div className="decor-shape decor-dot decor-green" style={{ top: "20%", right: "25%" }} />
-        <div className="decor-shape decor-dot decor-orange" style={{ bottom: "25%", right: "15%" }} />
-
-        {/* Background: scattered hand-drawn decorations */}
-        <img
-          src="/illustrations/decor-dots.svg"
-          alt=""
-          className="pointer-events-none absolute left-4 top-8 w-24 animate-fade-in opacity-40 sm:left-12 sm:w-32"
-          aria-hidden="true"
-        />
-        <img
-          src="/illustrations/decor-dots.svg"
-          alt=""
-          className="pointer-events-none absolute bottom-16 right-4 w-20 rotate-45 animate-fade-in opacity-30 sm:right-12 sm:w-28"
-          aria-hidden="true"
-        />
+        {/* ── Geometric background decorations (8 shapes, varied, bright) ── */}
+        <div className="decor-shape decor-shape-xl decor-circle decor-blue decor-d1" style={{ top: "-6%", right: "-4%" }} />
+        <div className="decor-shape decor-shape-lg decor-rounded decor-purple decor-d2" style={{ bottom: "8%", left: "-3%" }} />
+        <div className="decor-shape decor-shape-md decor-circle decor-gold decor-d3" style={{ top: "35%", left: "3%" }} />
+        <div className="decor-shape decor-shape-sm decor-capsule decor-green decor-d4" style={{ top: "15%", right: "8%" }} />
+        <div className="decor-shape decor-shape-md decor-triangle decor-orange decor-d5" style={{ bottom: "30%", right: "12%" }} />
+        <div className="decor-shape decor-dot decor-purple decor-d6" style={{ top: "12%", right: "30%" }} />
+        <div className="decor-shape decor-dot decor-gold decor-d7" style={{ top: "50%", left: "15%" }} />
+        <div className="decor-shape decor-shape-sm decor-circle decor-pink decor-d8" style={{ bottom: "5%", right: "25%" }} />
 
         <div className="flex w-full max-w-6xl flex-col items-center gap-10 py-16 lg:flex-row lg:gap-16 lg:py-24">
           {/* Left: Text + CTA */}
           <div className="flex-1 space-y-8 text-center lg:text-left">
             <div className="flex items-center justify-center gap-2 lg:justify-start animate-slide-up">
-              {ACCENT_DOTS.map((color, i) => (
+              {["#018DFF", "#44C67F", "#5F5DE7", "#FF5310", "#F5B442"].map((color, i) => (
                 <span key={i} className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
               ))}
             </div>
@@ -61,14 +47,14 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: absurd.design hand-drawn surreal hero illustration */}
-          <div className="flex-shrink-0">
-            <img
-              src="/illustrations/hero.svg"
-              alt=""
-              className="w-full max-w-[320px] animate-float sm:max-w-[480px] lg:max-w-[640px]"
-              aria-hidden="true"
-            />
+          {/* Right: Geometric cluster replacing hero illustration */}
+          <div className="relative flex-shrink-0 h-[320px] w-[320px] sm:h-[480px] sm:w-[480px] lg:h-[560px] lg:w-[560px] animate-float">
+            <div className="decor-shape decor-shape-xl decor-circle decor-blue" style={{ top: "10%", left: "5%" }} />
+            <div className="decor-shape decor-shape-lg decor-capsule decor-purple" style={{ top: "5%", right: "10%", animationDelay: "0.1s" }} />
+            <div className="decor-shape decor-shape-md decor-triangle decor-orange" style={{ bottom: "15%", left: "20%", animationDelay: "0.15s" }} />
+            <div className="decor-shape decor-shape-lg decor-rounded decor-green" style={{ bottom: "10%", right: "5%", animationDelay: "0.2s" }} />
+            <div className="decor-shape decor-shape-sm decor-circle decor-gold" style={{ top: "45%", left: "40%", animationDelay: "0.25s" }} />
+            <div className="decor-shape decor-shape-md decor-circle decor-pink" style={{ top: "30%", left: "50%", animationDelay: "0.3s" }} />
           </div>
         </div>
       </main>

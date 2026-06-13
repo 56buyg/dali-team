@@ -171,24 +171,6 @@ a {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* slideUp variants — target semi-transparent final opacity (decorative shapes) */
-@keyframes slideUp40 {
-  from { opacity: 0; transform: translateY(1rem); }
-  to   { opacity: 0.4; transform: translateY(0); }
-}
-@keyframes slideUp30 {
-  from { opacity: 0; transform: translateY(1rem); }
-  to   { opacity: 0.3; transform: translateY(0); }
-}
-@keyframes slideUp25 {
-  from { opacity: 0; transform: translateY(1rem); }
-  to   { opacity: 0.25; transform: translateY(0); }
-}
-
-/* Decor faded opacity classes (use with .decor-shape, replaces inline opacity) */
-.decor-faded-40 { animation-name: slideUp40; }
-.decor-faded-30 { animation-name: slideUp30; }
-.decor-faded-25 { animation-name: slideUp25; }
 
 /* fadeIn — kept from original, tweaked timing */
 @keyframes fadeIn {
@@ -245,23 +227,27 @@ a {
 /* Shape variants */
 .decor-circle   { border-radius: 50%; }
 .decor-rounded  { border-radius: var(--radius-l); }
+.decor-capsule  { border-radius: 9999px; }
+.decor-triangle { border-radius: 4px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
 .decor-dot      { border-radius: 50%; width: 12px; height: 12px; }
 
-/* Color variants */
-.decor-blue    { background: var(--color-accent-blue-light); }
-.decor-green   { background: var(--color-accent-green-light); }
-.decor-purple  { background: var(--color-accent-purple-light); }
-.decor-gold    { background: var(--color-accent-gold-light); }
-.decor-orange  { background: var(--color-accent-orange-light); }
-.decor-pink    { background: var(--color-accent-pink-light); }
+/* Color variants — bright DALI 5-color default tier */
+.decor-blue    { background: #018DFF; }
+.decor-green   { background: #44C67F; }
+.decor-orange  { background: #FF5310; }
+.decor-purple  { background: #5F5DE7; }
+.decor-gold    { background: #F5B442; }
+.decor-pink    { background: #F966AC; }
 
 /* Stagger delays */
-.decor-d1 { animation-delay: 0.1s; }
-.decor-d2 { animation-delay: 0.2s; }
-.decor-d3 { animation-delay: 0.3s; }
-.decor-d4 { animation-delay: 0.4s; }
-.decor-d5 { animation-delay: 0.5s; }
-.decor-d6 { animation-delay: 0.6s; }
+.decor-d1 { animation-delay: 0.05s; }
+.decor-d2 { animation-delay: 0.10s; }
+.decor-d3 { animation-delay: 0.15s; }
+.decor-d4 { animation-delay: 0.20s; }
+.decor-d5 { animation-delay: 0.25s; }
+.decor-d6 { animation-delay: 0.30s; }
+.decor-d7 { animation-delay: 0.35s; }
+.decor-d8 { animation-delay: 0.40s; }
 
 /* ══════════════════════════════════════════════
    Card Stagger Animation

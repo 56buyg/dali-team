@@ -2,14 +2,6 @@ import { notFound } from "next/navigation";
 import { getToolById } from "@/lib/tools/registry";
 import ToolClient from "./client";
 
-const TOOL_ACCENT: Record<string, string> = {
-  "text-to-image":   "decor-blue",
-  "image-to-image":  "decor-purple",
-  "dual-image-edit": "decor-gold",
-  "image-upscaler":  "decor-green",
-  "ai-video":        "decor-orange",
-};
-
 export default async function ToolPage({
   params,
 }: {
@@ -22,14 +14,17 @@ export default async function ToolPage({
     notFound();
   }
 
-  const accent = TOOL_ACCENT[toolId] ?? "decor-blue";
-
   return (
     <div className="relative space-y-4">
-      {/* ── Geometric Decorations ── */}
-      <div className={`decor-shape decor-shape-lg decor-rounded ${accent} decor-d1`} style={{ top: "-3%", right: "-2%" }} />
-      <div className="decor-shape decor-shape-sm decor-circle decor-d2" style={{ bottom: "20%", left: "-1%", background: "var(--color-accent-purple-light)" }} />
-      <div className="decor-shape decor-dot decor-d3" style={{ top: "30%", right: "8%", background: "var(--color-accent-gold)" }} />
+      {/* ── Geometric Decorations (8 shapes, varied, bright) ── */}
+      <div className="decor-shape decor-shape-lg decor-circle decor-blue decor-d1" style={{ top: "-3%", right: "-2%" }} />
+      <div className="decor-shape decor-shape-md decor-rounded decor-purple decor-d2" style={{ bottom: "15%", left: "-2%" }} />
+      <div className="decor-shape decor-shape-sm decor-triangle decor-orange decor-d3" style={{ top: "25%", right: "5%" }} />
+      <div className="decor-shape decor-shape-sm decor-capsule decor-green decor-d4" style={{ top: "8%", left: "5%" }} />
+      <div className="decor-shape decor-shape-md decor-circle decor-gold decor-d5" style={{ bottom: "30%", right: "15%" }} />
+      <div className="decor-shape decor-dot decor-blue decor-d6" style={{ top: "15%", right: "20%" }} />
+      <div className="decor-shape decor-dot decor-purple decor-d7" style={{ bottom: "10%", left: "10%" }} />
+      <div className="decor-shape decor-shape-sm decor-circle decor-pink decor-d8" style={{ top: "50%", left: "2%" }} />
 
       {/* Header */}
       <div className="relative z-[1] animate-slide-up">
