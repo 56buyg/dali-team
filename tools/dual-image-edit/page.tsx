@@ -93,14 +93,14 @@ export default function DualImageEditPage() {
               value={imageUrl1}
               onChange={(e) => setImageUrl1(e.target.value)}
               placeholder="https://example.com/image1.png"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl1 && (
               <img
                 src={imageUrl1}
                 alt="预览 1"
-                className="mt-2 w-full rounded-xl border max-h-40 object-contain"
+                className="mt-2 w-full rounded-2xl border max-h-40 object-contain"
                 style={{ borderColor: "#EAEAEA" }}
               />
             )}
@@ -114,14 +114,14 @@ export default function DualImageEditPage() {
               value={imageUrl2}
               onChange={(e) => setImageUrl2(e.target.value)}
               placeholder="https://example.com/image2.png"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl2 && (
               <img
                 src={imageUrl2}
                 alt="预览 2"
-                className="mt-2 w-full rounded-xl border max-h-40 object-contain"
+                className="mt-2 w-full rounded-2xl border max-h-40 object-contain"
                 style={{ borderColor: "#EAEAEA" }}
               />
             )}
@@ -135,7 +135,7 @@ export default function DualImageEditPage() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="如：将图2的人物合成到图1的背景中..."
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
           </div>
@@ -143,7 +143,7 @@ export default function DualImageEditPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
+            className="w-full rounded-full py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
             style={{ backgroundColor: "#343433" }}
           >
             {loading ? "AI 正在为你编辑……" : "开始编辑"}

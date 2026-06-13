@@ -45,7 +45,7 @@ export default function AIVideoPage() {
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="描述你想要的视频内容..."
             rows={3}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+            className="w-full rounded-2xl border border-gray-300 px-6 py-2.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
           />
         </div>
         <div>
@@ -55,7 +55,7 @@ export default function AIVideoPage() {
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             placeholder="https://example.com/frame.png"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+            className="w-full rounded-2xl border border-gray-300 px-6 py-2.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
           />
         </div>
         <div>
@@ -79,7 +79,7 @@ export default function AIVideoPage() {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full rounded-lg bg-[#FF6A00] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#CC5500] disabled:opacity-50"
+          className="w-full rounded-full bg-[#FF6A00] py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#CC5500] disabled:opacity-50"
         >
           {loading ? "生成中..." : "开始生成"}
         </button>

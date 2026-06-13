@@ -49,12 +49,12 @@ export default function DashboardPage() {
                 <Link
                   key={tool.id}
                   href={`/tools/${tool.id}`}
-                  className="group rounded-2xl border bg-white p-5 transition-all hover:-translate-y-1 hover:shadow-md"
+                  className="group rounded-3xl border bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-md"
                   style={{ borderColor: "#EAEAEA" }}
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className="flex h-11 w-11 items-center justify-center rounded-xl text-lg"
+                      className="flex h-11 w-11 items-center justify-center rounded-2xl text-lg"
                       style={{ backgroundColor: c.bg }}
                     >
                       {TOOL_ICONS[tool.id] ?? "🔧"}

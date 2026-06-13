@@ -109,12 +109,12 @@ export default function ImageToImagePage() {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://example.com/original.png"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl && (
               <div className="mt-2 space-y-2">
-                <img src={imageUrl} alt="预览" className="w-full rounded-xl border" style={{ borderColor: "#EAEAEA" }} />
+                <img src={imageUrl} alt="预览" className="w-full rounded-2xl border" style={{ borderColor: "#EAEAEA" }} />
                 <button
                   onClick={() => setImageUrl("")}
                   className="text-xs hover:underline"
@@ -135,7 +135,7 @@ export default function ImageToImagePage() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="例如：转换为赛博朋克风格、改为浅色背景、增强光影对比……"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             <p className="mt-1 text-xs" style={{ color: "#848281" }}>
@@ -165,7 +165,7 @@ export default function ImageToImagePage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
+            className="w-full rounded-full py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
             style={{ backgroundColor: "#343433" }}
           >
             {loading ? "AI 正在转绘……" : "开始转绘"}

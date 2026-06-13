@@ -49,7 +49,7 @@ export default function Sidebar() {
         style={{ borderColor: "#f2f0ed" }}
       >
         <div
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-white"
+          className="flex h-8 w-8 items-center justify-center rounded-xl text-sm font-bold text-white"
           style={{ backgroundColor: "#343433" }}
         >
           D
@@ -157,7 +157,7 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all ${
+      className={`flex items-center gap-3 rounded-2xl px-3 py-2 text-sm transition-all ${
         collapsed ? "justify-center" : ""
       }`}
       style={

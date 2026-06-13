@@ -6,7 +6,7 @@ export default function ToolShell({ children }: { children: React.ReactNode }) {
 
 export function ToolInput({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-5 rounded-2xl border bg-white p-6" style={{ borderColor: "#EAEAEA" }}>
+    <div className="space-y-5 rounded-3xl border bg-white p-8" style={{ borderColor: "#EAEAEA" }}>
       <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "#848281" }}>{title ?? "输入参数"}</h3>
       {children}
     </div>
@@ -15,7 +15,7 @@ export function ToolInput({ title, children }: { title?: string; children: React
 
 export function ToolResult({ loading, error, files }: { loading?: boolean; error?: string; files?: string[] }) {
   return (
-    <div className="space-y-5 rounded-2xl border bg-white p-6" style={{ borderColor: "#EAEAEA" }}>
+    <div className="space-y-5 rounded-3xl border bg-white p-8" style={{ borderColor: "#EAEAEA" }}>
       <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "#848281" }}>生成结果</h3>
 
       {loading && (
@@ -29,7 +29,7 @@ export function ToolResult({ loading, error, files }: { loading?: boolean; error
       {error && !loading && (
         <div className="flex flex-col items-center py-8">
           <img src="/illustrations/empty-error.svg" alt="" className="mb-4 w-full max-w-[200px] animate-fade-in" aria-hidden="true" />
-          <div className="rounded-xl p-4 text-sm w-full text-center" style={{ backgroundColor: "#FFF5F5", color: "#EF4444" }}>
+          <div className="rounded-2xl p-4 text-sm w-full text-center" style={{ backgroundColor: "#FFF5F5", color: "#EF4444" }}>
             <p className="font-medium mb-1">生成失败</p>
             <p>{error}</p>
           </div>
@@ -50,7 +50,7 @@ export function ToolResult({ loading, error, files }: { loading?: boolean; error
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {files.map((url, i) => (
-              <a key={i} href={url} download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-xl border px-4 py-2 text-xs font-medium transition-colors hover:bg-gray-50" style={{ borderColor: "#EAEAEA", color: "#494440" }}>下载</a>
+              <a key={i} href={url} download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-2xl border px-6 py-2 text-xs font-medium transition-colors hover:bg-gray-50" style={{ borderColor: "#EAEAEA", color: "#494440" }}>下载</a>
             ))}
           </div>
         </div>

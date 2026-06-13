@@ -92,7 +92,7 @@ export default function LoginPage() {
       style={{ backgroundColor: "#FBFAF9" }}
     >
       <div
-        className="w-full max-w-sm rounded-2xl border bg-white p-8"
+        className="w-full max-w-sm rounded-3xl border bg-white px-10 py-8"
         style={{ borderColor: "#EAEAEA" }}
       >
         {/* Brand */}
@@ -107,7 +107,7 @@ export default function LoginPage() {
             ))}
           </div>
           <div
-            className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold text-white"
+            className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl text-lg font-bold text-white"
             style={{ backgroundColor: "#343433" }}
           >
             D
@@ -123,7 +123,7 @@ export default function LoginPage() {
         {/* Error */}
         {error && (
           <div
-            className="mb-4 rounded-xl p-3 text-sm"
+            className="mb-4 rounded-2xl px-5 py-3 text-sm"
             style={{ backgroundColor: "#FFF5F5", color: "#EF4444" }}
           >
             {error}
@@ -133,7 +133,7 @@ export default function LoginPage() {
         {/* Success */}
         {success && (
           <div
-            className="mb-4 rounded-xl p-3 text-sm"
+            className="mb-4 rounded-2xl px-5 py-3 text-sm"
             style={{ backgroundColor: "#EEFAF3", color: "#44C67F" }}
           >
             {success}
@@ -167,7 +167,7 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="请输入用户名"
                 autoComplete="username"
-                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                className="w-full rounded-2xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
                 style={{
                   borderColor: "#EAEAEA",
                   backgroundColor: "#FBFAF9",
@@ -191,7 +191,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="请输入密码"
                 autoComplete={mode === "login" ? "current-password" : "new-password"}
-                className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                className="w-full rounded-2xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
                 style={{
                   borderColor: "#EAEAEA",
                   backgroundColor: "#FBFAF9",
@@ -215,7 +215,7 @@ export default function LoginPage() {
                   value={captcha}
                   onChange={(e) => setCaptcha(e.target.value)}
                   placeholder="请输入注册验证码"
-                  className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+                  className="w-full rounded-2xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
                   style={{
                     borderColor: "#EAEAEA",
                     backgroundColor: "#FBFAF9",
@@ -232,7 +232,7 @@ export default function LoginPage() {
             {/* Submit button */}
             <button
               onClick={mode === "login" ? handleLogin : handleRegister}
-              className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md"
+              className="w-full rounded-full py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md"
               style={{ backgroundColor: "#343433" }}
             >
               {mode === "login" ? "登录" : "注册"}

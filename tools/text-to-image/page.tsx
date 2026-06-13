@@ -105,7 +105,7 @@ export default function TextToImagePage() {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="描述你想要的画面……"
               rows={4}
-              className="w-full rounded-xl border px-4 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FBFAF9", color: "#343433" }}
             />
             <p className="mt-1.5 text-xs" style={{ color: "#848281" }}>
@@ -122,7 +122,7 @@ export default function TextToImagePage() {
               <button
                 key={i}
                 onClick={() => setPrompt(example)}
-                className="block w-full rounded-xl border px-3.5 py-2.5 text-left text-xs leading-relaxed transition-colors hover:border-[#343433]"
+                className="block w-full rounded-2xl border px-4 py-2.5 text-left text-xs leading-relaxed transition-colors hover:border-[#343433]"
                 style={{ borderColor: "#EAEAEA", color: "#848281", backgroundColor: "#FFFFFF" }}
               >
                 {example}
@@ -140,7 +140,7 @@ export default function TextToImagePage() {
               value={negativePrompt}
               onChange={(e) => setNegativePrompt(e.target.value)}
               placeholder="不希望出现的元素……"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
           </div>
@@ -152,7 +152,7 @@ export default function TextToImagePage() {
               <select
                 value={ratio}
                 onChange={(e) => setRatio(e.target.value)}
-                className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
+                className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
                 style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
               >
                 {RATIOS.map((r) => (
@@ -165,7 +165,7 @@ export default function TextToImagePage() {
               <select
                 value={style}
                 onChange={(e) => setStyle(e.target.value)}
-                className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
+                className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
                 style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
               >
                 {STYLES.map((s) => (
@@ -179,7 +179,7 @@ export default function TextToImagePage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
+            className="w-full rounded-full py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
             style={{ backgroundColor: "#343433" }}
           >
             {loading ? "AI 正在为你生成……" : "生成图片"}

@@ -75,12 +75,12 @@ export default function ImageUpscalerPage() {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://example.com/image.png"
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl && (
               <div className="mt-2 space-y-2">
-                <img src={imageUrl} alt="预览" className="w-full rounded-xl border" style={{ borderColor: "#EAEAEA" }} />
+                <img src={imageUrl} alt="预览" className="w-full rounded-2xl border" style={{ borderColor: "#EAEAEA" }} />
                 <button
                   onClick={() => setImageUrl("")}
                   className="text-xs hover:underline"
@@ -101,7 +101,7 @@ export default function ImageUpscalerPage() {
                 <button
                   key={s}
                   onClick={() => setScale(s)}
-                  className="flex-1 rounded-xl px-4 py-2.5 text-sm font-medium transition-all"
+                  className="flex-1 rounded-2xl px-6 py-2.5 text-sm font-medium transition-all"
                   style={
                     scale === s
                       ? { backgroundColor: "#343433", color: "#FFFFFF" }
@@ -121,7 +121,7 @@ export default function ImageUpscalerPage() {
             <select
               value={mode}
               onChange={(e) => setMode(e.target.value)}
-              className="w-full rounded-xl border px-4 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             >
               {MODES.map((m) => (
@@ -133,7 +133,7 @@ export default function ImageUpscalerPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
+            className="w-full rounded-full py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 disabled:hover:translate-y-0"
             style={{ backgroundColor: "#343433" }}
           >
             {loading ? "AI 正在放大……" : "开始放大"}

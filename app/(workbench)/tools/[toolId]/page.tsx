@@ -20,7 +20,7 @@ export default async function ToolPage({
         <h1 className="text-xl font-bold text-gray-900">{tool.name}</h1>
         <p className="text-sm text-gray-500">{tool.description}</p>
       </div>
-      <div className="rounded-xl border border-gray-200 bg-white p-6">
+      <div className="rounded-2xl border border-gray-200 bg-white p-8">
         <ToolClient toolId={toolId} />
       </div>
     </div>
