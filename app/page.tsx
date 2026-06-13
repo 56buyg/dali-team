@@ -6,7 +6,7 @@ export default function HomePage() {
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4">
         {/* ── 3XL anchors + XL/2XL companions ── */}
         <div className="decor-shape decor-shape-3xl decor-star decor-gold decor-d1" style={{ top: "-12%", left: "-10%" }} />
-        <div className="decor-shape decor-shape-lg decor-star decor-orange decor-d5" style={{ top: "16%", left: "0%" }} />
+        <div className="decor-shape decor-shape-lg decor-star decor-orange decor-d5" style={{ top: "16%", left: "14%" }} />
         <div className="decor-shape decor-shape-3xl decor-hexagon decor-purple decor-d2" style={{ top: "-10%", right: "-10%" }} />
         <div className="decor-shape decor-shape-xl decor-circle decor-pink decor-d10" style={{ top: "-8%", right: "20%" }} />
         <div className="decor-shape decor-shape-3xl decor-circle decor-orange decor-d3" style={{ bottom: "-12%", right: "-12%" }} />
