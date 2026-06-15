@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     const email = `${emailLocal}${EMAIL_SUFFIX}`;
     const supabase = await createClient();
 
-    // Check duplicate
     const { data: existing } = await supabase
       .from("profiles")
       .select("id")
@@ -39,10 +38,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "该用户名已被注册" }, { status: 409 });
     }
 
+    // Use admin client to bypass all email rate limits
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
     if (serviceKey) {
-      // Path A: admin client (bypasses rate limits, email confirm)
       const adminClient = createSupabaseClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey,
         { auth: { autoRefreshToken: false, persistSession: false } }
@@ -63,7 +61,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Path B: signUp (anon key) — profiles auto-created by DB trigger
+    // Fallback: signUp (may be rate-limited)
     const { data: d, error: e } = await supabase.auth.signUp({
       email, password,
       options: { data: { username: safeName } },
