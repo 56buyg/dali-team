@@ -28,7 +28,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const email = `${username.trim()}${EMAIL_SUFFIX}`;
+    const emailLocal = username.trim().replace(/[^a-zA-Z0-9._-]/g, "");
+    const email = `${emailLocal}${EMAIL_SUFFIX}`;
     const supabase = await createClient();
 
     const { data, error } = await supabase.auth.signInWithPassword({
