@@ -68,10 +68,10 @@ export default function ImageToImagePage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
-            风格转绘 · 以图生图
+            图生图
           </h1>
           <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
-            上传一张图片作为起点，AI 按你的描述重新演绎——保留结构，改变风格
+            上传一张图片，AI 按你的描述生成新图——保留结构，变换风格
           </p>
         </div>
         <img

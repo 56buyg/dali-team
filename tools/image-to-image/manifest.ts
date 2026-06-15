@@ -2,9 +2,9 @@ import type { ToolManifest } from "@/lib/tools/registry";
 
 const manifest: ToolManifest = {
   id: "image-to-image",
-  name: "风格转绘",
+  name: "图生图",
   icon: "swap",
-  description: "上传参考图或草图，AI 按你的意图重新渲染——保持结构，焕新风格",
+  description: "上传一张图片，AI 按你的描述生成新图——保留结构，变换风格",
   category: "design",
   enabled: true,
 };
