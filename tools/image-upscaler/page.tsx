@@ -39,8 +39,8 @@ export default function ImageUpscalerPage() {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+    <div className="space-y-10">
+      <div className="relative overflow-hidden rounded-2xl px-8 py-12" style={{ backgroundColor: "#FBFAF9" }}>
         {/* Decor: green + purple — precision, enhancement */}
         <div className="decor-shape decor-shape-xl decor-circle decor-green decor-d1" style={{ bottom: "-8%", right: "-6%", opacity: 0.16 }} />
         <div className="decor-shape decor-shape-md decor-hexagon decor-purple decor-d2" style={{ bottom: "12%", right: "14%", opacity: 0.22 }} />

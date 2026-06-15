@@ -63,9 +63,9 @@ export default function ImageToImagePage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+      <div className="relative overflow-hidden rounded-2xl px-8 py-12" style={{ backgroundColor: "#FBFAF9" }}>
         {/* Decor: orange + gold — transformation, warmth */}
         <div className="decor-shape decor-shape-xl decor-circle decor-orange decor-d1" style={{ bottom: "-8%", right: "-6%", opacity: 0.16 }} />
         <div className="decor-shape decor-shape-md decor-star decor-gold decor-d2" style={{ bottom: "12%", right: "14%", opacity: 0.24 }} />
