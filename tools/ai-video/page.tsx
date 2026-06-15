@@ -36,7 +36,22 @@ export default function AIVideoPage() {
   };
 
   return (
-    <ToolShell>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+        {/* Decor: gold + orange — dynamic, motion */}
+        <div className="decor-shape decor-shape-xl decor-circle decor-gold decor-d1" style={{ bottom: "-8%", right: "-6%", opacity: 0.16 }} />
+        <div className="decor-shape decor-shape-md decor-star decor-orange decor-d2" style={{ bottom: "12%", right: "14%", opacity: 0.22 }} />
+        <div className="decor-shape decor-shape-sm decor-hexagon decor-pink decor-d3" style={{ bottom: "24%", right: "2%", opacity: 0.12 }} />
+        <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
+          AI 视频 · 智能生成
+        </h1>
+        <p className="relative z-10 mt-1.5 text-sm" style={{ color: "#848281" }}>
+          通过文本描述或图片生成短视频，AI 为你快速输出动态内容
+        </p>
+      </div>
+
+      <ToolShell>
       <ToolInput>
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">文本描述</label>
@@ -86,5 +101,6 @@ export default function AIVideoPage() {
       </ToolInput>
       <ToolResult loading={loading} error={error} files={files} />
     </ToolShell>
+    </div>
   );
 }

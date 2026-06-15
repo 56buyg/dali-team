@@ -40,11 +40,15 @@ export default function ImageUpscalerPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
+      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+        {/* Decor: green + purple — precision, enhancement */}
+        <div className="decor-shape decor-shape-xl decor-circle decor-green decor-d1" style={{ bottom: "-8%", right: "-6%", opacity: 0.16 }} />
+        <div className="decor-shape decor-shape-md decor-hexagon decor-purple decor-d2" style={{ bottom: "12%", right: "14%", opacity: 0.22 }} />
+        <div className="decor-shape decor-shape-sm decor-star decor-blue decor-d3" style={{ bottom: "24%", right: "4%", opacity: 0.14 }} />
+        <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
           高清放大 · 超分辨率
         </h1>
-        <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
+        <p className="relative z-10 mt-1.5 text-sm" style={{ color: "#848281" }}>
           低分辨率素材一键提升至高清，细节增强，满足印刷和展示需求
         </p>
       </div>

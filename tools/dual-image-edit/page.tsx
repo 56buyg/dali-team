@@ -65,21 +65,17 @@ export default function DualImageEditPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
-            双图编辑 · AI 智能合成
-          </h1>
-          <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
-            上传两张图片，AI 智能融合——替换背景、合成元素、风格迁移，一次完成
-          </p>
-        </div>
-        <img
-          src="/illustrations/tool-dual-image-edit.svg"
-          alt=""
-          className="w-full max-w-[240px] animate-fade-in self-end sm:max-w-[300px] lg:max-w-[400px]"
-          aria-hidden="true"
-        />
+      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+        {/* Decor: blue + green — merging, harmony */}
+        <div className="decor-shape decor-shape-xl decor-circle decor-blue decor-d1" style={{ bottom: "-8%", right: "-6%", opacity: 0.15 }} />
+        <div className="decor-shape decor-shape-md decor-star decor-green decor-d2" style={{ bottom: "12%", right: "14%", opacity: 0.22 }} />
+        <div className="decor-shape decor-shape-sm decor-hexagon decor-purple decor-d3" style={{ bottom: "24%", right: "4%", opacity: 0.12 }} />
+        <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
+          双图编辑 · AI 智能合成
+        </h1>
+        <p className="relative z-10 mt-1.5 text-sm" style={{ color: "#848281" }}>
+          上传两张图片，AI 智能融合——替换背景、合成元素、风格迁移，一次完成
+        </p>
       </div>
 
       <ToolShell>
