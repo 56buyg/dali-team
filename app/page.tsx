@@ -1,4 +1,4 @@
-import Link from "next/link";
+import CtaButton from "@/components/cta-button";
 
 export default function HomePage() {
   return (
@@ -41,13 +41,7 @@ export default function HomePage() {
             </p>
 
             <div className="flex items-center justify-center pt-2 animate-slide-up" style={{ animationDelay: "0.25s" }}>
-              <Link
-                href="/auth/login"
-                className="inline-flex items-center gap-2 rounded-full px-10 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-0.5"
-                style={{ backgroundColor: "#1A1A1A", boxShadow: "var(--shadow-elevation-md)" }}
-              >
-                开始使用<span className="text-lg">→</span>
-              </Link>
+              <CtaButton />
             </div>
           </div>
 
