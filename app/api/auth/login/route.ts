@@ -29,9 +29,19 @@ export async function POST(request: NextRequest) {
           process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey,
           { auth: { autoRefreshToken: false, persistSession: false } }
         );
-        // Find the user by email
-        const { data: users } = await adminClient.auth.admin.listUsers();
-        const user = users?.users?.find((u: { email?: string }) => u.email === email);
+        // Find the user by email (paginate to handle large user bases)
+        const PER_PAGE = 50;
+        let page = 1;
+        let user: { id: string; email?: string } | undefined;
+        while (true) {
+          const { data: users } = await adminClient.auth.admin.listUsers({
+            page,
+            perPage: PER_PAGE,
+          });
+          user = users?.users?.find((u: { email?: string }) => u.email === email);
+          if (user || !users?.users?.length || users.users.length < PER_PAGE) break;
+          page++;
+        }
         if (user) {
           await adminClient.auth.admin.updateUserById(user.id, { email_confirm: true });
           // Retry login
