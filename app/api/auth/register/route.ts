@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
 const REGISTER_CAPTCHA = "Shokz Design-@123";
 const EMAIL_SUFFIX = "@shokz.com";
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
     const emailLocal = safeName.replace(/[^a-zA-Z0-9._-]/g, "");
 
     if (!emailLocal) {
-      return NextResponse.json({ error: "用户名无效，请使用字母、数字或 . _ -" }, { status: 400 });
+      return NextResponse.json({ error: "用户名无效" }, { status: 400 });
     }
 
     const email = `${emailLocal}${EMAIL_SUFFIX}`;
@@ -46,7 +47,7 @@ export async function POST(request: NextRequest) {
       });
 
     if (signUpError) {
-      if (signUpError.message?.includes("already") || signUpError.message?.includes("duplicate") || signUpError.message?.includes("exists")) {
+      if (signUpError.message?.includes("already") || signUpError.message?.includes("duplicate")) {
         return NextResponse.json({ error: "该用户名已被注册" }, { status: 409 });
       }
       return NextResponse.json({ error: signUpError.message }, { status: 400 });
@@ -56,17 +57,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "创建用户失败" }, { status: 500 });
     }
 
-    // Set session from signUp so RLS allows the profiles INSERT
+    // Use direct supabase client with user's token for profiles INSERT (bypasses SSR cookie issue)
+    let profileError = null;
     if (signUpData.session) {
-      await supabase.auth.setSession({
-        access_token: signUpData.session.access_token,
-        refresh_token: signUpData.session.refresh_token,
-      });
+      const authClient = createSupabaseClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        { global: { headers: { Authorization: `Bearer ${signUpData.session.access_token}` } } }
+      );
+      const { error } = await authClient
+        .from("profiles")
+        .insert({ id: signUpData.user.id, username: safeName });
+      profileError = error;
+    } else {
+      // No session from signUp — email confirmation likely enabled in Supabase
+      return NextResponse.json({
+        error: "邮箱确认未关闭，请在 Supabase Auth Settings 中禁用 Email Confirmations",
+      }, { status: 500 });
     }
-
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .insert({ id: signUpData.user.id, username: safeName });
 
     if (profileError) {
       return NextResponse.json({ error: profileError.message }, { status: 500 });
