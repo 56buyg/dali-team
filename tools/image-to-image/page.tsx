@@ -65,21 +65,17 @@ export default function ImageToImagePage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
-            风格转绘 · 以图生图
-          </h1>
-          <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
-            上传一张图片作为起点，AI 按你的描述重新演绎——保留结构，改变风格
-          </p>
-        </div>
-        <img
-          src="/illustrations/tool-image-to-image.svg"
-          alt=""
-          className="w-full max-w-[240px] animate-fade-in self-end sm:max-w-[300px] lg:max-w-[400px]"
-          aria-hidden="true"
-        />
+      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+        {/* Decor: orange + gold — transformation, warmth */}
+        <div className="decor-shape decor-shape-3xl decor-circle decor-orange decor-d1" style={{ top: "-35%", right: "-12%", opacity: 0.16 }} />
+        <div className="decor-shape decor-shape-xl decor-star decor-gold decor-d5" style={{ top: "8%", right: "18%", opacity: 0.22 }} />
+        <div className="decor-shape decor-shape-lg decor-hexagon decor-pink decor-d8" style={{ bottom: "-15%", left: "-3%", opacity: 0.1 }} />
+        <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
+          风格转绘 · 以图生图
+        </h1>
+        <p className="relative z-10 mt-1.5 text-sm" style={{ color: "#848281" }}>
+          上传一张图片作为起点，AI 按你的描述重新演绎——保留结构，改变风格
+        </p>
       </div>
 
       <ToolShell>
@@ -101,7 +97,7 @@ export default function ImageToImagePage() {
           )}
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+            <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>
               图片地址
             </label>
             <input
@@ -109,7 +105,7 @@ export default function ImageToImagePage() {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://example.com/original.png"
-              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl && (
@@ -127,7 +123,7 @@ export default function ImageToImagePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+            <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>
               想要什么风格？ <span className="font-normal" style={{ color: "#848281" }}>（选填）</span>
             </label>
             <input
@@ -135,7 +131,7 @@ export default function ImageToImagePage() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="例如：转换为赛博朋克风格、改为浅色背景、增强光影对比……"
-              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             <p className="mt-1 text-xs" style={{ color: "#848281" }}>
@@ -144,7 +140,7 @@ export default function ImageToImagePage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+            <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>
               保留原图程度：{strength}%
             </label>
             <input

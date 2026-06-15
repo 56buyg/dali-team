@@ -40,11 +40,16 @@ export default function ImageUpscalerPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
+      {/* Header */}
+      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+        {/* Decor: green + purple — precision, enhancement */}
+        <div className="decor-shape decor-shape-3xl decor-circle decor-green decor-d1" style={{ top: "-35%", right: "-12%", opacity: 0.16 }} />
+        <div className="decor-shape decor-shape-xl decor-hexagon decor-purple decor-d4" style={{ top: "12%", right: "10%", opacity: 0.2 }} />
+        <div className="decor-shape decor-shape-lg decor-star decor-blue decor-d8" style={{ bottom: "-10%", left: "-4%", opacity: 0.12 }} />
+        <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
           高清放大 · 超分辨率
         </h1>
-        <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
+        <p className="relative z-10 mt-1.5 text-sm" style={{ color: "#848281" }}>
           低分辨率素材一键提升至高清，细节增强，满足印刷和展示需求
         </p>
       </div>
@@ -67,7 +72,7 @@ export default function ImageUpscalerPage() {
           )}
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+            <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>
               图片地址
             </label>
             <input
@@ -75,7 +80,7 @@ export default function ImageUpscalerPage() {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://example.com/image.png"
-              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
             {imageUrl && (
@@ -93,7 +98,7 @@ export default function ImageUpscalerPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+            <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>
               放大倍数
             </label>
             <div className="flex gap-2">
@@ -101,7 +106,7 @@ export default function ImageUpscalerPage() {
                 <button
                   key={s}
                   onClick={() => setScale(s)}
-                  className="flex-1 rounded-2xl px-6 py-2.5 text-sm font-medium transition-all"
+                  className="flex-1 rounded-2xl px-7 py-3 text-sm font-medium transition-all"
                   style={
                     scale === s
                       ? { backgroundColor: "#343433", color: "#FFFFFF" }
@@ -115,13 +120,13 @@ export default function ImageUpscalerPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+            <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>
               增强模式
             </label>
             <select
               value={mode}
               onChange={(e) => setMode(e.target.value)}
-              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             >
               {MODES.map((m) => (

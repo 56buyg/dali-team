@@ -80,21 +80,17 @@ export default function TextToImagePage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold" style={{ color: "#343433" }}>
-            文生图 · AI 图像生成
-          </h1>
-          <p className="mt-1.5 text-sm" style={{ color: "#848281" }}>
-            用文字描述你想要的画面，AI 为你生成多张候选
-          </p>
-        </div>
-        <img
-          src="/illustrations/tool-text-to-image.svg"
-          alt=""
-          className="w-full max-w-[240px] animate-fade-in self-end sm:max-w-[300px] lg:max-w-[400px]"
-          aria-hidden="true"
-        />
+      <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
+        {/* Decor: purple + blue — creativity, AI generation */}
+        <div className="decor-shape decor-shape-3xl decor-circle decor-purple decor-d1" style={{ top: "-40%", right: "-15%", opacity: 0.18 }} />
+        <div className="decor-shape decor-shape-xl decor-star decor-blue decor-d7" style={{ top: "15%", right: "12%", opacity: 0.2 }} />
+        <div className="decor-shape decor-shape-lg decor-hexagon decor-gold decor-d3" style={{ bottom: "-10%", left: "-5%", opacity: 0.12 }} />
+        <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
+          文生图 · AI 图像生成
+        </h1>
+        <p className="relative z-10 mt-1.5 text-sm" style={{ color: "#848281" }}>
+          用文字描述你想要的画面，AI 为你生成多张候选
+        </p>
       </div>
 
       <ToolShell>
@@ -105,7 +101,7 @@ export default function TextToImagePage() {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="描述你想要的画面……"
               rows={4}
-              className="w-full rounded-2xl border px-6 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FBFAF9", color: "#343433" }}
             />
             <p className="mt-1.5 text-xs" style={{ color: "#848281" }}>
@@ -122,7 +118,7 @@ export default function TextToImagePage() {
               <button
                 key={i}
                 onClick={() => setPrompt(example)}
-                className="block w-full rounded-2xl border px-4 py-2.5 text-left text-xs leading-relaxed transition-colors hover:border-[#343433]"
+                className="block w-full rounded-2xl border px-6 py-2.5 text-left text-xs leading-relaxed transition-colors hover:border-[#343433]"
                 style={{ borderColor: "#EAEAEA", color: "#848281", backgroundColor: "#FFFFFF" }}
               >
                 {example}
@@ -132,7 +128,7 @@ export default function TextToImagePage() {
 
           {/* Negative prompt */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>
+            <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>
               负面提示词 <span className="font-normal" style={{ color: "#848281" }}>（选填）</span>
             </label>
             <input
@@ -140,19 +136,19 @@ export default function TextToImagePage() {
               value={negativePrompt}
               onChange={(e) => setNegativePrompt(e.target.value)}
               placeholder="不希望出现的元素……"
-              className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
+              className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors placeholder:text-[#848281] focus:outline-none focus:ring-2"
               style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
             />
           </div>
 
           {/* Options */}
-          <div className="flex gap-4">
+          <div className="flex gap-5">
             <div className="flex-1">
-              <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>画面比例</label>
+              <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>画面比例</label>
               <select
                 value={ratio}
                 onChange={(e) => setRatio(e.target.value)}
-                className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
+                className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors focus:outline-none focus:ring-2"
                 style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
               >
                 {RATIOS.map((r) => (
@@ -161,11 +157,11 @@ export default function TextToImagePage() {
               </select>
             </div>
             <div className="flex-1">
-              <label className="mb-1.5 block text-sm font-medium" style={{ color: "#343433" }}>风格</label>
+              <label className="mb-2 block text-sm font-medium" style={{ color: "#343433" }}>风格</label>
               <select
                 value={style}
                 onChange={(e) => setStyle(e.target.value)}
-                className="w-full rounded-2xl border px-6 py-2.5 text-sm transition-colors focus:outline-none focus:ring-2"
+                className="w-full rounded-2xl border px-7 py-3 text-sm transition-colors focus:outline-none focus:ring-2"
                 style={{ borderColor: "#EAEAEA", backgroundColor: "#FFFFFF", color: "#343433" }}
               >
                 {STYLES.map((s) => (

@@ -206,6 +206,12 @@ a {
   50%      { transform: translate(6px, -14px) scale(1.05); }
 }
 
+/* spin — loading indicator rotation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* ══════════════════════════════════════════════
    Geometric Decoration (pure CSS shapes)
    ══════════════════════════════════════════════ */
