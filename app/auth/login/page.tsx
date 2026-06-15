@@ -33,7 +33,7 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      router.push("/");
+      router.push("/tools/text-to-image");
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "登录失败，请稍后重试");
     } finally {
