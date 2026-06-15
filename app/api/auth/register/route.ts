@@ -19,8 +19,12 @@ export async function POST(request: NextRequest) {
     }
 
     const safeName = username.trim();
-    // sanitize for email: only alphanumeric, dots, hyphens, underscores
     const emailLocal = safeName.replace(/[^a-zA-Z0-9._-]/g, "");
+
+    if (!emailLocal) {
+      return NextResponse.json({ error: "用户名无效，请使用字母、数字或 . _ -" }, { status: 400 });
+    }
+
     const email = `${emailLocal}${EMAIL_SUFFIX}`;
     const supabase = await createClient();
 
@@ -52,12 +56,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "创建用户失败" }, { status: 500 });
     }
 
+    // Set session from signUp so RLS allows the profiles INSERT
+    if (signUpData.session) {
+      await supabase.auth.setSession({
+        access_token: signUpData.session.access_token,
+        refresh_token: signUpData.session.refresh_token,
+      });
+    }
+
     const { error: profileError } = await supabase
       .from("profiles")
       .insert({ id: signUpData.user.id, username: safeName });
 
     if (profileError) {
-      return NextResponse.json({ error: "创建用户资料失败，请重试" }, { status: 500 });
+      return NextResponse.json({ error: profileError.message }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -66,7 +78,7 @@ export async function POST(request: NextRequest) {
       user: { id: signUpData.user.id, username: safeName },
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "注册失败，请稍后重试";
+    const message = error instanceof Error ? error.message : "注册失败";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
