@@ -85,17 +85,50 @@ async function request<T>(
 export async function submitTask(
   params: TaskSubmitParams,
 ): Promise<{ taskId: string }> {
-  return request<{ taskId: string }>("/task/submit", {
+  const raw = await request<unknown>("/task/submit", {
     method: "POST",
     body: JSON.stringify(params),
   });
+  const r = raw as Record<string, unknown>;
+  // 处理 { code, data } 包装
+  const d = (r.data as Record<string, unknown>) ?? r;
+  const taskId = (d.taskId ?? d.task_id ?? d.id) as string;
+  if (!taskId) {
+    throw new Error(`Runninghub submit returned no taskId: ${JSON.stringify(raw).slice(0, 200)}`);
+  }
+  return { taskId };
 }
 
 /**
- * 查询任务状态
+ * 查询任务状态（含原始响应，用于调试）
  */
-export async function getTaskStatus(taskId: string): Promise<TaskStatus> {
-  return request<TaskStatus>(`/task/status/${taskId}`);
+export async function getTaskStatus(
+  taskId: string,
+): Promise<{ parsed: TaskStatus; raw: unknown }> {
+  const raw = await request<unknown>(`/task/status/${taskId}`);
+  // 处理常见的 { code, data } 包装
+  const r0 = raw as Record<string, unknown>;
+  const r = (r0.data as Record<string, unknown>) ?? r0;
+  // 尝试规范化 Runninghub 返回的字段名
+  const parsed: TaskStatus = {
+    taskId: (r.taskId ?? r.task_id ?? r.id ?? taskId) as string,
+    status: (r.status ?? r.state ?? "pending") as TaskStatus["status"],
+    progress: (r.progress ?? r.percent ?? 0) as number,
+    result: r.result
+      ? {
+          files: (r.result as Record<string, unknown>).files as string[] ?? [],
+          metadata: (r.result as Record<string, unknown>).metadata as Record<string, unknown> | undefined,
+        }
+      : r.output
+        ? {
+            files: Array.isArray(r.output) ? r.output as string[] : [r.output as string],
+          }
+        : r.files
+          ? { files: r.files as string[] }
+          : undefined,
+    error: (r.error ?? r.message) as string | undefined,
+  };
+  return { parsed, raw };
 }
 
 /**
@@ -109,7 +142,7 @@ export async function waitForTask(
   const start = Date.now();
 
   while (Date.now() - start < maxWaitMs) {
-    const status = await getTaskStatus(taskId);
+    const { parsed: status } = await getTaskStatus(taskId);
 
     if (status.status === "completed") {
       return status.result!;

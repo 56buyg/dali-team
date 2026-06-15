@@ -26,9 +26,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const status = await getTaskStatus(taskId);
+    const { parsed, raw } = await getTaskStatus(taskId);
 
-    return NextResponse.json(status);
+    return NextResponse.json({ ...parsed, _raw: raw });
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : "查询状态失败";

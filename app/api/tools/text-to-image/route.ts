@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { prompt, negative_prompt, width = 1024, height = 1024, style = "realistic" } = body;
+    const { prompt, negative_prompt, width = 1024, height = 1024 } = body;
 
     if (!prompt || typeof prompt !== "string") {
       return NextResponse.json(
@@ -30,16 +30,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // 构建 inputs（仅传模型需要的字段，不传 style——该模型直出任何风格）
+    const inputs: Record<string, unknown> = {
+      prompt,
+      negative_prompt: negative_prompt ?? "",
+      width,
+      height,
+    };
+
     // 提交 Runninghub 文生图任务，立即返回 taskId
     const { taskId } = await submitTask({
       modelId: "2048647046302801921", // Runninghub 文生图模型 ID
-      inputs: { prompt, negative_prompt: negative_prompt ?? "", width, height, style },
+      inputs,
     });
 
-    return NextResponse.json({ taskId });
+    return NextResponse.json({ taskId, _inputs: inputs });
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : "提交任务失败";
+    console.error("[text-to-image] submit error:", message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
