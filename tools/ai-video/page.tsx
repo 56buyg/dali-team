@@ -40,9 +40,9 @@ export default function AIVideoPage() {
       {/* Header */}
       <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
         {/* Decor: gold + orange — dynamic, motion */}
-        <div className="decor-shape decor-shape-3xl decor-circle decor-gold decor-d1" style={{ top: "-35%", right: "-10%", opacity: 0.16 }} />
-        <div className="decor-shape decor-shape-xl decor-star decor-orange decor-d5" style={{ top: "10%", right: "15%", opacity: 0.2 }} />
-        <div className="decor-shape decor-shape-lg decor-hexagon decor-pink decor-d3" style={{ bottom: "-12%", left: "-5%", opacity: 0.1 }} />
+        <div className="decor-shape decor-shape-xl decor-circle decor-gold decor-d1" style={{ bottom: "-8%", left: "-6%", opacity: 0.16 }} />
+        <div className="decor-shape decor-shape-md decor-star decor-orange decor-d2" style={{ bottom: "12%", left: "14%", opacity: 0.22 }} />
+        <div className="decor-shape decor-shape-sm decor-hexagon decor-pink decor-d3" style={{ bottom: "24%", left: "2%", opacity: 0.12 }} />
         <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
           AI 视频 · 智能生成
         </h1>

@@ -43,9 +43,9 @@ export default function ImageUpscalerPage() {
       {/* Header */}
       <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
         {/* Decor: green + purple — precision, enhancement */}
-        <div className="decor-shape decor-shape-3xl decor-circle decor-green decor-d1" style={{ top: "-35%", right: "-12%", opacity: 0.16 }} />
-        <div className="decor-shape decor-shape-xl decor-hexagon decor-purple decor-d4" style={{ top: "12%", right: "10%", opacity: 0.2 }} />
-        <div className="decor-shape decor-shape-lg decor-star decor-blue decor-d8" style={{ bottom: "-10%", left: "-4%", opacity: 0.12 }} />
+        <div className="decor-shape decor-shape-xl decor-circle decor-green decor-d1" style={{ bottom: "-8%", left: "-6%", opacity: 0.16 }} />
+        <div className="decor-shape decor-shape-md decor-hexagon decor-purple decor-d2" style={{ bottom: "12%", left: "14%", opacity: 0.22 }} />
+        <div className="decor-shape decor-shape-sm decor-star decor-blue decor-d3" style={{ bottom: "24%", left: "4%", opacity: 0.14 }} />
         <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
           高清放大 · 超分辨率
         </h1>

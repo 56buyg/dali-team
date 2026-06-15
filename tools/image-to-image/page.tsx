@@ -67,9 +67,9 @@ export default function ImageToImagePage() {
       {/* Header */}
       <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
         {/* Decor: orange + gold — transformation, warmth */}
-        <div className="decor-shape decor-shape-3xl decor-circle decor-orange decor-d1" style={{ top: "-35%", right: "-12%", opacity: 0.16 }} />
-        <div className="decor-shape decor-shape-xl decor-star decor-gold decor-d5" style={{ top: "8%", right: "18%", opacity: 0.22 }} />
-        <div className="decor-shape decor-shape-lg decor-hexagon decor-pink decor-d8" style={{ bottom: "-15%", left: "-3%", opacity: 0.1 }} />
+        <div className="decor-shape decor-shape-xl decor-circle decor-orange decor-d1" style={{ bottom: "-8%", left: "-6%", opacity: 0.16 }} />
+        <div className="decor-shape decor-shape-md decor-star decor-gold decor-d2" style={{ bottom: "12%", left: "14%", opacity: 0.24 }} />
+        <div className="decor-shape decor-shape-sm decor-hexagon decor-pink decor-d3" style={{ bottom: "24%", left: "2%", opacity: 0.12 }} />
         <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
           风格转绘 · 以图生图
         </h1>

@@ -67,9 +67,9 @@ export default function DualImageEditPage() {
       {/* Header */}
       <div className="relative overflow-hidden rounded-2xl px-8 py-10" style={{ backgroundColor: "#FBFAF9" }}>
         {/* Decor: blue + green — merging, harmony */}
-        <div className="decor-shape decor-shape-3xl decor-circle decor-blue decor-d1" style={{ top: "-35%", right: "-10%", opacity: 0.15 }} />
-        <div className="decor-shape decor-shape-xl decor-star decor-green decor-d6" style={{ top: "20%", right: "8%", opacity: 0.2 }} />
-        <div className="decor-shape decor-shape-lg decor-hexagon decor-purple decor-d3" style={{ bottom: "-12%", left: "-6%", opacity: 0.1 }} />
+        <div className="decor-shape decor-shape-xl decor-circle decor-blue decor-d1" style={{ bottom: "-8%", left: "-6%", opacity: 0.15 }} />
+        <div className="decor-shape decor-shape-md decor-star decor-green decor-d2" style={{ bottom: "12%", left: "14%", opacity: 0.22 }} />
+        <div className="decor-shape decor-shape-sm decor-hexagon decor-purple decor-d3" style={{ bottom: "24%", left: "4%", opacity: 0.12 }} />
         <h1 className="relative z-10 text-2xl font-bold" style={{ color: "#343433" }}>
           双图编辑 · AI 智能合成
         </h1>
