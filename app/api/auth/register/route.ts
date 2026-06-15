@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
 
     const safeName = username.trim();
     const emailLocal = safeName.replace(/[^a-zA-Z0-9._-]/g, "");
-
     if (!emailLocal) {
       return NextResponse.json({ error: "用户名无效" }, { status: 400 });
     }
@@ -39,51 +38,67 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "该用户名已被注册" }, { status: 409 });
     }
 
-    const { data: signUpData, error: signUpError } =
-      await supabase.auth.signUp({
-        email,
-        password,
+    let userId: string | null = null;
+    let accessToken: string | null = null;
+
+    // Path A: admin client (bypasses rate limits, needs SERVICE_ROLE_KEY)
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (serviceKey) {
+      const adminClient = createSupabaseClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        serviceKey,
+        { auth: { autoRefreshToken: false, persistSession: false } }
+      );
+      const { data: adminData, error: adminError } = await adminClient.auth.admin.createUser({
+        email, password, email_confirm: true,
+        user_metadata: { username: safeName },
+      });
+      if (adminError) {
+        if (adminError.message?.includes("already")) {
+          return NextResponse.json({ error: "该用户名已被注册" }, { status: 409 });
+        }
+        return NextResponse.json({ error: adminError.message }, { status: 400 });
+      }
+      userId = adminData.user?.id ?? null;
+      // For admin-created users, write profile with admin client (bypasses RLS)
+      const { error: pErr } = await adminClient.from("profiles").insert({ id: userId, username: safeName });
+      if (pErr) return NextResponse.json({ error: pErr.message }, { status: 500 });
+    } else {
+      // Path B: signUp (anon key, may hit rate limits)
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email, password,
         options: { data: { username: safeName } },
       });
-
-    if (signUpError) {
-      if (signUpError.message?.includes("already") || signUpError.message?.includes("duplicate")) {
-        return NextResponse.json({ error: "该用户名已被注册" }, { status: 409 });
+      if (signUpError) {
+        if (signUpError.message?.includes("already")) {
+          return NextResponse.json({ error: "该用户名已被注册" }, { status: 409 });
+        }
+        return NextResponse.json({ error: signUpError.message }, { status: 400 });
       }
-      return NextResponse.json({ error: signUpError.message }, { status: 400 });
-    }
+      if (!signUpData?.user) {
+        return NextResponse.json({ error: "创建用户失败" }, { status: 500 });
+      }
+      userId = signUpData.user.id;
+      accessToken = signUpData.session?.access_token ?? null;
 
-    if (!signUpData?.user) {
-      return NextResponse.json({ error: "创建用户失败" }, { status: 500 });
-    }
-
-    // Use direct supabase client with user's token for profiles INSERT (bypasses SSR cookie issue)
-    let profileError = null;
-    if (signUpData.session) {
-      const authClient = createSupabaseClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        { global: { headers: { Authorization: `Bearer ${signUpData.session.access_token}` } } }
-      );
-      const { error } = await authClient
-        .from("profiles")
-        .insert({ id: signUpData.user.id, username: safeName });
-      profileError = error;
-    } else {
-      // No session from signUp — email confirmation likely enabled in Supabase
-      return NextResponse.json({
-        error: "邮箱确认未关闭，请在 Supabase Auth Settings 中禁用 Email Confirmations",
-      }, { status: 500 });
-    }
-
-    if (profileError) {
-      return NextResponse.json({ error: profileError.message }, { status: 500 });
+      if (accessToken) {
+        const authClient = createSupabaseClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+          { global: { headers: { Authorization: `Bearer ${accessToken}` } } }
+        );
+        const { error: pErr } = await authClient.from("profiles").insert({ id: userId, username: safeName });
+        if (pErr) return NextResponse.json({ error: pErr.message }, { status: 500 });
+      } else {
+        return NextResponse.json({
+          error: "邮箱确认未关闭，请在 Supabase Auth Settings 中禁用 Email Confirmations",
+        }, { status: 500 });
+      }
     }
 
     return NextResponse.json({
-      ok: true,
-      message: "注册成功，请登录",
-      user: { id: signUpData.user.id, username: safeName },
+      ok: true, message: "注册成功，请登录",
+      user: { id: userId, username: safeName },
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "注册失败";
