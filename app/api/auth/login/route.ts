@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
 
     let { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    // Auto-confirm if email not confirmed (fixes old test accounts)
     if (error?.message?.includes("Email not confirmed")) {
       const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
       if (serviceKey) {
@@ -29,22 +28,17 @@ export async function POST(request: NextRequest) {
           process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey,
           { auth: { autoRefreshToken: false, persistSession: false } }
         );
-        // Find the user by email (paginate to handle large user bases)
         const PER_PAGE = 50;
         let page = 1;
-        let user: { id: string; email?: string } | undefined;
+        let targetUser: { id: string; email?: string } | undefined;
         while (true) {
-          const { data: users } = await adminClient.auth.admin.listUsers({
-            page,
-            perPage: PER_PAGE,
-          });
-          user = users?.users?.find((u: { email?: string }) => u.email === email);
-          if (user || !users?.users?.length || users.users.length < PER_PAGE) break;
+          const { data: users } = await adminClient.auth.admin.listUsers({ page, perPage: PER_PAGE });
+          targetUser = users?.users?.find((u: { email?: string }) => u.email === email);
+          if (targetUser || !users?.users?.length || users.users.length < PER_PAGE) break;
           page++;
         }
-        if (user) {
-          await adminClient.auth.admin.updateUserById(user.id, { email_confirm: true });
-          // Retry login
+        if (targetUser) {
+          await adminClient.auth.admin.updateUserById(targetUser.id, { email_confirm: true });
           const retry = await supabase.auth.signInWithPassword({ email, password });
           data = retry.data;
           error = retry.error;
@@ -56,6 +50,10 @@ export async function POST(request: NextRequest) {
       const msg = error.message?.includes("Invalid login") || error.message?.includes("invalid")
         ? "用户名或密码错误" : error.message;
       return NextResponse.json({ error: msg }, { status: 401 });
+    }
+
+    if (!data?.user) {
+      return NextResponse.json({ error: "登录失败" }, { status: 500 });
     }
 
     const { data: profile } = await supabase
