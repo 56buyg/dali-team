@@ -8,7 +8,7 @@
  *   设置环境变量 RUNNINGHUB_API_KEY 后即可调用。
  */
 
-const RUNNINGHUB_BASE = "https://www.runninghub.cn/api";
+const RUNNINGHUB_BASE = "https://www.runninghub.cn";
 
 export interface RunninghubConfig {
   apiKey: string;
@@ -16,8 +16,8 @@ export interface RunninghubConfig {
 }
 
 export interface TaskSubmitParams {
-  /** 模型/工作流 ID */
-  modelId: string;
+  /** 工作流 ID */
+  workflowId: string;
   /** 输入参数 */
   inputs: Record<string, unknown>;
   /** 回调 URL（可选） */
@@ -81,13 +81,21 @@ async function request<T>(
 
 /**
  * 提交生成任务
+ *
+ * 对齐 Runninghub 官方 API:
+ * - 端点: POST /task/openapi/create
+ * - 鉴权: Header Bearer + Body apiKey 双重校验
  */
 export async function submitTask(
   params: TaskSubmitParams,
 ): Promise<{ taskId: string }> {
-  return request<{ taskId: string }>("/task/submit", {
+  const config = getConfig();
+  return request<{ taskId: string }>("/task/openapi/create", {
     method: "POST",
-    body: JSON.stringify(params),
+    body: JSON.stringify({
+      ...params,
+      apiKey: config.apiKey,
+    }),
   });
 }
 

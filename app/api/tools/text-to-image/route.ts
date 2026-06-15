@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     // 提交 Runninghub 文生图任务，立即返回 taskId
     const { taskId } = await submitTask({
-      modelId: "2048647046302801921", // Runninghub 文生图模型 ID
+      workflowId: "2048647046302801921", // Runninghub 文生图工作流 ID
       inputs: { prompt, negative_prompt: negative_prompt ?? "", width, height, style },
     });
 
