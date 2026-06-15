@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 /** 内部邮箱后缀，用于将用户名映射为 Supabase Auth 邮箱 */
-const EMAIL_SUFFIX = "@shokz.design";
+const EMAIL_SUFFIX = "@shokz.com";
 
 /**
  * POST /api/auth/login
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const email = `${username.trim()}.${EMAIL_SUFFIX}`;
+    const email = `${username.trim()}${EMAIL_SUFFIX}`;
     const supabase = await createClient();
 
     const { data, error } = await supabase.auth.signInWithPassword({
