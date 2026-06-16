@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { submitTask } from "@/lib/runninghub/client";
+import { submitTask, getNodeList, mapInputsToNodes } from "@/lib/runninghub/client";
 
 /**
  * POST /api/tools/dual-image-edit
@@ -30,10 +30,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const webappId = "1999309334460985346";
+    const inputs: Record<string, unknown> = { image_url1: imageUrl1, image_url2: imageUrl2, prompt };
+    // 获取节点结构并映射为 nodeInfoList
+    const nodes = await getNodeList(webappId);
+    const nodeInfoList = mapInputsToNodes(nodes, inputs as Record<string, string | number | undefined>);
+
     // 提交任务，立即返回 taskId
     const { taskId } = await submitTask({
-      webappId: "1999309334460985346", // Runninghub 双图编辑应用 ID
-      inputs: { image_url1: imageUrl1, image_url2: imageUrl2, prompt },
+      webappId, // Runninghub 双图编辑应用 ID
+      nodeInfoList,
     });
 
     return NextResponse.json({ taskId });

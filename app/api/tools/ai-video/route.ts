@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { submitTask, waitForTask } from "@/lib/runninghub/client";
+import { submitTask, waitForTask, getNodeList, mapInputsToNodes } from "@/lib/runninghub/client";
 
 /**
  * POST /api/tools/ai-video
@@ -27,13 +27,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const webappId = "video-generation-cog";
+    const inputs: Record<string, unknown> = {
+      prompt,
+      image_url: imageUrl,
+      duration: Math.min(duration, 10), // 限制最长 10 秒
+    };
+    // 获取节点结构并映射为 nodeInfoList
+    const nodes = await getNodeList(webappId);
+    const nodeInfoList = mapInputsToNodes(nodes, inputs as Record<string, string | number | undefined>);
+
     const { taskId } = await submitTask({
-      webappId: "video-generation-cog", // Runninghub 视频生成应用 ID
-      inputs: {
-        prompt,
-        image_url: imageUrl,
-        duration: Math.min(duration, 10), // 限制最长 10 秒
-      },
+      webappId, // Runninghub 视频生成应用 ID
+      nodeInfoList,
     });
 
     const result = await waitForTask(taskId, 3000, 600_000); // 视频生成耗时更长

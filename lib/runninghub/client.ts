@@ -15,11 +15,31 @@ export interface RunninghubConfig {
   baseUrl?: string;
 }
 
+/** ComfyUI 节点参数 */
+export interface NodeInfo {
+  /** 节点编号（来自工作流 JSON） */
+  nodeId: string;
+  /** 字段名 */
+  fieldName: string;
+  /** 字段值 */
+  fieldValue: string;
+}
+
+/** API 返回的完整节点信息 */
+export interface AppNode {
+  nodeId: string;
+  nodeName: string;
+  fieldName: string;
+  fieldValue: string;
+  fieldType: "IMAGE" | "STRING" | "LIST" | "NUMBER" | string;
+  description?: string;
+}
+
 export interface TaskSubmitParams {
   /** AI 应用 ID（对应 Runninghub 平台的 webapp_id） */
   webappId: string;
-  /** 输入参数 */
-  inputs: Record<string, unknown>;
+  /** ComfyUI 节点参数列表（对齐 OpenAPI nodeInfoList） */
+  nodeInfoList: NodeInfo[];
   /** 回调 URL（可选） */
   webhook?: string;
 }
@@ -49,6 +69,92 @@ function getConfig(): RunninghubConfig {
   }
   return { apiKey, baseUrl: RUNNINGHUB_BASE };
 }
+
+/**
+ * 获取 AI 应用的节点列表
+ *
+ * 对应 Runninghub get_nodo / getJsonApiFormat API，
+ * 返回工作流的完整节点结构（nodeId, fieldName, fieldType 等）。
+ */
+export async function getNodeList(webappId: string): Promise<AppNode[]> {
+  const config = getConfig();
+  const raw = await request<unknown>("/api/openapi/getJsonApiFormat", {
+    method: "POST",
+    body: JSON.stringify({ webappId, apiKey: config.apiKey }),
+  });
+  const r = raw as Record<string, unknown>;
+  // 处理 { code, data } 包装
+  const d = (r.data ?? r) as Record<string, unknown>;
+  const nodes = (d.nodeInfoList ?? d.nodes ?? d.node_list ?? []) as Record<string, unknown>[];
+  return nodes.map((n) => ({
+    nodeId: (n.nodeId ?? n.node_id ?? "") as string,
+    nodeName: (n.nodeName ?? n.node_name ?? "") as string,
+    fieldName: (n.fieldName ?? n.field_name ?? "") as string,
+    fieldValue: (n.fieldValue ?? n.field_value ?? "") as string,
+    fieldType: (n.fieldType ?? n.field_type ?? "STRING") as AppNode["fieldType"],
+    description: (n.description ?? "") as string,
+  }));
+}
+
+/**
+ * 将用户输入映射为 nodeInfoList
+ *
+ * 策略：遍历 inputs 的每个 key，在节点列表中查找 fieldName 匹配的节点，
+ * 取其 nodeId 构建 NodeInfo。支持驼峰/下划线格式兼容匹配。
+ */
+export function mapInputsToNodes(
+  nodes: AppNode[],
+  inputs: Record<string, string | number | undefined | null>,
+): NodeInfo[] {
+  const result: NodeInfo[] = [];
+
+  for (const [key, value] of Object.entries(inputs)) {
+    if (value === undefined || value === null) continue;
+
+    // 尝试精确匹配 fieldName
+    let node = nodes.find(
+      (n) => n.fieldName === key || n.fieldName === camelToSnake(key),
+    );
+
+    // 常见别名映射
+    if (!node) {
+      const alias = INPUT_ALIASES[key];
+      if (alias) {
+        node = nodes.find(
+          (n) => n.fieldName === alias || n.fieldName === camelToSnake(alias),
+        );
+      }
+    }
+
+    if (node) {
+      result.push({
+        nodeId: node.nodeId,
+        fieldName: node.fieldName,
+        fieldValue: String(value),
+      });
+    } else {
+      console.warn(
+        `[mapInputsToNodes] 未找到节点映射: key="${key}", 可用节点: ${nodes.map((n) => `${n.nodeId}:${n.fieldName}`).join(", ")}`,
+      );
+    }
+  }
+
+  return result;
+}
+
+/** camelCase → snake_case */
+function camelToSnake(s: string): string {
+  return s.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`);
+}
+
+/** 常见输入 key 到节点 fieldName 的别名映射 */
+const INPUT_ALIASES: Record<string, string> = {
+  imageUrl: "image",
+  image_url: "image",
+  style: "model",
+  negative_prompt: "negative_prompt",
+  negativePrompt: "negative_prompt",
+};
 
 /**
  * 通用请求封装

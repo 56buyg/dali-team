@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { submitTask, waitForTask } from "@/lib/runninghub/client";
+import { submitTask, waitForTask, getNodeList, mapInputsToNodes } from "@/lib/runninghub/client";
 
 /**
  * POST /api/tools/image-upscaler
@@ -27,9 +27,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const webappId = "image-upscaler-real-esrgan";
+    const inputs: Record<string, unknown> = { image_url: imageUrl, scale: Math.min(scale, 4) };
+    // 获取节点结构并映射为 nodeInfoList
+    const nodes = await getNodeList(webappId);
+    const nodeInfoList = mapInputsToNodes(nodes, inputs as Record<string, string | number | undefined>);
+
     const { taskId } = await submitTask({
-      webappId: "image-upscaler-real-esrgan", // Runninghub 超分应用 ID
-      inputs: { image_url: imageUrl, scale: Math.min(scale, 4) },
+      webappId, // Runninghub 超分应用 ID
+      nodeInfoList,
     });
 
     const result = await waitForTask(taskId);

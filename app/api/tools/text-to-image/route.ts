@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { submitTask } from "@/lib/runninghub/client";
+import { submitTask, getNodeList, mapInputsToNodes } from "@/lib/runninghub/client";
 
 /**
  * POST /api/tools/text-to-image
@@ -38,10 +38,15 @@ export async function POST(request: NextRequest) {
       height,
     };
 
+    const webappId = "2048647046302801921";
+    // 获取节点结构并映射为 nodeInfoList
+    const nodes = await getNodeList(webappId);
+    const nodeInfoList = mapInputsToNodes(nodes, inputs as Record<string, string | number | undefined>);
+
     // 提交 Runninghub 文生图任务，立即返回 taskId
     const { taskId } = await submitTask({
-      webappId: "2048647046302801921", // Runninghub 文生图应用 ID
-      inputs,
+      webappId, // Runninghub 文生图应用 ID
+      nodeInfoList,
     });
 
     return NextResponse.json({ taskId, _inputs: inputs });
