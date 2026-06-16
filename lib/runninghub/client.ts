@@ -46,8 +46,10 @@ export interface TaskSubmitParams {
 
 export interface TaskStatus {
   taskId: string;
-  status: "pending" | "running" | "completed" | "failed";
-  progress: number; // 0-100
+  code: number;
+  msg: string;
+  /** completed / running / queued / failed */
+  status: "completed" | "running" | "queued" | "failed";
   result?: TaskResult;
   error?: string;
 }
@@ -71,22 +73,50 @@ function getConfig(): RunninghubConfig {
 }
 
 /**
+ * 通用请求封装
+ */
+async function request<T>(
+  path: string,
+  options: RequestInit = {},
+): Promise<T> {
+  const config = getConfig();
+  const url = `${config.baseUrl}${path}`;
+
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(
+      `Runninghub API error ${res.status}: ${body.slice(0, 200)}`,
+    );
+  }
+
+  return res.json();
+}
+
+/**
  * 获取 AI 应用的节点列表
  *
- * 对应 Runninghub get_nodo / getJsonApiFormat API，
- * 返回工作流的完整节点结构（nodeId, fieldName, fieldType 等）。
+ * 对应 Runninghub 官方的 get_nodo 函数：
+ * GET /api/webapp/apiCallDemo?apiKey={apiKey}&webappId={webappId}
  */
 export async function getNodeList(webappId: string): Promise<AppNode[]> {
   const config = getConfig();
+  const url = `${config.baseUrl}/api/webapp/apiCallDemo?apiKey=${encodeURIComponent(config.apiKey)}&webappId=${encodeURIComponent(webappId)}`;
   try {
-    const raw = await request<unknown>("/api/openapi/getJsonApiFormat", {
-      method: "POST",
-      body: JSON.stringify({ webappId, apiKey: config.apiKey }),
-    });
-    const r = raw as Record<string, unknown>;
-    // 处理 { code, data } 包装
-    const d = (r.data ?? r) as Record<string, unknown>;
-    const nodes = (d.nodeInfoList ?? d.nodes ?? d.node_list ?? []) as Record<string, unknown>[];
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`getNodeList HTTP ${res.status}`);
+    }
+    const raw = await res.json();
+    const data = (raw.data ?? raw) as Record<string, unknown>;
+    const nodes = (data.nodeInfoList ?? []) as Record<string, unknown>[];
     return nodes.map((n) => ({
       nodeId: (n.nodeId ?? n.node_id ?? "") as string,
       nodeName: (n.nodeName ?? n.node_name ?? "") as string,
@@ -97,15 +127,12 @@ export async function getNodeList(webappId: string): Promise<AppNode[]> {
     }));
   } catch (e) {
     console.warn("[getNodeList] 获取节点列表失败，将使用回退映射:", e instanceof Error ? e.message : e);
-    return []; // 回退：让 mapInputsToNodes 使用 fieldName 直传
+    return [];
   }
 }
 
 /**
  * 将用户输入映射为 nodeInfoList
- *
- * 优先在节点列表中查找 fieldName 匹配，取真实的 nodeId。
- * 如果节点列表为空或无匹配，则回退到直接构建（nodeId 为空字符串）。
  */
 export function mapInputsToNodes(
   nodes: AppNode[],
@@ -116,12 +143,10 @@ export function mapInputsToNodes(
   for (const [key, value] of Object.entries(inputs)) {
     if (value === undefined || value === null) continue;
 
-    // 尝试精确匹配 fieldName
     let node = nodes.find(
       (n) => n.fieldName === key || n.fieldName === camelToSnake(key),
     );
 
-    // 常见别名映射
     if (!node) {
       const alias = INPUT_ALIASES[key];
       if (alias) {
@@ -138,10 +163,6 @@ export function mapInputsToNodes(
         fieldValue: String(value),
       });
     } else {
-      // 回退：无法匹配节点时，使用 key 作为 fieldName，nodeId 留空
-      console.warn(
-        `[mapInputsToNodes] 回退映射: key="${key}", 可用节点: ${nodes.map((n) => `${n.nodeId}:${n.fieldName}`).join(", ") || "(无)"}`,
-      );
       result.push({
         nodeId: "",
         fieldName: key,
@@ -153,12 +174,10 @@ export function mapInputsToNodes(
   return result;
 }
 
-/** camelCase → snake_case */
 function camelToSnake(s: string): string {
   return s.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`);
 }
 
-/** 常见输入 key 到节点 fieldName 的别名映射 */
 const INPUT_ALIASES: Record<string, string> = {
   imageUrl: "image",
   image_url: "image",
@@ -168,92 +187,99 @@ const INPUT_ALIASES: Record<string, string> = {
 };
 
 /**
- * 通用请求封装
- */
-async function request<T>(
-  path: string,
-  options: RequestInit = {},
-): Promise<T> {
-  const config = getConfig();
-  const url = `${config.baseUrl}${path}`;
-
-  const res = await fetch(url, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${config.apiKey}`,
-      ...options.headers,
-    },
-  });
-
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(
-      `Runninghub API error ${res.status}: ${body.slice(0, 200)}`,
-    );
-  }
-
-  return res.json();
-}
-
-/**
  * 提交生成任务
  *
- * 对齐 Runninghub 官方 API:
- * - 端点: POST /task/openapi/create
- * - 鉴权: Header Bearer + Body apiKey 双重校验
+ * 对应 Runninghub submit_task：
+ * POST /task/openapi/ai-app/run
+ * Body: { webappId, apiKey, nodeInfoList }
  */
 export async function submitTask(
   params: TaskSubmitParams,
-): Promise<{ taskId: string }> {
+): Promise<{ taskId: string; promptTips?: string }> {
   const config = getConfig();
-  const raw = await request<unknown>("/task/openapi/create", {
+  const raw = await request<Record<string, unknown>>("/task/openapi/ai-app/run", {
     method: "POST",
     body: JSON.stringify({
-      ...params,
+      webappId: params.webappId,
       apiKey: config.apiKey,
+      nodeInfoList: params.nodeInfoList,
     }),
   });
-  const r = raw as Record<string, unknown>;
-  // 处理 { code, data } 包装
-  const d = (r.data as Record<string, unknown>) ?? r;
-  const taskId = (d.taskId ?? d.task_id ?? d.id) as string;
+
+  if ((raw.code as number) !== 0) {
+    throw new Error(
+      `Runninghub submit error (${raw.code}): ${raw.msg ?? JSON.stringify(raw).slice(0, 200)}`,
+    );
+  }
+
+  const data = (raw.data ?? raw) as Record<string, unknown>;
+  const taskId = (data.taskId ?? data.task_id ?? data.id) as string;
   if (!taskId) {
     throw new Error(`Runninghub submit returned no taskId: ${JSON.stringify(raw).slice(0, 200)}`);
   }
-  return { taskId };
+  return { taskId, promptTips: data.promptTips as string | undefined };
 }
 
 /**
- * 查询任务状态（含原始响应，用于调试）
+ * 查询任务输出 / 状态
+ *
+ * 对应 Runninghub query_task_outputs：
+ * POST /task/openapi/outputs
+ * Body: { apiKey, taskId }
+ *
+ * 返回码：
+ *   code 0   → 成功，data[0].fileUrl
+ *   code 804 → 运行中
+ *   code 813 → 排队中
+ *   code 805 → 失败
  */
 export async function getTaskStatus(
   taskId: string,
-): Promise<{ parsed: TaskStatus; raw: unknown }> {
-  const raw = await request<unknown>(`/task/status/${taskId}`);
-  // 处理常见的 { code, data } 包装
-  const r0 = raw as Record<string, unknown>;
-  const r = (r0.data as Record<string, unknown>) ?? r0;
-  // 尝试规范化 Runninghub 返回的字段名
-  const parsed: TaskStatus = {
-    taskId: (r.taskId ?? r.task_id ?? r.id ?? taskId) as string,
-    status: (r.status ?? r.state ?? "pending") as TaskStatus["status"],
-    progress: (r.progress ?? r.percent ?? 0) as number,
-    result: r.result
-      ? {
-          files: (r.result as Record<string, unknown>).files as string[] ?? [],
-          metadata: (r.result as Record<string, unknown>).metadata as Record<string, unknown> | undefined,
-        }
-      : r.output
-        ? {
-            files: Array.isArray(r.output) ? r.output as string[] : [r.output as string],
-          }
-        : r.files
-          ? { files: r.files as string[] }
-          : undefined,
-    error: (r.error ?? r.message) as string | undefined,
-  };
-  return { parsed, raw };
+): Promise<TaskStatus> {
+  const config = getConfig();
+  const raw = await request<Record<string, unknown>>("/task/openapi/outputs", {
+    method: "POST",
+    body: JSON.stringify({ apiKey: config.apiKey, taskId }),
+  });
+
+  const code = (raw.code ?? raw.status ?? -1) as number;
+
+  if (code === 0) {
+    const data = (raw.data as unknown[]) ?? [];
+    const files: string[] = [];
+    if (Array.isArray(data)) {
+      for (const item of data) {
+        const file = item as Record<string, unknown>;
+        if (file.fileUrl) files.push(file.fileUrl as string);
+      }
+    }
+    return { taskId, code, msg: "success", status: "completed", result: { files } };
+  }
+
+  if (code === 804) {
+    return { taskId, code, msg: "运行中", status: "running" };
+  }
+
+  if (code === 813) {
+    return { taskId, code, msg: "排队中", status: "queued" };
+  }
+
+  if (code === 805) {
+    const data = raw.data as Record<string, unknown> | null;
+    const failedReason = data?.failedReason as Record<string, unknown> | undefined;
+    return {
+      taskId,
+      code,
+      msg: "任务失败",
+      status: "failed",
+      error: failedReason
+        ? `${failedReason.node_name ?? ""}: ${failedReason.exception_message ?? "未知错误"}`
+        : (raw.msg as string) ?? "任务执行失败",
+    };
+  }
+
+  // 未知状态，视为等待中
+  return { taskId, code, msg: (raw.msg as string) ?? "未知", status: "running" };
 }
 
 /**
@@ -261,13 +287,13 @@ export async function getTaskStatus(
  */
 export async function waitForTask(
   taskId: string,
-  pollIntervalMs = 2000,
-  maxWaitMs = 300_000, // 5 分钟超时
+  pollIntervalMs = 5000, // Python 脚本每 5 秒轮询
+  maxWaitMs = 600_000,    // 10 分钟超时（对齐 Python 脚本）
 ): Promise<TaskResult> {
   const start = Date.now();
 
   while (Date.now() - start < maxWaitMs) {
-    const { parsed: status } = await getTaskStatus(taskId);
+    const status = await getTaskStatus(taskId);
 
     if (status.status === "completed") {
       return status.result!;
