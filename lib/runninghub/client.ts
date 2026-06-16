@@ -78,29 +78,34 @@ function getConfig(): RunninghubConfig {
  */
 export async function getNodeList(webappId: string): Promise<AppNode[]> {
   const config = getConfig();
-  const raw = await request<unknown>("/api/openapi/getJsonApiFormat", {
-    method: "POST",
-    body: JSON.stringify({ webappId, apiKey: config.apiKey }),
-  });
-  const r = raw as Record<string, unknown>;
-  // 处理 { code, data } 包装
-  const d = (r.data ?? r) as Record<string, unknown>;
-  const nodes = (d.nodeInfoList ?? d.nodes ?? d.node_list ?? []) as Record<string, unknown>[];
-  return nodes.map((n) => ({
-    nodeId: (n.nodeId ?? n.node_id ?? "") as string,
-    nodeName: (n.nodeName ?? n.node_name ?? "") as string,
-    fieldName: (n.fieldName ?? n.field_name ?? "") as string,
-    fieldValue: (n.fieldValue ?? n.field_value ?? "") as string,
-    fieldType: (n.fieldType ?? n.field_type ?? "STRING") as AppNode["fieldType"],
-    description: (n.description ?? "") as string,
-  }));
+  try {
+    const raw = await request<unknown>("/api/openapi/getJsonApiFormat", {
+      method: "POST",
+      body: JSON.stringify({ webappId, apiKey: config.apiKey }),
+    });
+    const r = raw as Record<string, unknown>;
+    // 处理 { code, data } 包装
+    const d = (r.data ?? r) as Record<string, unknown>;
+    const nodes = (d.nodeInfoList ?? d.nodes ?? d.node_list ?? []) as Record<string, unknown>[];
+    return nodes.map((n) => ({
+      nodeId: (n.nodeId ?? n.node_id ?? "") as string,
+      nodeName: (n.nodeName ?? n.node_name ?? "") as string,
+      fieldName: (n.fieldName ?? n.field_name ?? "") as string,
+      fieldValue: (n.fieldValue ?? n.field_value ?? "") as string,
+      fieldType: (n.fieldType ?? n.field_type ?? "STRING") as AppNode["fieldType"],
+      description: (n.description ?? "") as string,
+    }));
+  } catch (e) {
+    console.warn("[getNodeList] 获取节点列表失败，将使用回退映射:", e instanceof Error ? e.message : e);
+    return []; // 回退：让 mapInputsToNodes 使用 fieldName 直传
+  }
 }
 
 /**
  * 将用户输入映射为 nodeInfoList
  *
- * 策略：遍历 inputs 的每个 key，在节点列表中查找 fieldName 匹配的节点，
- * 取其 nodeId 构建 NodeInfo。支持驼峰/下划线格式兼容匹配。
+ * 优先在节点列表中查找 fieldName 匹配，取真实的 nodeId。
+ * 如果节点列表为空或无匹配，则回退到直接构建（nodeId 为空字符串）。
  */
 export function mapInputsToNodes(
   nodes: AppNode[],
@@ -133,9 +138,15 @@ export function mapInputsToNodes(
         fieldValue: String(value),
       });
     } else {
+      // 回退：无法匹配节点时，使用 key 作为 fieldName，nodeId 留空
       console.warn(
-        `[mapInputsToNodes] 未找到节点映射: key="${key}", 可用节点: ${nodes.map((n) => `${n.nodeId}:${n.fieldName}`).join(", ")}`,
+        `[mapInputsToNodes] 回退映射: key="${key}", 可用节点: ${nodes.map((n) => `${n.nodeId}:${n.fieldName}`).join(", ") || "(无)"}`,
       );
+      result.push({
+        nodeId: "",
+        fieldName: key,
+        fieldValue: String(value),
+      });
     }
   }
 
