@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { taskId } = await submitTask({
-      workflowId: "video-generation-cog", // Runninghub 视频生成工作流 ID
+      webappId: "video-generation-cog", // Runninghub 视频生成应用 ID
       inputs: {
         prompt,
         image_url: imageUrl,

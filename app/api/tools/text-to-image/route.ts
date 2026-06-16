@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
 
     // 提交 Runninghub 文生图任务，立即返回 taskId
     const { taskId } = await submitTask({
-      workflowId: "2048647046302801921", // Runninghub 文生图工作流 ID
+      webappId: "2048647046302801921", // Runninghub 文生图应用 ID
       inputs,
     });
 

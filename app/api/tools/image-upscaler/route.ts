@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { taskId } = await submitTask({
-      workflowId: "image-upscaler-real-esrgan", // Runninghub 超分工作流 ID
+      webappId: "image-upscaler-real-esrgan", // Runninghub 超分应用 ID
       inputs: { image_url: imageUrl, scale: Math.min(scale, 4) },
     });
 

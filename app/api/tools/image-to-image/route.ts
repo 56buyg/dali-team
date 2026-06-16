@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     // 提交任务，立即返回 taskId
     const { taskId } = await submitTask({
-      workflowId: "2061356087495974914", // Runninghub 图生图工作流 ID
+      webappId: "2061356087495974914", // Runninghub 图生图应用 ID
       inputs: { image_url: imageUrl, style, strength },
     });
 

@@ -16,8 +16,8 @@ export interface RunninghubConfig {
 }
 
 export interface TaskSubmitParams {
-  /** 工作流 ID */
-  workflowId: string;
+  /** AI 应用 ID（对应 Runninghub 平台的 webapp_id） */
+  webappId: string;
   /** 输入参数 */
   inputs: Record<string, unknown>;
   /** 回调 URL（可选） */
